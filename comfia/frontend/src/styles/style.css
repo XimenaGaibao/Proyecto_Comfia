@@ -1,0 +1,1237 @@
+/* ===== COMFÍA - Estilos Globales ===== */
+
+:root {
+  --comfia-gold: #8B6914;
+  --comfia-gold-dark: #6B4F10;
+  --comfia-gold-light: #C9A84C;
+  --comfia-cream: #FFF9E6;
+  --comfia-cream-dark: #F5ECC8;
+  --comfia-yellow-light: #FEFAE0;
+  --comfia-text-dark: #1a1a1a;
+  --comfia-text-muted: #6c757d;
+  --comfia-sidebar-bg: #8B6914;
+  --comfia-sidebar-active: #6B4F10;
+  --comfia-bg: #F5F5F0;
+  --comfia-white: #ffffff;
+  --comfia-border: #E0D5B0;
+  --comfia-success: #28a745;
+  --comfia-danger: #dc3545;
+  --comfia-warning: #ffc107;
+  --comfia-info: #17a2b8;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: var(--comfia-bg);
+  color: var(--comfia-text-dark);
+  margin: 0;
+  padding: 0;
+}
+
+/* ===== NAVBAR PÚBLICO ===== */
+.comfia-navbar {
+  background-color: var(--comfia-white);
+  border-bottom: 1px solid var(--comfia-border);
+  padding: 0.75rem 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+}
+
+.comfia-logo {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--comfia-gold-dark);
+  letter-spacing: 1px;
+  text-decoration: none;
+}
+
+.comfia-navbar .nav-links {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.comfia-navbar .nav-links a {
+  color: var(--comfia-text-dark);
+  text-decoration: none;
+  font-size: 0.95rem;
+  font-weight: 500;
+  transition: color 0.2s;
+}
+
+.comfia-navbar .nav-links a:hover,
+.comfia-navbar .nav-links a.active {
+  color: var(--comfia-gold);
+  border-bottom: 2px solid var(--comfia-gold);
+  padding-bottom: 2px;
+}
+
+.comfia-navbar .nav-actions {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.btn-comfia-outline {
+  border: 1px solid var(--comfia-gold);
+  color: var(--comfia-gold);
+  background: transparent;
+  padding: 0.4rem 1.2rem;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-decoration: none;
+}
+
+.btn-comfia-outline:hover {
+  background: var(--comfia-gold);
+  color: white;
+}
+
+.btn-comfia-primary {
+  background: var(--comfia-gold);
+  color: white;
+  border: none;
+  padding: 0.4rem 1.2rem;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+  text-decoration: none;
+}
+
+.btn-comfia-primary:hover {
+  background: var(--comfia-gold-dark);
+  color: white;
+}
+
+/* ===== FOOTER PÚBLICO ===== */
+.comfia-footer {
+  background-color: var(--comfia-cream-dark);
+  border-top: 1px solid var(--comfia-border);
+  padding: 2rem;
+  margin-top: auto;
+}
+
+.comfia-footer .footer-brand {
+  font-weight: 700;
+  color: var(--comfia-gold-dark);
+  font-size: 1rem;
+  margin-bottom: 0.3rem;
+}
+
+.comfia-footer .footer-desc {
+  font-size: 0.8rem;
+  color: var(--comfia-text-muted);
+}
+
+.comfia-footer .footer-links a {
+  color: var(--comfia-text-muted);
+  text-decoration: none;
+  font-size: 0.85rem;
+  margin-left: 1.5rem;
+  transition: color 0.2s;
+}
+
+.comfia-footer .footer-links a:hover {
+  color: var(--comfia-gold);
+}
+
+/* ===== HERO SECTION ===== */
+.hero-section {
+  background: linear-gradient(135deg, #2c2416 0%, #4a3510 40%, #6B4F10 100%);
+  color: white;
+  padding: 5rem 4rem;
+  min-height: 400px;
+  display: flex;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-section::after {
+  content: '';
+  position: absolute;
+  right: 0; top: 0;
+  width: 50%;
+  height: 100%;
+  background: rgba(255,255,255,0.03);
+}
+
+.hero-badge {
+  display: inline-block;
+  background: rgba(201,168,76,0.3);
+  color: var(--comfia-gold-light);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  padding: 0.3rem 0.8rem;
+  border-radius: 20px;
+  margin-bottom: 1rem;
+}
+
+.hero-title {
+  font-size: 3rem;
+  font-weight: 800;
+  line-height: 1.15;
+  margin-bottom: 1rem;
+}
+
+.hero-subtitle {
+  font-size: 1rem;
+  color: rgba(255,255,255,0.75);
+  margin-bottom: 2rem;
+  max-width: 480px;
+}
+
+/* ===== CARDS DE SERVICIOS ===== */
+.service-card {
+  background: var(--comfia-yellow-light);
+  border: 1px solid var(--comfia-cream-dark);
+  border-radius: 8px;
+  padding: 1.5rem;
+  transition: box-shadow 0.2s;
+}
+
+.service-card:hover {
+  box-shadow: 0 4px 16px rgba(139,105,20,0.12);
+}
+
+.service-card .service-icon {
+  width: 40px;
+  height: 40px;
+  background: var(--comfia-cream-dark);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 0.75rem;
+  color: var(--comfia-gold);
+  font-size: 1.2rem;
+}
+
+/* ===== CTA SECTION ===== */
+.cta-section {
+  background: #2c2416;
+  color: white;
+  padding: 4rem 2rem;
+  text-align: center;
+}
+
+.cta-section h2 {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 0.75rem;
+}
+
+.cta-section p {
+  color: rgba(255,255,255,0.7);
+  margin-bottom: 2rem;
+}
+
+/* ===== LAYOUT PRIVADO (DASHBOARD) ===== */
+.dashboard-layout {
+  display: flex;
+  min-height: 100vh;
+}
+
+.sidebar {
+  width: 240px;
+  background: var(--comfia-sidebar-bg);
+  color: white;
+  display: flex;
+  flex-direction: column;
+  padding: 1.5rem 0;
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  z-index: 50;
+}
+
+.sidebar .sidebar-logo {
+  padding: 0 1.5rem 1.5rem;
+  border-bottom: 1px solid rgba(255,255,255,0.15);
+  margin-bottom: 1rem;
+}
+
+.sidebar .sidebar-logo .brand {
+  font-size: 1.3rem;
+  font-weight: 800;
+  color: white;
+  letter-spacing: 1px;
+}
+
+.sidebar .sidebar-logo .brand-sub {
+  font-size: 0.7rem;
+  color: rgba(255,255,255,0.6);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.sidebar .nav-item {
+  padding: 0.7rem 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  color: rgba(255,255,255,0.85);
+  text-decoration: none;
+  font-size: 0.9rem;
+  transition: background 0.2s;
+  cursor: pointer;
+  border: none;
+  background: none;
+  width: 100%;
+  text-align: left;
+}
+
+.sidebar .nav-item:hover,
+.sidebar .nav-item.active {
+  background: rgba(0,0,0,0.2);
+  color: white;
+}
+
+.sidebar .nav-item i {
+  font-size: 1.1rem;
+  width: 20px;
+  text-align: center;
+}
+
+.sidebar .sidebar-footer {
+  margin-top: auto;
+  padding: 1rem 1.5rem;
+  border-top: 1px solid rgba(255,255,255,0.15);
+}
+
+.sidebar .user-info {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-bottom: 0.5rem;
+}
+
+.sidebar .user-avatar {
+  width: 32px;
+  height: 32px;
+  background: rgba(255,255,255,0.2);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+.sidebar .user-name {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: white;
+}
+
+.sidebar .user-role {
+  font-size: 0.72rem;
+  color: rgba(255,255,255,0.65);
+}
+
+.main-content {
+  margin-left: 240px;
+  flex: 1;
+  padding: 2rem;
+  background: var(--comfia-bg);
+  min-height: 100vh;
+}
+
+/* ===== TOPBAR DASHBOARD ===== */
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+}
+
+.topbar .page-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--comfia-text-dark);
+}
+
+.topbar .topbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.icon-btn {
+  background: none;
+  border: none;
+  font-size: 1.2rem;
+  color: var(--comfia-text-muted);
+  cursor: pointer;
+  padding: 0.4rem;
+  border-radius: 50%;
+  transition: background 0.2s;
+}
+
+.icon-btn:hover {
+  background: var(--comfia-cream-dark);
+}
+
+/* ===== TABLAS ===== */
+.comfia-table-container {
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 1px 6px rgba(0,0,0,0.06);
+  overflow: hidden;
+}
+
+.comfia-table-header {
+  padding: 1.25rem 1.5rem;
+  border-bottom: 1px solid var(--comfia-border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.comfia-table-header h2 {
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+.comfia-table-header .subtitle {
+  font-size: 0.82rem;
+  color: var(--comfia-text-muted);
+  margin: 0.2rem 0 0;
+}
+
+.comfia-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.88rem;
+}
+
+.comfia-table thead th {
+  padding: 0.75rem 1.5rem;
+  text-align: left;
+  font-size: 0.78rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--comfia-text-muted);
+  background: #fafafa;
+  border-bottom: 1px solid var(--comfia-border);
+}
+
+.comfia-table tbody td {
+  padding: 0.9rem 1.5rem;
+  border-bottom: 1px solid #f0f0f0;
+  vertical-align: middle;
+}
+
+.comfia-table tbody tr:hover {
+  background: var(--comfia-yellow-light);
+}
+
+.comfia-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+/* ===== BADGES DE ESTADO ===== */
+.badge-aprobado {
+  background: #d4edda;
+  color: #155724;
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.78rem;
+  font-weight: 600;
+}
+
+.badge-pendiente {
+  background: #fff3cd;
+  color: #856404;
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.78rem;
+  font-weight: 600;
+}
+
+.badge-revision {
+  background: #cce5ff;
+  color: #004085;
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.78rem;
+  font-weight: 600;
+}
+
+.badge-rechazado {
+  background: #f8d7da;
+  color: #721c24;
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.78rem;
+  font-weight: 600;
+}
+
+/* ===== AVATAR DE CLIENTE ===== */
+.client-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--comfia-cream-dark);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--comfia-gold-dark);
+  margin-right: 0.5rem;
+}
+
+/* ===== FILTROS ===== */
+.filters-row {
+  display: flex;
+  gap: 0.75rem;
+  padding: 0.75rem 1.5rem;
+  background: #fafafa;
+  border-bottom: 1px solid var(--comfia-border);
+  flex-wrap: wrap;
+  align-items: flex-end;
+}
+
+.filter-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.filter-group label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  color: var(--comfia-text-muted);
+  letter-spacing: 0.5px;
+}
+
+.filter-group select,
+.filter-group input {
+  padding: 0.35rem 0.6rem;
+  border: 1px solid var(--comfia-border);
+  border-radius: 4px;
+  font-size: 0.85rem;
+  background: white;
+  min-width: 140px;
+}
+
+.btn-apply-filters {
+  background: var(--comfia-gold);
+  color: white;
+  border: none;
+  padding: 0.4rem 1rem;
+  border-radius: 4px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  align-self: flex-end;
+}
+
+.btn-clean-filters {
+  background: transparent;
+  color: var(--comfia-text-muted);
+  border: 1px solid var(--comfia-border);
+  padding: 0.4rem 1rem;
+  border-radius: 4px;
+  font-size: 0.85rem;
+  cursor: pointer;
+  align-self: flex-end;
+}
+
+/* ===== FORMULARIOS ===== */
+.form-card {
+  background: white;
+  border-radius: 8px;
+  padding: 2rem;
+  box-shadow: 0 1px 6px rgba(0,0,0,0.06);
+  max-width: 560px;
+  margin: 0 auto;
+}
+
+.form-card h2 {
+  font-size: 1.3rem;
+  font-weight: 700;
+  margin-bottom: 0.35rem;
+}
+
+.form-card .form-subtitle {
+  font-size: 0.85rem;
+  color: var(--comfia-text-muted);
+  margin-bottom: 1.75rem;
+}
+
+.form-section-title {
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  color: var(--comfia-text-muted);
+  margin: 1.5rem 0 0.75rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.comfia-input-group {
+  position: relative;
+  margin-bottom: 1rem;
+}
+
+.comfia-input-group label {
+  display: block;
+  font-size: 0.82rem;
+  font-weight: 600;
+  margin-bottom: 0.3rem;
+  color: var(--comfia-text-dark);
+}
+
+.comfia-input-group input,
+.comfia-input-group select {
+  width: 100%;
+  padding: 0.55rem 0.85rem;
+  border: 1px solid var(--comfia-border);
+  border-radius: 5px;
+  font-size: 0.9rem;
+  background: var(--comfia-yellow-light);
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.comfia-input-group input:focus,
+.comfia-input-group select:focus {
+  outline: none;
+  border-color: var(--comfia-gold);
+  box-shadow: 0 0 0 3px rgba(139,105,20,0.12);
+  background: white;
+}
+
+.comfia-input-group .input-icon {
+  position: absolute;
+  left: 0.75rem;
+  top: 2.15rem;
+  color: var(--comfia-text-muted);
+  font-size: 0.9rem;
+}
+
+.comfia-input-group.has-icon input {
+  padding-left: 2.2rem;
+}
+
+.btn-register {
+  width: 100%;
+  padding: 0.65rem;
+  background: var(--comfia-gold);
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  transition: background 0.2s;
+}
+
+.btn-register:hover {
+  background: var(--comfia-gold-dark);
+}
+
+.btn-cancel {
+  background: transparent;
+  color: var(--comfia-text-muted);
+  border: none;
+  font-size: 0.9rem;
+  cursor: pointer;
+  padding: 0.4rem 1rem;
+}
+
+/* ===== LOGIN PAGE ===== */
+.login-page {
+  display: flex;
+  min-height: 100vh;
+}
+
+.login-left {
+  flex: 1;
+  background: linear-gradient(160deg, #2c2416 0%, #4a3510 60%, #6B4F10 100%);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 3rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.login-left img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.25;
+}
+
+.login-left .brand-text {
+  position: relative;
+  z-index: 2;
+}
+
+.login-left .brand-text h2 {
+  color: white;
+  font-size: 1.4rem;
+  font-weight: 800;
+  margin-bottom: 0.4rem;
+}
+
+.login-left .brand-text p {
+  color: rgba(255,255,255,0.65);
+  font-size: 0.85rem;
+}
+
+.login-right {
+  width: 480px;
+  background: var(--comfia-cream);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem 2.5rem;
+}
+
+.login-form-container {
+  width: 100%;
+  max-width: 340px;
+}
+
+.login-form-container h2 {
+  font-size: 1.6rem;
+  font-weight: 800;
+  margin-bottom: 0.3rem;
+}
+
+.login-form-container .login-subtitle {
+  font-size: 0.85rem;
+  color: var(--comfia-text-muted);
+  margin-bottom: 2rem;
+}
+
+.login-remember-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.25rem;
+}
+
+.login-remember-row label {
+  font-size: 0.85rem;
+  color: var(--comfia-text-muted);
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.login-remember-row a {
+  font-size: 0.85rem;
+  color: var(--comfia-gold);
+  text-decoration: none;
+}
+
+.login-divider {
+  text-align: center;
+  font-size: 0.8rem;
+  color: var(--comfia-text-muted);
+  margin: 1rem 0;
+}
+
+.login-register-link {
+  text-align: center;
+  font-size: 0.85rem;
+  color: var(--comfia-text-muted);
+  margin-top: 1rem;
+}
+
+.login-register-link a {
+  color: var(--comfia-gold);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+/* ===== ERROR / ALERT ===== */
+.alert-error {
+  background: #f8d7da;
+  color: #721c24;
+  border: 1px solid #f5c6cb;
+  border-radius: 5px;
+  padding: 0.6rem 1rem;
+  font-size: 0.85rem;
+  margin-bottom: 1rem;
+}
+
+.alert-success {
+  background: #d4edda;
+  color: #155724;
+  border: 1px solid #c3e6cb;
+  border-radius: 5px;
+  padding: 0.6rem 1rem;
+  font-size: 0.85rem;
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* ===== MODAL ===== */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal-box {
+  background: white;
+  border-radius: 10px;
+  padding: 2.5rem;
+  width: 400px;
+  text-align: center;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+}
+
+.modal-icon {
+  font-size: 2.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.modal-icon.danger { color: var(--comfia-danger); }
+.modal-icon.success { color: var(--comfia-success); }
+
+.modal-box h3 {
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.modal-box p {
+  font-size: 0.88rem;
+  color: var(--comfia-text-muted);
+  margin-bottom: 1.5rem;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.btn-modal-cancel {
+  padding: 0.5rem 1.5rem;
+  border: 1px solid var(--comfia-border);
+  background: white;
+  border-radius: 5px;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+.btn-modal-confirm {
+  padding: 0.5rem 1.5rem;
+  background: var(--comfia-danger);
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+/* ===== PAGINACIÓN ===== */
+.table-footer {
+  padding: 0.75rem 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1px solid var(--comfia-border);
+  font-size: 0.82rem;
+  color: var(--comfia-text-muted);
+}
+
+.pagination-btns {
+  display: flex;
+  gap: 0.4rem;
+}
+
+.pagination-btns button {
+  width: 30px;
+  height: 30px;
+  border: 1px solid var(--comfia-border);
+  background: white;
+  border-radius: 4px;
+  font-size: 0.82rem;
+  cursor: pointer;
+}
+
+.pagination-btns button.active {
+  background: var(--comfia-gold);
+  color: white;
+  border-color: var(--comfia-gold);
+}
+
+/* ===== SEARCH BAR ===== */
+.search-bar {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.search-bar i {
+  position: absolute;
+  left: 0.75rem;
+  color: var(--comfia-text-muted);
+  font-size: 0.9rem;
+}
+
+.search-bar input {
+  padding: 0.45rem 0.75rem 0.45rem 2.2rem;
+  border: 1px solid var(--comfia-border);
+  border-radius: 4px;
+  font-size: 0.88rem;
+  background: white;
+  width: 260px;
+}
+
+.search-bar input:focus {
+  outline: none;
+  border-color: var(--comfia-gold);
+}
+
+/* ===== PERFIL DE USUARIO ===== */
+.profile-header {
+  background: white;
+  border-radius: 8px;
+  padding: 1.5rem 2rem;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  box-shadow: 0 1px 6px rgba(0,0,0,0.06);
+  margin-bottom: 1.5rem;
+}
+
+.profile-avatar-large {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: var(--comfia-cream-dark);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--comfia-gold-dark);
+  position: relative;
+}
+
+.profile-status-dot {
+  position: absolute;
+  bottom: 3px;
+  right: 3px;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: 2px solid white;
+}
+
+.profile-status-dot.active { background: var(--comfia-success); }
+.profile-status-dot.inactive { background: var(--comfia-danger); }
+
+/* ===== NOTIFICACIONES ===== */
+.notification-card {
+  background: white;
+  border-radius: 6px;
+  padding: 1rem 1.25rem;
+  margin-bottom: 0.75rem;
+  border-left: 4px solid transparent;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+}
+
+.notification-card.new-credit { border-color: var(--comfia-gold); background: var(--comfia-yellow-light); }
+.notification-card.user-update { border-color: #17a2b8; background: #e8f4f8; }
+.notification-card.security { border-color: var(--comfia-danger); background: #fff5f5; }
+
+.notification-card .notif-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.35rem;
+}
+
+.notification-card .notif-title {
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+
+.notification-card .notif-time {
+  font-size: 0.75rem;
+  color: var(--comfia-text-muted);
+}
+
+.notification-card .notif-body {
+  font-size: 0.83rem;
+  color: var(--comfia-text-muted);
+  margin-bottom: 0.5rem;
+}
+
+.notif-actions {
+  display: flex;
+  gap: 0.75rem;
+  font-size: 0.8rem;
+}
+
+.notif-actions a {
+  color: var(--comfia-gold);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.badge-critical {
+  background: var(--comfia-danger);
+  color: white;
+  padding: 0.15rem 0.5rem;
+  border-radius: 4px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+/* ===== CONFIGURACIÓN ===== */
+.config-section {
+  background: white;
+  border-radius: 8px;
+  padding: 1.5rem;
+  box-shadow: 0 1px 6px rgba(0,0,0,0.06);
+  margin-bottom: 1.25rem;
+}
+
+.config-section h3 {
+  font-size: 0.95rem;
+  font-weight: 700;
+  margin-bottom: 0.3rem;
+}
+
+.config-section .config-subtitle {
+  font-size: 0.82rem;
+  color: var(--comfia-text-muted);
+  margin-bottom: 1.25rem;
+}
+
+.radio-option {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.6rem 0;
+  border-bottom: 1px solid #f0f0f0;
+  cursor: pointer;
+}
+
+.radio-option:last-child { border-bottom: none; }
+
+.radio-dot {
+  width: 18px;
+  height: 18px;
+  border: 2px solid var(--comfia-border);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.radio-dot.selected {
+  border-color: var(--comfia-gold);
+}
+
+.radio-dot.selected::after {
+  content: '';
+  width: 8px;
+  height: 8px;
+  background: var(--comfia-gold);
+  border-radius: 50%;
+}
+
+.toggle-switch {
+  position: relative;
+  width: 44px;
+  height: 24px;
+  background: #ccc;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: background 0.2s;
+  flex-shrink: 0;
+}
+
+.toggle-switch.on {
+  background: var(--comfia-gold);
+}
+
+.toggle-switch::after {
+  content: '';
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  background: white;
+  border-radius: 50%;
+  top: 3px;
+  left: 3px;
+  transition: left 0.2s;
+}
+
+.toggle-switch.on::after {
+  left: 23px;
+}
+
+/* ===== MENU PRINCIPAL (MÓVIL-LIKE) ===== */
+.menu-card {
+  background: white;
+  border-radius: 10px;
+  width: 380px;
+  overflow: hidden;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.15);
+  margin: 0 auto;
+}
+
+.menu-card-header {
+  background: var(--comfia-gold);
+  padding: 1.75rem 1.5rem 1.25rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  color: white;
+}
+
+.menu-card-header .menu-logo {
+  font-size: 1.3rem;
+  font-weight: 800;
+  letter-spacing: 1px;
+}
+
+.menu-item-row {
+  padding: 1rem 1.5rem;
+  border-bottom: 1px solid #f0f0f0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  transition: background 0.15s;
+  text-decoration: none;
+  color: var(--comfia-text-dark);
+}
+
+.menu-item-row:hover {
+  background: var(--comfia-yellow-light);
+}
+
+.menu-item-left {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+}
+
+.menu-item-icon {
+  width: 36px;
+  height: 36px;
+  background: var(--comfia-cream-dark);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--comfia-gold);
+  font-size: 1rem;
+}
+
+.menu-item-title {
+  font-size: 0.92rem;
+  font-weight: 600;
+}
+
+.menu-item-sub {
+  font-size: 0.75rem;
+  color: var(--comfia-text-muted);
+}
+
+.menu-card-footer {
+  padding: 1rem 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #fafafa;
+}
+
+/* ===== UTILIDADES ===== */
+.breadcrumb-nav {
+  font-size: 0.82rem;
+  color: var(--comfia-text-muted);
+  margin-bottom: 1rem;
+}
+
+.breadcrumb-nav span {
+  color: var(--comfia-text-dark);
+  font-weight: 600;
+}
+
+.action-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.3rem;
+  border-radius: 4px;
+  font-size: 1rem;
+  transition: background 0.15s;
+}
+
+.action-btn:hover { background: var(--comfia-cream-dark); }
+.action-btn.edit { color: var(--comfia-gold); }
+.action-btn.delete { color: var(--comfia-danger); }
+
+.page-layout {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.page-content {
+  flex: 1;
+}
+
+@media (max-width: 768px) {
+  .sidebar { width: 100%; height: auto; position: relative; }
+  .main-content { margin-left: 0; }
+  .login-left { display: none; }
+  .login-right { width: 100%; }
+}

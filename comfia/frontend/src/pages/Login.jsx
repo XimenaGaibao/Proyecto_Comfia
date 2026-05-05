@@ -30,7 +30,7 @@ export default function Login({ onNav }) {
   return (
     <div style={{ minHeight: "100vh", display: "grid", gridTemplateColumns: "45% 55%", background: C.cream }}>
 
-      {/* Left panel */}
+      
       <div style={{
         backgroundImage: "url('https://lh3.googleusercontent.com/aida-public/AB6AXuAS3Z6QFQXIXsfBWRwYZxD_mOwQ_SOcyJ_aW4x6camc_JL2NZ3NpCSYgn7ouxF89ACZ7s9piA9RJve3U_E6kWVzSqbtnyVY_xNOR7BL_ecPIfDJetjcbQ5PrKS1mTyR1jrZVoq0U-s5OyVM1sZXnM7wzbRatOoabspGM11nCCvsyKISYrivO4KOYP8zbEj5yW058gKTqC3Dehpy-KfTsrITXEoecL6FcxGp__yTJNMRVaFNixcWOAgmvsta6vGUdHlJlczz7s598pbG')" ,
         backgroundSize: "cover",     
@@ -47,7 +47,7 @@ export default function Login({ onNav }) {
         </p>
       </div>
 
-      {/* Right panel */}
+      {/* Formulariop */}
       <div style={{ display: "flex", alignItems: "center", justifyContent: "center", padding: "40px 60px", background: "#FFF5AC"}}>
         <div style={{ width: "100%", maxWidth: 420 }}>
           <h2 style={{ fontFamily: font, fontSize: "2rem", color: C.gray700, marginBottom: 8 }}>¡Bienvenido de nuevo!</h2>
@@ -61,7 +61,7 @@ export default function Login({ onNav }) {
             value={email} onChange={(e) => setEmail(e.target.value)} 
           />
 
-          {/* Password field with toggle */}
+          {/* Contraseña */}
           <div style={{ marginBottom: 18 }}>
             <label style={{ display: "block", fontSize: "0.78rem", fontWeight: 600, color: C.gray500, marginBottom: 6, textTransform: "uppercase", letterSpacing: "0.08em" }}>
                Contraseña
