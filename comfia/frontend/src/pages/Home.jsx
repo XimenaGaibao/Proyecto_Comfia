@@ -1,6 +1,9 @@
+import Header from "../components/Header.jsx";
+import Footer from "../components/Footer.jsx";
 import { C, font } from "../styles/tokens";
 import { Btn } from "../components/UI";
 import "../styles/styles.css";
+
 
 export default function Home({ onNav }) {
   return (
@@ -20,7 +23,9 @@ export default function Home({ onNav }) {
         "--font": font,
       }}
     >
-      {/* HERO */}
+      {/* HEADER */}
+      <Header onNav={onNav} />
+
       <div className="hero-wrapper">
       <div className="hero">
         <div
@@ -107,32 +112,9 @@ export default function Home({ onNav }) {
         </Btn>
       </div>
 
+
       {/* FOOTER */}
-      <footer className="footer">
-        <div>
-          <div className="footer-brand">COMFÍA</div>
-          <p className="footer-text">
-            Soluciones modernas para el almacenamiento y gestión de activos financieros digitales.
-          </p>
-        </div>
-
-        {[
-          { title: "Producto", items: ["Características", "Seguridad", "Descargas"] },
-          { title: "Compañía", items: ["Sobre Nosotros", "Blog", "Contacto"] },
-          { title: "Legal", items: ["Privacidad", "Términos", "Cookies"] },
-        ].map((col) => (
-          <div key={col.title}>
-            <h4 className="footer-col-title">{col.title}</h4>
-            {col.items.map((i) => (
-              <p key={i} className="footer-link">{i}</p>
-            ))}
-          </div>
-        ))}
-      </footer>
-
-      <div className="copyright">
-        © 2026 COMFÍA Gestión de Créditos. Todos los derechos reservados.
-      </div>
+      <Footer />
     </div>
   );
 }

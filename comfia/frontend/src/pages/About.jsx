@@ -1,8 +1,9 @@
 import { C, font } from "../styles/tokens";
 import { Card } from "../components/UI";
 import "../styles/styles.css";
+import Header from "../components/Header.jsx";
 
-export default function About() {
+export default function About({ onNav }) {
   return (
     <div
       className="about-page"
@@ -19,6 +20,8 @@ export default function About() {
         "--font": font,
       }}
     >
+       {/* HEADER */}
+      <Header onNav={onNav} />
       <div className="about-container">
 
 
