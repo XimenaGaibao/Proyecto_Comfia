@@ -1,7 +1,7 @@
-import { C, font } from "../styles/tokens";
-import { Card } from "../components/UI";
-import "../styles/styles.css";
-import Header from "../components/Header.jsx";
+import { C, font } from "../../styles/tokens";
+import { Card } from "../../components/UI";
+import "../../styles/styles.css";
+import Header from "../../components/Header.jsx";
 
 export default function About({ onNav }) {
   return (

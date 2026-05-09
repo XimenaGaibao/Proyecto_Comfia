@@ -1,11 +1,14 @@
-import Header from "../components/Header.jsx";
-import Footer from "../components/Footer.jsx";
-import { C, font } from "../styles/tokens";
-import { Btn } from "../components/UI";
-import "../styles/styles.css";
+import Header from "../../components/Header.jsx";
+import Footer from "../../components/Footer.jsx";
+import { C, font } from "../../styles/tokens";
+import { Btn } from "../../components/UI";
+import "../../styles/styles.css";
+import { useNavigate } from 'react-router-dom';
 
 
 export default function Home({ onNav }) {
+  const navigate = useNavigate();
+
   return (
     <div
       className="page"
@@ -38,7 +41,7 @@ export default function Home({ onNav }) {
           <span className="hero-badge">Seguridad y Confianza</span>
 
           <h1 className="hero-title">
-            Servicio de almacenamiento de prestamos
+            Servicio de almacenamiento <br />de prestamos
           </h1>
 
           <p className="hero-text">
@@ -46,16 +49,16 @@ export default function Home({ onNav }) {
           </p>
 
           <div className="hero-buttons">
-            <Btn onClick={() => onNav("login")} className="btn-primary">
-              Iniciar Sesión
+            <Btn onClick={() => navigate("/login")} className="btn-primary">
+              INICIAR SESIÓN
             </Btn>
 
             <Btn
               variant="outline"
-              onClick={() => onNav("register")}
+              onClick={() => navigate("/register")}
               className="btn-outline "
             >
-              Registrarse
+              REGISTRARSE
             </Btn>
           </div>
         </div>
@@ -107,8 +110,8 @@ export default function Home({ onNav }) {
           Únete a miles de usuarios y empresas que ya confían en la infraestructura de COMFÍA.
         </p>
 
-        <Btn onClick={() => onNav("contact")} className="btn-primary">
-          Contáctanos
+        <Btn onClick={() => navigate("/contacto")} className="btn-primary">
+          CONTÁCTANOS
         </Btn>
       </div>
 
