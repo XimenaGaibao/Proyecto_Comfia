@@ -1,3 +1,4 @@
+// src/styles/tokens.js
 export const C = {
   gold: "#8B6F47",
   goldDark: "#6B5035",
@@ -19,13 +20,43 @@ export const C = {
   blueLight: "#E3F2FD",
 };
 
-export const font = "'Manrope',Georgia serif";
-export const fontSans = "'DM Sans', 'Segoe UI', sans-serif";
+// Fuente única para TODO - Manrope
+export const font = "'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif";
+
+export const fontSans = font; // Misma fuente para todo
 
 export const globalStyle = `
-  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@300;400;500;600&display=swap');
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  body { font-family: ${fontSans}; background: ${C.cream}; color: ${C.gray700}; }
-  input, button, select, textarea { font-family: inherit; }
-  a { text-decoration: none; color: inherit; }
+  @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&display=swap');
+  
+  *, *::before, *::after { 
+    box-sizing: border-box; 
+    margin: 0; 
+    padding: 0; 
+  }
+  
+  body { 
+    font-family: 'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: ${C.cream}; 
+    color: ${C.gray700}; 
+  }
+  
+  /* Todos los títulos con Manrope */
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Manrope', sans-serif;
+    font-weight: 700;
+  }
+  
+  /* Todos los textos con Manrope */
+  p, span, a, li, label, input, button, textarea, select {
+    font-family: 'Manrope', sans-serif;
+  }
+  
+  input, button, select, textarea { 
+    font-family: 'Manrope', sans-serif; 
+  }
+  
+  a { 
+    text-decoration: none; 
+    color: inherit; 
+  }
 `;

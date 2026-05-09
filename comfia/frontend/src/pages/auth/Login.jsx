@@ -1,8 +1,10 @@
 import { useState } from "react";
-import { C, font } from "../styles/tokens";
-import { Btn, Input } from "../components/UI";
+import { C, font } from "../../styles/tokens";
+import { Btn, Input } from "../../components/UI";
+import { useNavigate } from "react-router-dom";
 
-export default function Login({ onNav }) {
+export default function Login() {
+  const navigate = useNavigate()
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -24,7 +26,7 @@ export default function Login({ onNav }) {
       );
       return;
     }
-    onNav("dashboard");
+    navigate("/register");
   };
 
   return (
@@ -41,8 +43,8 @@ export default function Login({ onNav }) {
       }}>
         <div style={{ position: "absolute", top: -40, left: -40, width: 300, height: 300, borderRadius: "50%", background: "rgba(255,255,255,0.06)" }} />
         <div style={{ position: "absolute", bottom: 80, right: -60, width: 220, height: 220, borderRadius: "50%", background: "rgba(255,255,255,0.05)" }} />
-        <div style={{ fontFamily: font, fontSize: "1.5rem", fontWeight: 700, color: C.white, marginBottom: 12 }}>COMFÍA</div>
-        <p style={{ color: "rgba(255,255,255,0.8)", fontSize: "0.9rem", lineHeight: 1.7, maxWidth: 300 }}>
+        <div style={{ fontFamily: font, fontSize: "1.5rem", fontWeight: 600, color: C.white, marginBottom: 12 }}>COMFÍA</div>
+        <p style={{ color: "rgba(255,255,255,0.8)", fontSize: "1rem", lineHeight: 1.7, maxWidth: 300 }}>
           Gestiona tu bienestar y productividad en un solo lugar con nuestra plataforma.
         </p>
       </div>
@@ -50,8 +52,8 @@ export default function Login({ onNav }) {
       {/* Formulariop */}
       <div style={{ display: "flex", alignItems: "center", justifyContent: "center", padding: "40px 60px", background: "#FFF5AC"}}>
         <div style={{ width: "100%", maxWidth: 420 }}>
-          <h2 style={{ fontFamily: font, fontSize: "2rem", color: C.gray700, marginBottom: 8 }}>¡Bienvenido de nuevo!</h2>
-          <p style={{ color: C.gray500, fontSize: "0.875rem", marginBottom: 36 }}>
+          <h2 style={{ fontFamily: font, fontSize: "2rem", color: C.gray700, marginBottom: 8, fontWeight: 700 }}>¡Bienvenido de nuevo!</h2>
+          <p style={{ color: C.gray500, fontSize: "1rem", marginBottom: 36 }}>
             Ingresa tus credenciales para acceder a tu cuenta.
           </p>
 
@@ -89,10 +91,10 @@ export default function Login({ onNav }) {
           </div>
 
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 28 }}>
-            <label style={{ display: "flex", alignItems: "center", gap: 8, fontSize: "0.85rem", color: C.gray500, cursor: "pointer" }}>
+            <label style={{ display: "flex", alignItems: "center", gap: 8, fontSize: "0.95rem", color: C.gray500, cursor: "pointer" }}>
               <input type="checkbox" /> Recordarme
             </label>
-            <span style={{ fontSize: "0.85rem", color: C.gold, cursor: "pointer", fontWeight: 600 }}>
+            <span style={{ fontSize: "0.95rem", color: C.gold, cursor: "pointer", fontWeight: 600 }}>
               Recordar contraseña
             </span>
           </div>
@@ -100,18 +102,18 @@ export default function Login({ onNav }) {
           <Btn
             onClick={handleLogin}
             disabled={attempts >= 3}
-            style={{ width: "100%", padding: "14px", fontSize: "0.95rem", borderRadius: 10 }}
+            style={{ width: "100%", padding: "14px", fontSize: "1rem", borderRadius: 10 }}
           >
             Iniciar sesión
           </Btn>
 
-          <div style={{ textAlign: "center", margin: "24px 0", color: C.gray300, fontSize: "0.8rem" }}>
+          <div style={{ textAlign: "center", margin: "24px 0", color: C.gray300, fontSize: "0.95rem" }}>
             O CONTINÚA CON
           </div>
 
-          <p style={{ textAlign: "center", fontSize: "0.875rem", color: C.gray500 }}>
+          <p style={{ textAlign: "center", fontSize: "0.95rem", color: C.gray500 }}>
             ¿Todavía no tienes una cuenta?{" "}
-            <span onClick={() => onNav("register")} style={{ color: C.gold, fontWeight: 700, cursor: "pointer" }}>
+            <span onClick={() => navigate("/register")} style={{ color: C.gold, fontWeight: 700, cursor: "pointer" }}>
               Regístrate
             </span>
           </p>
