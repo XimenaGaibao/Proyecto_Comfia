@@ -50,7 +50,7 @@ export default function Contact({ onNav }) {
     <div
       className="contact-page"
       style={{
-        backgroundColor: "#F3F4F6",
+        background: 'var(--gray50)',
         minHeight: "100vh",
         fontFamily: font,
         display: "flex",
