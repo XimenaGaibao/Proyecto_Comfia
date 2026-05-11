@@ -25,7 +25,7 @@ import CrearCredito from '../pages/private/CrearCredito';
 import EditarCredito from '../pages/private/EditarCredito';
 import Perfil from '../pages/private/Perfil';
 import Configuracion from '../pages/private/Configuracion';
-import UsuariosLista from '../pages/private/UsuariosLista';
+import ListaUsuarios from '../pages/private/ListaUsuarios';
 import Reportes from '../pages/private/Reportes';
 
 // Páginas de error
@@ -68,7 +68,7 @@ export default function AppRouter() {
           {/* Rutas solo para admin */}
           <Route element={<ProtectedRoute allowedRoles={['admin']} />}>
             <Route element={<DashboardLayout />}>
-              <Route path="/usuarios" element={<UsuariosLista />} />
+              <Route path="/usuarios" element={<ListaUsuarios />} />
             </Route>
           </Route>
 
