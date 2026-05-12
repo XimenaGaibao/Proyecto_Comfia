@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../Context/AuthContext";
+import { showSuccess, showInfo } from "../../alerts";
 
 // Componente de íconos
 const MaterialIcon = ({ name, style = {} }) => (
@@ -17,8 +18,19 @@ const Perfil = () => {
   const { user, logout } = useAuth();
   const [isEditing, setIsEditing] = useState(false);
 
+  // Guardar cambios
+  const handleSaveChanges = () => {
+    showSuccess("Cambios guardados correctamente");
+    setIsEditing(false);
+  };
+
+  // Editar perfil
+  const handleEditProfile = () => {
+    setIsEditing(true);
+    showInfo("Modo edición activado", "Editar Perfil");
+  };
   // Datos del perfil
-  const profile = {
+  const [profile, setProfile] = useState({
     name: "Juan Perez",
     email: "juan.perez@comfia.com",
     location: "Medellín, Colombia",
@@ -30,7 +42,7 @@ const Perfil = () => {
     lastLogin: "Hoy a las 16:08",
     device: 'MacBook Pro 16"',
     browser: "Safari / macOS Ventura",
-  };
+  });
 
   const handleLogout = () => {
     logout();
@@ -341,25 +353,47 @@ const Perfil = () => {
               {profile.role}
             </p>
 
-            <button
-              onClick={() => setIsEditing(!isEditing)}
-              style={{
-                background: "#8C6A3D",
-                color: "white",
-                border: "none",
-                padding: "12px 32px",
-                borderRadius: "30px",
-                fontSize: "0.9rem",
-                fontWeight: 600,
-                cursor: "pointer",
-                display: "flex",
-                alignItems: "center",
-                gap: "8px",
-              }}
-            >
-              <MaterialIcon name="edit" style={{ fontSize: "18px" }} /> Editar
-              Perfil
-            </button>
+            {!isEditing ? (
+              <button
+                onClick={handleEditProfile}
+                style={{
+                  background: "#8C6A3D",
+                  color: "white",
+                  border: "none",
+                  padding: "12px 32px",
+                  borderRadius: "30px",
+                  fontSize: "0.9rem",
+                  fontWeight: 600,
+                  cursor: "pointer",
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "8px",
+                }}
+              >
+                <MaterialIcon name="edit" style={{ fontSize: "18px" }} /> Editar
+                Perfil
+              </button>
+            ) : (
+              <button
+                onClick={handleSaveChanges}
+                style={{
+                  background: "#8C6A3D",
+                  color: "white",
+                  border: "none",
+                  padding: "12px 32px",
+                  borderRadius: "30px",
+                  fontSize: "0.9rem",
+                  fontWeight: 600,
+                  cursor: "pointer",
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "8px",
+                }}
+              >
+                <MaterialIcon name="save" style={{ fontSize: "18px" }} />{" "}
+                Guardar Cambios
+              </button>
+            )}
           </div>
         </div>
 
@@ -465,16 +499,34 @@ const Perfil = () => {
                 >
                   NOMBRE COMPLETO
                 </p>
-                <p
-                  style={{
-                    fontSize: "1rem",
-                    fontWeight: 500,
-                    color: "#1F2937",
-                    marginBottom: "32px",
-                  }}
-                >
-                  {profile.name}
-                </p>
+                {isEditing ? (
+                  <input
+                    type="text"
+                    value={profile.name}
+                    onChange={(e) =>
+                      setProfile({ ...profile, name: e.target.value })
+                    }
+                    style={{
+                      width: "100%",
+                      padding: "8px 12px",
+                      border: "1px solid #E5E7EB",
+                      borderRadius: "8px",
+                      fontSize: "1rem",
+                      marginBottom: "32px",
+                    }}
+                  />
+                ) : (
+                  <p
+                    style={{
+                      fontSize: "1rem",
+                      fontWeight: 500,
+                      color: "#1F2937",
+                      marginBottom: "32px",
+                    }}
+                  >
+                    {profile.name}
+                  </p>
+                )}
 
                 <p
                   style={{
@@ -487,15 +539,33 @@ const Perfil = () => {
                 >
                   CORREO ELECTRÓNICO
                 </p>
-                <p
-                  style={{
-                    fontSize: "1rem",
-                    color: "#1F2937",
-                    marginBottom: "32px",
-                  }}
-                >
-                  {profile.email}
-                </p>
+                {isEditing ? (
+                  <input
+                    type="email"
+                    value={profile.email}
+                    onChange={(e) =>
+                      setProfile({ ...profile, email: e.target.value })
+                    }
+                    style={{
+                      width: "100%",
+                      padding: "8px 12px",
+                      border: "1px solid #E5E7EB",
+                      borderRadius: "8px",
+                      fontSize: "1rem",
+                      marginBottom: "32px",
+                    }}
+                  />
+                ) : (
+                  <p
+                    style={{
+                      fontSize: "1rem",
+                      color: "#1F2937",
+                      marginBottom: "32px",
+                    }}
+                  >
+                    {profile.email}
+                  </p>
+                )}
 
                 <p
                   style={{
@@ -508,9 +578,26 @@ const Perfil = () => {
                 >
                   LUGAR
                 </p>
-                <p style={{ fontSize: "1rem", color: "#1F2937" }}>
-                  {profile.location}
-                </p>
+                {isEditing ? (
+                  <input
+                    type="text"
+                    value={profile.location}
+                    onChange={(e) =>
+                      setProfile({ ...profile, location: e.target.value })
+                    }
+                    style={{
+                      width: "100%",
+                      padding: "8px 12px",
+                      border: "1px solid #E5E7EB",
+                      borderRadius: "8px",
+                      fontSize: "1rem",
+                    }}
+                  />
+                ) : (
+                  <p style={{ fontSize: "1rem", color: "#1F2937" }}>
+                    {profile.location}
+                  </p>
+                )}
               </div>
 
               {/* Columna 2 */}
@@ -526,15 +613,33 @@ const Perfil = () => {
                 >
                   IDENTIFICACIÓN (CC)
                 </p>
-                <p
-                  style={{
-                    fontSize: "1rem",
-                    color: "#1F2937",
-                    marginBottom: "32px",
-                  }}
-                >
-                  {profile.document}
-                </p>
+                {isEditing ? (
+                  <input
+                    type="text"
+                    value={profile.document}
+                    onChange={(e) =>
+                      setProfile({ ...profile, document: e.target.value })
+                    }
+                    style={{
+                      width: "100%",
+                      padding: "8px 12px",
+                      border: "1px solid #E5E7EB",
+                      borderRadius: "8px",
+                      fontSize: "1rem",
+                      marginBottom: "32px",
+                    }}
+                  />
+                ) : (
+                  <p
+                    style={{
+                      fontSize: "1rem",
+                      color: "#1F2937",
+                      marginBottom: "32px",
+                    }}
+                  >
+                    {profile.document}
+                  </p>
+                )}
 
                 <p
                   style={{
@@ -547,9 +652,26 @@ const Perfil = () => {
                 >
                   NÚMERO DE TELÉFONO
                 </p>
-                <p style={{ fontSize: "1rem", color: "#1F2937" }}>
-                  {profile.phone}
-                </p>
+                {isEditing ? (
+                  <input
+                    type="text"
+                    value={profile.phone}
+                    onChange={(e) =>
+                      setProfile({ ...profile, phone: e.target.value })
+                    }
+                    style={{
+                      width: "100%",
+                      padding: "8px 12px",
+                      border: "1px solid #E5E7EB",
+                      borderRadius: "8px",
+                      fontSize: "1rem",
+                    }}
+                  />
+                ) : (
+                  <p style={{ fontSize: "1rem", color: "#1F2937" }}>
+                    {profile.phone}
+                  </p>
+                )}
               </div>
             </div>
           </div>

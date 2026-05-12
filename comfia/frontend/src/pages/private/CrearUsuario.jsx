@@ -1,3 +1,5 @@
+// src/pages/private/CrearUsuario.jsx
+
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../Context/AuthContext";
@@ -11,75 +13,69 @@ const MaterialIcon = ({ name, style = {} }) => (
   </span>
 );
 
-const CrearCredito = () => {
+const CrearUsuario = () => {
   const navigate = useNavigate();
   const { user } = useAuth();
 
   const [formData, setFormData] = useState({
-    clientName: "",
-    identification: "",
-    amount: "",
-    startDate: "",
-    endDate: "",
+    name: "",
+    email: "",
+    document: "",
+    phone: "",
+    role: "Visualizador",
+    status: "Activo",
   });
 
   const [errors, setErrors] = useState({});
   const [touched, setTouched] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  // Formatear moneda colombiana
-  const formatCurrency = (value) => {
-    const num = parseFloat(value);
-    if (isNaN(num)) return "";
-    return new Intl.NumberFormat("es-CO", {
-      style: "currency",
-      currency: "COP",
-      minimumFractionDigits: 0,
-      maximumFractionDigits: 0,
-    }).format(num);
-  };
+  // Opciones para selects
+  const roleOptions = [
+    { value: "Administrador", label: "Administrador" },
+    { value: "Editor", label: "Editor" },
+    { value: "Visualizador", label: "Visualizador" },
+  ];
 
-  // Manejar cambio del monto
-  const handleAmountChange = (e) => {
-    const rawValue = e.target.value.replace(/[^0-9]/g, "");
-    setFormData({ ...formData, amount: rawValue });
-    if (touched.amount) validateField("amount", rawValue);
-  };
+  const statusOptions = [
+    { value: "Activo", label: "Activo" },
+    { value: "Inactivo", label: "Inactivo" },
+  ];
 
   // Validar campos
   const validateField = (name, value) => {
     switch (name) {
-      case "clientName": {
-        if (!value.trim()) return "El nombre del cliente es obligatorio";
+      case "name": {
+        if (!value.trim()) return "El nombre completo es obligatorio";
         if (value.trim().length < 3) return "El nombre debe tener al menos 3 caracteres";
         return "";
       }
-      case "identification": {
+      case "email": {
+        if (!value.trim()) return "El correo electrónico es obligatorio";
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(value)) return "Ingrese un correo electrónico válido";
+        return "";
+      }
+      case "document": {
         if (!value.trim()) return "El número de identificación es obligatorio";
         if (!/^\d+$/.test(value)) return "Solo se permiten números";
         if (value.length < 6) return "La identificación debe tener al menos 6 dígitos";
+        if (value.length > 15) return "La identificación no puede tener más de 15 dígitos";
         return "";
       }
-      case "amount": {
-        if (!value) return "El valor del crédito es obligatorio";
-        const amountNum = parseInt(value, 10);
-        if (amountNum <= 0) return "El valor debe ser mayor a 0";
-        if (amountNum < 100000) return "El valor mínimo es $100,000 COP";
+      case "phone": {
+        if (!value.trim()) return "El número de teléfono es obligatorio";
+        if (!/^\d+$/.test(value)) return "Solo se permiten números";
+        if (value.length < 7) return "El teléfono debe tener al menos 7 dígitos";
+        if (value.length > 15) return "El teléfono no puede tener más de 15 dígitos";
         return "";
       }
-      case "startDate": {
-        if (!value) return "La fecha de inicio es obligatoria";
-        const startDate = new Date(value);
-        const today = new Date();
-        today.setHours(0, 0, 0, 0);
-        if (startDate < today) return "La fecha de inicio no puede ser anterior a hoy";
+      case "role": {
+        if (!value) return "El rol es obligatorio";
         return "";
       }
-      case "endDate": {
-        if (!value) return "La fecha límite es obligatoria";
-        const endDate = new Date(value);
-        const start = new Date(formData.startDate);
-        if (endDate <= start) return "La fecha límite debe ser posterior a la fecha de inicio";
+      case "status": {
+        if (!value) return "El estado es obligatorio";
         return "";
       }
       default:
@@ -119,46 +115,45 @@ const CrearCredito = () => {
     return isValid;
   };
 
- const handleSubmit = async (e) => {
-  e.preventDefault();
-  if (!validateForm()) {
-    showWarning("Por favor completa todos los campos correctamente");
-    return;
-  }
-
-  setIsSubmitting(true);
-
-  try {
-    // Simular envío a API
-    await new Promise(resolve => setTimeout(resolve, 1500));
+  const handleSubmit = async (e) => {
+    e.preventDefault();
     
-    console.log("Crédito registrado:", {
-      ...formData,
-      amount: parseInt(formData.amount, 10),
-    });
-    
-    showSuccess("¡Crédito registrado exitosamente!");
-    
-    setTimeout(() => {
-      handleCancel();
-      navigate("/creditos");
-    }, 2000);
-  } catch (error) {
-    console.error("Error al registrar el crédito:", error);
-    showError(error.message || "Ocurrió un error al registrar el crédito");
-  } finally {
-    setIsSubmitting(false);
-  }
-}
+    if (!validateForm()) {
+      showWarning("Por favor completa todos los campos correctamente");
+      return;
+    }
 
-  //  limpia todos los campos
+    setIsSubmitting(true);
+
+    try {
+      // Simular envío a API
+      await new Promise(resolve => setTimeout(resolve, 1500));
+      
+      console.log("Usuario registrado:", formData);
+      
+      showSuccess("¡Usuario registrado exitosamente!");
+      
+      setTimeout(() => {
+        handleCancel();
+        navigate("/usuarios");
+      }, 2000);
+    } catch (error) {
+      console.error("Error al registrar el usuario:", error);
+      showError(error.message || "Ocurrió un error al registrar el usuario");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  // Limpia todos los campos
   const handleCancel = () => {
     setFormData({
-      clientName: "",
-      identification: "",
-      amount: "",
-      startDate: "",
-      endDate: "",
+      name: "",
+      email: "",
+      document: "",
+      phone: "",
+      role: "Visualizador",
+      status: "Activo",
     });
     setTouched({});
     setErrors({});
@@ -210,10 +205,10 @@ const CrearCredito = () => {
           <div style={{ padding: "24px 32px", borderBottom: "1px solid #F0F0F0" }}>
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
               <div>
-                <h1 style={{ fontSize: "1.6rem", fontWeight: 700, color: "#1F2937" }}>Registrar Crédito</h1>
-                <p style={{ fontSize: "0.8rem", color: "#6B7280", marginTop: "4px" }}>Complete la información detallada para procesar la solicitud de crédito.</p>
+                <h1 style={{ fontSize: "1.6rem", fontWeight: 700, color: "#1F2937" }}>Registrar Usuario</h1>
+                <p style={{ fontSize: "0.8rem", color: "#6B7280", marginTop: "4px" }}>Complete la información para crear un nuevo usuario en el sistema.</p>
               </div>
-              <button onClick={() => navigate("/creditos")} style={{ padding: "8px", background: "transparent", border: "none", cursor: "pointer", borderRadius: "8px" }}>
+              <button onClick={() => navigate("/usuarios")} style={{ padding: "8px", background: "transparent", border: "none", cursor: "pointer", borderRadius: "8px" }}>
                 <MaterialIcon name="close" style={{ color: "#6B7280" }} />
               </button>
             </div>
@@ -222,23 +217,23 @@ const CrearCredito = () => {
           <form onSubmit={handleSubmit} style={{ padding: "32px" }}>
             <div style={{ display: "flex", flexDirection: "column", gap: "24px" }}>
               
-              {/* Nombre del cliente */}
+              {/* Nombre completo */}
               <div>
                 <label style={{ display: "flex", alignItems: "center", gap: "8px", fontSize: "0.8rem", fontWeight: 600, color: "#4B5563", marginBottom: "8px" }}>
                   <MaterialIcon name="person" style={{ fontSize: "18px", color: "#8C7354" }} />
-                  Nombre del cliente
+                  Nombre completo
                 </label>
                 <input
                   type="text"
-                  name="clientName"
-                  value={formData.clientName}
+                  name="name"
+                  value={formData.name}
                   onChange={handleChange}
                   onBlur={handleBlur}
                   placeholder="Ej: Juan Pérez"
                   style={{
                     width: "100%",
                     padding: "12px 16px",
-                    border: `1px solid ${errors.clientName && touched.clientName ? "#EF4444" : "#E5E7EB"}`,
+                    border: `1px solid ${errors.name && touched.name ? "#EF4444" : "#E5E7EB"}`,
                     borderRadius: "12px",
                     fontSize: "0.9rem",
                     outline: "none",
@@ -247,30 +242,30 @@ const CrearCredito = () => {
                   }}
                   onFocus={(e) => e.target.style.borderColor = "#8C7354"}
                 />
-                {errors.clientName && touched.clientName && (
+                {errors.name && touched.name && (
                   <p style={{ color: "#EF4444", fontSize: "0.7rem", marginTop: "4px", display: "flex", alignItems: "center", gap: "4px" }}>
-                    <MaterialIcon name="error" style={{ fontSize: "14px" }} /> {errors.clientName}
+                    <MaterialIcon name="error" style={{ fontSize: "14px" }} /> {errors.name}
                   </p>
                 )}
               </div>
 
-              {/* CC */}
+              {/* Correo electrónico */}
               <div>
                 <label style={{ display: "flex", alignItems: "center", gap: "8px", fontSize: "0.8rem", fontWeight: 600, color: "#4B5563", marginBottom: "8px" }}>
-                  <MaterialIcon name="credit_card" style={{ fontSize: "18px", color: "#8C7354" }} />
-                  CC (Número de identificación)
+                  <MaterialIcon name="mail" style={{ fontSize: "18px", color: "#8C7354" }} />
+                  Correo electrónico
                 </label>
                 <input
-                  type="text"
-                  name="identification"
-                  value={formData.identification}
+                  type="email"
+                  name="email"
+                  value={formData.email}
                   onChange={handleChange}
                   onBlur={handleBlur}
-                  placeholder="000.000.000"
+                  placeholder="ejemplo@correo.com"
                   style={{
                     width: "100%",
                     padding: "12px 16px",
-                    border: `1px solid ${errors.identification && touched.identification ? "#EF4444" : "#E5E7EB"}`,
+                    border: `1px solid ${errors.email && touched.email ? "#EF4444" : "#E5E7EB"}`,
                     borderRadius: "12px",
                     fontSize: "0.9rem",
                     outline: "none",
@@ -278,93 +273,128 @@ const CrearCredito = () => {
                   }}
                   onFocus={(e) => e.target.style.borderColor = "#8C7354"}
                 />
-                {errors.identification && touched.identification && (
-                  <p style={{ color: "#EF4444", fontSize: "0.7rem", marginTop: "4px" }}>{errors.identification}</p>
+                {errors.email && touched.email && (
+                  <p style={{ color: "#EF4444", fontSize: "0.7rem", marginTop: "4px" }}>{errors.email}</p>
                 )}
               </div>
 
-              {/* Valor del crédito */}
+              {/* Número de identificación */}
               <div>
                 <label style={{ display: "flex", alignItems: "center", gap: "8px", fontSize: "0.8rem", fontWeight: 600, color: "#4B5563", marginBottom: "8px" }}>
-                  <MaterialIcon name="attach_money" style={{ fontSize: "18px", color: "#8C7354" }} />
-                  Valor del crédito
+                  <MaterialIcon name="credit_card" style={{ fontSize: "18px", color: "#8C7354" }} />
+                  Número de identificación (CC)
                 </label>
-                <div style={{ position: "relative" }}>
-                  <input
-                    type="text"
-                    value={formData.amount ? formatCurrency(formData.amount) : ""}
-                    onChange={handleAmountChange}
-                    onBlur={handleBlur}
-                    placeholder="$ 0.00"
-                    style={{
-                      width: "100%",
-                      padding: "12px 16px",
-                      border: `1px solid ${errors.amount && touched.amount ? "#EF4444" : "#E5E7EB"}`,
-                      borderRadius: "12px",
-                      fontSize: "0.9rem",
-                      outline: "none",
-                      background: "#f7f7f7"
-                    }}
-                    onFocus={(e) => e.target.style.borderColor = "#8C7354"}
-                  />
-                  <span style={{ position: "absolute", right: "16px", top: "50%", transform: "translateY(-50%)", color: "#9CA3AF", fontSize: "0.7rem" }}>COP</span>
-                </div>
-                {errors.amount && touched.amount && (
-                  <p style={{ color: "#EF4444", fontSize: "0.7rem", marginTop: "4px" }}>{errors.amount}</p>
+                <input
+                  type="text"
+                  name="document"
+                  value={formData.document}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  placeholder="000.000.000"
+                  style={{
+                    width: "100%",
+                    padding: "12px 16px",
+                    border: `1px solid ${errors.document && touched.document ? "#EF4444" : "#E5E7EB"}`,
+                    borderRadius: "12px",
+                    fontSize: "0.9rem",
+                    outline: "none",
+                    background: "#f7f7f7"
+                  }}
+                  onFocus={(e) => e.target.style.borderColor = "#8C7354"}
+                />
+                {errors.document && touched.document && (
+                  <p style={{ color: "#EF4444", fontSize: "0.7rem", marginTop: "4px" }}>{errors.document}</p>
                 )}
               </div>
 
-              {/* Fechas */}
+              {/* Teléfono */}
+              <div>
+                <label style={{ display: "flex", alignItems: "center", gap: "8px", fontSize: "0.8rem", fontWeight: 600, color: "#4B5563", marginBottom: "8px" }}>
+                  <MaterialIcon name="phone" style={{ fontSize: "18px", color: "#8C7354" }} />
+                  Número de teléfono
+                </label>
+                <input
+                  type="tel"
+                  name="phone"
+                  value={formData.phone}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  placeholder="300 000 0000"
+                  style={{
+                    width: "100%",
+                    padding: "12px 16px",
+                    border: `1px solid ${errors.phone && touched.phone ? "#EF4444" : "#E5E7EB"}`,
+                    borderRadius: "12px",
+                    fontSize: "0.9rem",
+                    outline: "none",
+                    background: "#f7f7f7"
+                  }}
+                  onFocus={(e) => e.target.style.borderColor = "#8C7354"}
+                />
+                {errors.phone && touched.phone && (
+                  <p style={{ color: "#EF4444", fontSize: "0.7rem", marginTop: "4px" }}>{errors.phone}</p>
+                )}
+              </div>
+
+              {/* Rol y Estado en grid */}
               <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "16px" }}>
                 <div>
                   <label style={{ display: "flex", alignItems: "center", gap: "8px", fontSize: "0.8rem", fontWeight: 600, color: "#4B5563", marginBottom: "8px" }}>
-                    <MaterialIcon name="calendar_today" style={{ fontSize: "18px", color: "#8C7354" }} />
-                    Fecha inicio
+                    <MaterialIcon name="badge" style={{ fontSize: "18px", color: "#8C7354" }} />
+                    Rol
                   </label>
-                  <input
-                    type="date"
-                    name="startDate"
-                    value={formData.startDate}
+                  <select
+                    name="role"
+                    value={formData.role}
                     onChange={handleChange}
                     onBlur={handleBlur}
                     style={{
                       width: "100%",
                       padding: "12px 16px",
-                      border: `1px solid ${errors.startDate && touched.startDate ? "#EF4444" : "#E5E7EB"}`,
+                      border: `1px solid ${errors.role && touched.role ? "#EF4444" : "#E5E7EB"}`,
                       borderRadius: "12px",
                       fontSize: "0.9rem",
+                      background: "white",
                       outline: "none",
-                      background: "#f7f7f7"
+                      cursor: "pointer"
                     }}
-                  />
-                  {errors.startDate && touched.startDate && (
-                    <p style={{ color: "#EF4444", fontSize: "0.7rem", marginTop: "4px" }}>{errors.startDate}</p>
+                  >
+                    {roleOptions.map(option => (
+                      <option key={option.value} value={option.value}>{option.label}</option>
+                    ))}
+                  </select>
+                  {errors.role && touched.role && (
+                    <p style={{ color: "#EF4444", fontSize: "0.7rem", marginTop: "4px" }}>{errors.role}</p>
                   )}
                 </div>
 
                 <div>
                   <label style={{ display: "flex", alignItems: "center", gap: "8px", fontSize: "0.8rem", fontWeight: 600, color: "#4B5563", marginBottom: "8px" }}>
-                    <MaterialIcon name="event" style={{ fontSize: "18px", color: "#8C7354" }} />
-                    Fecha límite
+                    <MaterialIcon name="check_circle" style={{ fontSize: "18px", color: "#8C7354" }} />
+                    Estado
                   </label>
-                  <input
-                    type="date"
-                    name="endDate"
-                    value={formData.endDate}
+                  <select
+                    name="status"
+                    value={formData.status}
                     onChange={handleChange}
                     onBlur={handleBlur}
                     style={{
                       width: "100%",
                       padding: "12px 16px",
-                      border: `1px solid ${errors.endDate && touched.endDate ? "#EF4444" : "#E5E7EB"}`,
+                      border: `1px solid ${errors.status && touched.status ? "#EF4444" : "#E5E7EB"}`,
                       borderRadius: "12px",
                       fontSize: "0.9rem",
+                      background: "white",
                       outline: "none",
-                      background: "#f7f7f7"
+                      cursor: "pointer"
                     }}
-                  />
-                  {errors.endDate && touched.endDate && (
-                    <p style={{ color: "#EF4444", fontSize: "0.7rem", marginTop: "4px" }}>{errors.endDate}</p>
+                  >
+                    {statusOptions.map(option => (
+                      <option key={option.value} value={option.value}>{option.label}</option>
+                    ))}
+                  </select>
+                  {errors.status && touched.status && (
+                    <p style={{ color: "#EF4444", fontSize: "0.7rem", marginTop: "4px" }}>{errors.status}</p>
                   )}
                 </div>
               </div>
@@ -373,7 +403,7 @@ const CrearCredito = () => {
               <div style={{ background: "#FEF3C7", borderRadius: "12px", padding: "12px 16px", border: "1px solid #FDE68A", marginTop: "8px" }}>
                 <p style={{ fontSize: "0.7rem", color: "#92400E", display: "flex", alignItems: "center", gap: "8px" }}>
                   <span style={{ width: "18px", height: "18px", background: "#F59E0B", borderRadius: "50%", display: "inline-flex", alignItems: "center", justifyContent: "center", color: "white", fontSize: "12px", fontWeight: "bold" }}>!</span>
-                  Asegúrese de verificar toda la documentación antes de proceder con el registro digital.
+                  Al crear un usuario, se enviará un correo electrónico con sus credenciales de acceso.
                 </p>
               </div>
 
@@ -406,8 +436,8 @@ const CrearCredito = () => {
                     <>Procesando...</>
                   ) : (
                     <>
-                      <MaterialIcon name="check_circle" style={{ fontSize: "18px" }} />
-                      Registrar Solicitud
+                      <MaterialIcon name="person_add" style={{ fontSize: "18px" }} />
+                      Registrar Usuario
                     </>
                   )}
                 </button>
@@ -440,4 +470,4 @@ const CrearCredito = () => {
   );
 };
 
-export default CrearCredito;
+export default CrearUsuario;

@@ -1,7 +1,12 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../Context/AuthContext";
-
+import {
+  showSuccess,
+  showError,
+  showWarning,
+  showDeactivateAccountModal,
+} from "../../Alerts";
 // Componente de íconos
 const MaterialIcon = ({ name, style = {} }) => (
   <span
@@ -17,9 +22,14 @@ const Configuracion = () => {
   const { user, logout } = useAuth();
 
   // Estados
-  const [theme, setTheme] = useState("claro");
+  const [theme, setTheme] = useState(() => {
+    const savedTheme = localStorage.getItem("comfia_theme");
+    return savedTheme || "claro";
+  });
+  const [notificationsEnabled, setNotificationsEnabled] = useState(true);
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
 
   // Datos del perfil
   const [profile, setProfile] = useState({
@@ -27,34 +37,60 @@ const Configuracion = () => {
     email: "ejemplo@comfia.com",
   });
 
+  // Aplicar tema al body cuando cambie
+  useEffect(() => {
+    localStorage.setItem("comfia_theme", theme);
+    if (theme === "oscuro") {
+      document.body.style.backgroundColor = "#0F172A";
+      document.body.style.color = "#E2E8F0";
+    } else {
+      document.body.style.backgroundColor = "#F7F7F7";
+      document.body.style.color = "#1F2937";
+    }
+  }, [theme]);
+
   const handleLogout = () => {
     logout();
     navigate("/login");
   };
 
   const handleSaveChanges = () => {
-    alert("Cambios guardados correctamente");
+    showSuccess("Cambios guardados correctamente");
   };
 
-  const handleUpdatePassword = () => {
-    if (currentPassword && newPassword) {
-      alert("Contraseña actualizada correctamente");
-      setCurrentPassword("");
-      setNewPassword("");
-    } else {
-      alert("Por favor completa ambos campos");
+  // Actualizar contraseña
+  const handleUpdatePassword = async () => {
+    if (!currentPassword || !newPassword) {
+      showWarning("Por favor completa ambos campos");
+      return;
     }
+
+    if (newPassword !== confirmPassword) {
+      showError("Las contraseñas nuevas no coinciden");
+      return;
+    }
+
+    if (newPassword.length < 6) {
+      showWarning("La contraseña debe tener al menos 6 caracteres");
+      return;
+    }
+
+    showSuccess("Contraseña actualizada correctamente");
+    setCurrentPassword("");
+    setNewPassword("");
+    setConfirmPassword("");
   };
 
-  const handleDeactivateAccount = () => {
-    if (
-      window.confirm(
-        "¿Estás seguro de que deseas desactivar tu cuenta? Esta acción es irreversible.",
-      )
-    ) {
-      alert("Cuenta desactivada");
-      logout();
-      navigate("/login");
+  //desactivar cuenta
+  const handleDeactivateAccount = async () => {
+    const result = await showDeactivateAccountModal();
+
+    if (result.isConfirmed) {
+      showSuccess("Cuenta desactivada correctamente");
+      setTimeout(() => {
+        logout();
+        navigate("/login");
+      }, 2000);
     }
   };
 
@@ -79,32 +115,47 @@ const Configuracion = () => {
     },
   ];
 
+  // Estilos dinámicos según el tema - Mejorados para modo oscuro elegante
+  const getBgColor = () => (theme === "oscuro" ? "#0F172A" : "#F7F7F7"); // slate-900
+  const getCardBgColor = () => (theme === "oscuro" ? "#1E293B" : "white"); // slate-800
+  const getSidebarBg = () => (theme === "oscuro" ? "#1E293B" : "#FFF5AC");
+  const getTextColor = () => (theme === "oscuro" ? "#F1F5F9" : "#1F2937");
+  const getSecondaryTextColor = () =>
+    theme === "oscuro" ? "#94A3B8" : "#6B7280";
+  const getBorderColor = () => (theme === "oscuro" ? "#334155" : "#F0F0F0");
+  const getInputBgColor = () => (theme === "oscuro" ? "#0F172A" : "#F9FAFB");
+  const getInputBorderColor = () =>
+    theme === "oscuro" ? "#475569" : "#E5E7EB";
+  const getButtonHover = () => (theme === "oscuro" ? "#6B5740" : "#6B5740");
+
   return (
     <div
       style={{
         display: "flex",
         minHeight: "100vh",
-        background: "#F7F7F7",
+        background: getBgColor(),
         fontFamily: "Inter, Poppins, sans-serif",
+        transition: "all 0.3s ease",
       }}
     >
       {/* MENÚ LATERAL IZQUIERDO */}
       <div
         style={{
           width: "260px",
-          background: "#FFF5AC",
+          background: getSidebarBg(),
           display: "flex",
           flexDirection: "column",
           position: "sticky",
           top: 0,
           height: "100vh",
+          transition: "all 0.3s ease",
         }}
       >
         {/* Logo */}
         <div
           style={{
             padding: "28px 20px",
-            borderBottom: "1px solid rgba(0,0,0,0.05)",
+            borderBottom: `1px solid ${theme === "oscuro" ? "#334155" : "rgba(0,0,0,0.05)"}`,
           }}
         >
           <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
@@ -128,7 +179,7 @@ const Configuracion = () => {
             <div>
               <span
                 style={{
-                  color: "#8C7354",
+                  color: theme === "oscuro" ? "white" : "#8C7354",
                   fontWeight: "bold",
                   fontSize: "1.2rem",
                 }}
@@ -138,7 +189,7 @@ const Configuracion = () => {
               <p
                 style={{
                   fontSize: "0.6rem",
-                  color: "#6B7280",
+                  color: theme === "oscuro" ? "#94A3B8" : "#6B7280",
                   marginTop: "2px",
                 }}
               >
@@ -164,12 +215,22 @@ const Configuracion = () => {
                 cursor: "pointer",
                 transition: "all 0.2s",
                 background: item.active ? "#8C7354" : "transparent",
-                color: item.active ? "white" : "#6B7280",
+                color: item.active
+                  ? "white"
+                  : theme === "oscuro"
+                    ? "#94A3B8"
+                    : "#6B7280",
               }}
             >
               <MaterialIcon
                 name={item.icon}
-                style={{ color: item.active ? "white" : "#6B7280" }}
+                style={{
+                  color: item.active
+                    ? "white"
+                    : theme === "oscuro"
+                      ? "#94A3B8"
+                      : "#6B7280",
+                }}
               />
               <span style={{ fontSize: "0.9rem", fontWeight: 500 }}>
                 {item.name}
@@ -180,9 +241,11 @@ const Configuracion = () => {
 
         {/* Usuario y cerrar sesión */}
         <div
-          style={{ padding: "20px", borderTop: "1px solid rgba(0,0,0,0.05)" }}
+          style={{
+            padding: "20px",
+            borderTop: `1px solid ${theme === "oscuro" ? "#334155" : "rgba(0,0,0,0.05)"}`,
+          }}
         >
-          {/* ✅ Envuelve el avatar y nombre en un div clickeable */}
           <div
             onClick={() => navigate("/perfil")}
             style={{
@@ -195,7 +258,10 @@ const Configuracion = () => {
               padding: "4px 8px",
               transition: "background 0.2s",
             }}
-            onMouseEnter={(e) => (e.currentTarget.style.background = "#E8E0A0")}
+            onMouseEnter={(e) =>
+              (e.currentTarget.style.background =
+                theme === "oscuro" ? "#334155" : "#E8E0A0")
+            }
             onMouseLeave={(e) =>
               (e.currentTarget.style.background = "transparent")
             }
@@ -218,11 +284,20 @@ const Configuracion = () => {
             </div>
             <div>
               <p
-                style={{ color: "#8C7354", fontSize: "1rem", fontWeight: 600 }}
+                style={{
+                  color: theme === "oscuro" ? "white" : "#8C7354",
+                  fontSize: "1rem",
+                  fontWeight: 600,
+                }}
               >
                 {user?.name || "Admin User"}
               </p>
-              <p style={{ color: "#9CA3AF", fontSize: "0.75rem" }}>
+              <p
+                style={{
+                  color: theme === "oscuro" ? "#94A3B8" : "#9CA3AF",
+                  fontSize: "0.75rem",
+                }}
+              >
                 Administrador
               </p>
             </div>
@@ -237,9 +312,9 @@ const Configuracion = () => {
               gap: "10px",
               padding: "10px 14px",
               background: "transparent",
-              border: "1px solid #E5E7EB",
+              border: `1px solid ${theme === "oscuro" ? "#475569" : "#E5E7EB"}`,
               borderRadius: "10px",
-              color: "#6B7280",
+              color: theme === "oscuro" ? "#94A3B8" : "#6B7280",
               fontSize: "0.95rem",
               cursor: "pointer",
             }}
@@ -261,7 +336,13 @@ const Configuracion = () => {
             marginBottom: "24px",
           }}
         >
-          <h1 style={{ fontSize: "1.8rem", fontWeight: 800, color: "#1F2937" }}>
+          <h1
+            style={{
+              fontSize: "1.8rem",
+              fontWeight: 800,
+              color: getTextColor(),
+            }}
+          >
             Configuración
           </h1>
           <button
@@ -277,28 +358,35 @@ const Configuracion = () => {
               justifyContent: "center",
               transition: "background 0.2s",
             }}
-            onMouseEnter={(e) => (e.currentTarget.style.background = "#F3F4F6")}
+            onMouseEnter={(e) =>
+              (e.currentTarget.style.background =
+                theme === "oscuro" ? "#334155" : "#F3F4F6")
+            }
             onMouseLeave={(e) =>
               (e.currentTarget.style.background = "transparent")
             }
           >
             <MaterialIcon
               name="notifications_none"
-              style={{ color: "#6B7280", fontSize: "24px" }}
+              style={{
+                color: theme === "oscuro" ? "#94A3B8" : "#6B7280",
+                fontSize: "24px",
+              }}
             />
           </button>
         </div>
 
-        <hr style={{ marginBottom: "32px", borderColor: "#F0F0F0" }} />
+        <hr style={{ marginBottom: "32px", borderColor: getBorderColor() }} />
 
-        {/*Información del Perfil*/}
+        {/* Información del Perfil */}
         <div
           style={{
-            background: "white",
+            background: getCardBgColor(),
             borderRadius: "16px",
             padding: "24px",
             marginBottom: "24px",
             boxShadow: "0 1px 3px rgba(0,0,0,0.05)",
+            border: `1px solid ${getBorderColor()}`,
           }}
         >
           <div
@@ -314,7 +402,7 @@ const Configuracion = () => {
                 style={{
                   fontSize: "1.2rem",
                   fontWeight: 600,
-                  color: "#1F2937",
+                  color: getTextColor(),
                 }}
               >
                 Información del Perfil
@@ -322,7 +410,7 @@ const Configuracion = () => {
               <p
                 style={{
                   fontSize: "0.95rem",
-                  color: "#6B7280",
+                  color: getSecondaryTextColor(),
                   marginTop: "4px",
                 }}
               >
@@ -340,7 +428,14 @@ const Configuracion = () => {
                 fontSize: "0.95rem",
                 fontWeight: 500,
                 cursor: "pointer",
+                transition: "all 0.2s",
               }}
+              onMouseEnter={(e) =>
+                (e.currentTarget.style.background = getButtonHover())
+              }
+              onMouseLeave={(e) =>
+                (e.currentTarget.style.background = "#8C7354")
+              }
             >
               Guardar Cambios
             </button>
@@ -353,7 +448,6 @@ const Configuracion = () => {
               gap: "32px",
             }}
           >
-            {/* Columna Izquierda - Campos */}
             <div>
               <div style={{ marginBottom: "20px" }}>
                 <label
@@ -377,11 +471,12 @@ const Configuracion = () => {
                   style={{
                     width: "100%",
                     padding: "10px 14px",
-                    border: "1px solid #E5E7EB",
+                    border: `1px solid ${getInputBorderColor()}`,
                     borderRadius: "10px",
-                    fontSize: "0.85rem",
-                    background: "#F9FAFB",
+                    fontSize: "0.95rem",
+                    background: getInputBgColor(),
                     outline: "none",
+                    color: getTextColor(),
                   }}
                 />
               </div>
@@ -407,17 +502,17 @@ const Configuracion = () => {
                   style={{
                     width: "100%",
                     padding: "10px 14px",
-                    border: "1px solid #E5E7EB",
+                    border: `1px solid ${getInputBorderColor()}`,
                     borderRadius: "10px",
-                    fontSize: "0.85rem",
-                    background: "#F9FAFB",
+                    fontSize: "0.95rem",
+                    background: getInputBgColor(),
                     outline: "none",
+                    color: getTextColor(),
                   }}
                 />
               </div>
             </div>
 
-            {/* Columna Derecha */}
             <div
               style={{
                 background: "#F4ECA6",
@@ -500,26 +595,31 @@ const Configuracion = () => {
           </div>
         </div>
 
-        {/*Seguridad */}
+        {/* Seguridad */}
         <div
           style={{
-            background: "white",
+            background: getCardBgColor(),
             borderRadius: "16px",
             padding: "24px",
             marginBottom: "24px",
             boxShadow: "0 1px 3px rgba(0,0,0,0.05)",
+            border: `1px solid ${getBorderColor()}`,
           }}
         >
           <div style={{ marginBottom: "20px" }}>
             <h2
-              style={{ fontSize: "1.2rem", fontWeight: 600, color: "#1F2937" }}
+              style={{
+                fontSize: "1.2rem",
+                fontWeight: 600,
+                color: getTextColor(),
+              }}
             >
               Seguridad
             </h2>
             <p
               style={{
                 fontSize: "0.85rem",
-                color: "#6B7280",
+                color: getSecondaryTextColor(),
                 marginTop: "4px",
               }}
             >
@@ -547,7 +647,9 @@ const Configuracion = () => {
               >
                 CONTRASEÑA
               </p>
-              <p style={{ fontSize: "0.89rem", color: "#6B7280" }}>
+              <p
+                style={{ fontSize: "0.89rem", color: getSecondaryTextColor() }}
+              >
                 Actualiza tu contraseña periódicamente para mantener tu cuenta
                 segura.
               </p>
@@ -561,11 +663,13 @@ const Configuracion = () => {
                 style={{
                   width: "100%",
                   padding: "10px 14px",
-                  border: "1px solid #E5E7EB",
+                  border: `1px solid ${getInputBorderColor()}`,
                   borderRadius: "10px",
                   fontSize: "0.95rem",
                   marginBottom: "12px",
                   outline: "none",
+                  background: getInputBgColor(),
+                  color: getTextColor(),
                 }}
               />
               <input
@@ -576,10 +680,12 @@ const Configuracion = () => {
                 style={{
                   width: "100%",
                   padding: "10px 14px",
-                  border: "1px solid #E5E7EB",
+                  border: `1px solid ${getInputBorderColor()}`,
                   borderRadius: "10px",
                   fontSize: "0.95rem",
                   outline: "none",
+                  background: getInputBgColor(),
+                  color: getTextColor(),
                 }}
               />
             </div>
@@ -601,17 +707,18 @@ const Configuracion = () => {
             ACTUALIZAR CONTRASEÑA
           </button>
 
-          <hr style={{ marginTop: "20px", borderColor: "#F0F0F0" }} />
+          <hr style={{ marginTop: "20px", borderColor: getBorderColor() }} />
         </div>
 
-        {/* Apariencia*/}
+        {/* Apariencia */}
         <div
           style={{
-            background: "white",
+            background: getCardBgColor(),
             borderRadius: "16px",
             padding: "24px",
             marginBottom: "24px",
             boxShadow: "0 1px 3px rgba(0,0,0,0.05)",
+            border: `1px solid ${getBorderColor()}`,
           }}
         >
           <h2
@@ -636,9 +743,11 @@ const Configuracion = () => {
                 justifyContent: "space-between",
                 padding: "12px 16px",
                 border:
-                  theme === "claro" ? "2px solid #8C6A3D" : "1px solid #E5E7EB",
+                  theme === "claro"
+                    ? "2px solid #8C6A3D"
+                    : `1px solid ${getBorderColor()}`,
                 borderRadius: "12px",
-                background: theme === "claro" ? "#F9FAFB" : "white",
+                background: theme === "claro" ? "#F9FAFB" : getCardBgColor(),
                 cursor: "pointer",
               }}
             >
@@ -646,7 +755,7 @@ const Configuracion = () => {
                 style={{ display: "flex", alignItems: "center", gap: "10px" }}
               >
                 <MaterialIcon name="light_mode" style={{ color: "#F59E0B" }} />
-                <span style={{ fontSize: "0.85rem", color: "#1F2937" }}>
+                <span style={{ fontSize: "0.95rem", color: getTextColor() }}>
                   Modo Claro
                 </span>
               </div>
@@ -658,7 +767,7 @@ const Configuracion = () => {
                   border:
                     theme === "claro"
                       ? "5px solid #8C6A3D"
-                      : "1px solid #D1D5DB",
+                      : `1px solid ${getBorderColor()}`,
                   background: theme === "claro" ? "#8C6A3D" : "transparent",
                 }}
               ></div>
@@ -675,17 +784,17 @@ const Configuracion = () => {
                 border:
                   theme === "oscuro"
                     ? "2px solid #8C6A3D"
-                    : "1px solid #E5E7EB",
+                    : `1px solid ${getBorderColor()}`,
                 borderRadius: "12px",
-                background: theme === "oscuro" ? "#F9FAFB" : "white",
+                background: theme === "oscuro" ? "#334155" : getCardBgColor(),
                 cursor: "pointer",
               }}
             >
               <div
                 style={{ display: "flex", alignItems: "center", gap: "10px" }}
               >
-                <MaterialIcon name="dark_mode" style={{ color: "#1F2937" }} />
-                <span style={{ fontSize: "0.85rem", color: "#1F2937" }}>
+                <MaterialIcon name="dark_mode" style={{ color: "#94A3B8" }} />
+                <span style={{ fontSize: "0.95rem", color: getTextColor() }}>
                   Modo Oscuro
                 </span>
               </div>
@@ -697,7 +806,7 @@ const Configuracion = () => {
                   border:
                     theme === "oscuro"
                       ? "5px solid #8C6A3D"
-                      : "1px solid #D1D5DB",
+                      : `1px solid ${getBorderColor()}`,
                   background: theme === "oscuro" ? "#8C6A3D" : "transparent",
                 }}
               ></div>
@@ -705,13 +814,85 @@ const Configuracion = () => {
           </div>
         </div>
 
-        {/*DESACTIVAR */}
+        {/* NOTIFICACIONES */}
         <div
           style={{
-            background: "#FEF2F2",
+            background: getCardBgColor(),
             borderRadius: "16px",
             padding: "24px",
-            border: "1px solid #FEE2E2",
+            marginBottom: "24px",
+            boxShadow: "0 1px 3px rgba(0,0,0,0.05)",
+            border: `1px solid ${getBorderColor()}`,
+          }}
+        >
+          <h2
+            style={{
+              fontSize: "0.85rem",
+              fontWeight: 600,
+              color: "#9CA3AF",
+              letterSpacing: "1px",
+              marginBottom: "16px",
+            }}
+          >
+            NOTIFICACIONES
+          </h2>
+
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+            }}
+          >
+            <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+              <MaterialIcon
+                name="notifications"
+                style={{ color: theme === "oscuro" ? "#94A3B8" : "#6B7280" }}
+              />
+              <span style={{ fontSize: "0.95rem", color: getTextColor() }}>
+                Alertas de Crédito
+              </span>
+            </div>
+            <button
+              onClick={() => setNotificationsEnabled(!notificationsEnabled)}
+              style={{
+                width: "44px",
+                height: "24px",
+                background: notificationsEnabled
+                  ? "#8C6A3D"
+                  : theme === "oscuro"
+                    ? "#475569"
+                    : "#D1D5DB",
+                borderRadius: "12px",
+                border: "none",
+                cursor: "pointer",
+                position: "relative",
+                transition: "all 0.2s",
+              }}
+            >
+              <div
+                style={{
+                  width: "20px",
+                  height: "20px",
+                  background: "white",
+                  borderRadius: "50%",
+                  position: "absolute",
+                  top: "2px",
+                  left: notificationsEnabled ? "22px" : "2px",
+                  transition: "left 0.2s",
+                }}
+              ></div>
+            </button>
+          </div>
+        </div>
+
+        {/* DESACTIVAR CUENTA */}
+        <div
+          style={{
+            background: theme === "oscuro" ? "#1E293B" : "#FEF2F2",
+            borderRadius: "16px",
+            padding: "24px",
+            border: `1px solid ${theme === "oscuro" ? "#334155" : "#FEE2E2"}`,
           }}
         >
           <div
@@ -726,15 +907,17 @@ const Configuracion = () => {
             <div>
               <p
                 style={{
-                  fontSize: "0.85rem",
-                  color: "#DC2626",
+                  fontSize: "0.95rem",
+                  color: theme === "oscuro" ? "#F87171" : "#DC2626",
                   fontWeight: 500,
                   marginBottom: "4px",
                 }}
               >
                 Ten en cuenta que estas acciones son irreversibles
               </p>
-              <p style={{ fontSize: "0.75rem", color: "#6B7280" }}>
+              <p
+                style={{ fontSize: "0.75rem", color: getSecondaryTextColor() }}
+              >
                 y pueden afectar el acceso a tus datos.
               </p>
             </div>

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../Context/AuthContext";
+import { showConfirm, showSuccess, showError } from "../../Alerts";
 
 // Componente de íconos
 const MaterialIcon = ({ name, style = {} }) => (
@@ -34,7 +35,7 @@ const ListaUsuarios = () => {
   };
 
   // Datos simulados de usuarios
-  const users = [
+  const  [users, setUsers] = useState([
     {
       id: 1,
       name: "Juan Pérez",
@@ -63,7 +64,7 @@ const ListaUsuarios = () => {
       role: "Visualizador",
       status: "Activo",
     },
-  ];
+  ]);
 
   // Filtrar usuarios
   const filteredUsers = users.filter((user) => {
@@ -145,6 +146,29 @@ const ListaUsuarios = () => {
         return { color: "#6B7280", bg: "#F3F4F6" };
     }
   };
+
+  //eliminar usuario
+  const handleDelete = async (id, name) => {
+  const result = await showConfirm(
+    `¿Estás seguro de eliminar al usuario "${name}"? Esta acción no se puede deshacer`,
+    "Confirmar  Eliminación Usuarios",
+    "Eliminar",
+    "Cancelar"
+  );
+  
+  if (result.isConfirmed) {
+    try {
+      setUsers(users.filter(u => u.id !== id));
+      showSuccess(`Usuario "${name}" eliminado correctamente`);
+      if (paginatedUsers.length === 1 && currentPage > 1) {
+        setCurrentPage(currentPage - 1);
+      }
+    } catch (error) {
+        console.error("Error al eliminar:", error);
+        showError(error.message ||"Ocurrió un error al eliminar el usuario");
+      }
+  }
+};
 
   return (
     <div style={{ display: "flex", minHeight: "100vh", background: "#F3F4F6" }}>
@@ -634,7 +658,7 @@ const ListaUsuarios = () => {
                         >
                           <button
                             onClick={() =>
-                              navigate(`/usuarios/${user.id}/editar`)
+                              navigate(`/usuarios/editar/${user.id}`)
                             }
                             style={{
                               background: "none",
@@ -649,14 +673,9 @@ const ListaUsuarios = () => {
                             />
                           </button>
                           <button
-                            onClick={() => {
-                              if (
-                                window.confirm(
-                                  "¿Estás seguro de eliminar este usuario?",
-                                )
-                              ) {
-                              }
-                            }}
+                            onClick={() =>
+                              handleDelete(user.id, user.name)
+                            }
                             style={{
                               background: "none",
                               border: "none",
