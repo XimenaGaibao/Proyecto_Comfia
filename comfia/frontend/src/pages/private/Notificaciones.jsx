@@ -42,6 +42,7 @@ const Notificaciones = () => {
       icon: "settings",
       active: false,
     },
+    { name: "Reportes", path: "/reportes", icon: "assessment", active: false },
   ];
 
   return (
@@ -78,7 +79,7 @@ const Notificaciones = () => {
               }}
             >
               <span
-                style={{ color: "white", fontWeight: "bold", fontSize: "18px" }}
+                style={{ color: "white", fontWeight: "bold", fontSize: "20px" }}
               >
                 C
               </span>
@@ -88,14 +89,14 @@ const Notificaciones = () => {
                 style={{
                   color: "#8C7354",
                   fontWeight: "bold",
-                  fontSize: "1.25rem",
+                  fontSize: "1.5rem",
                 }}
               >
                 COMFÍA
               </span>
               <p
                 style={{
-                  fontSize: "0.6rem",
+                  fontSize: "0.85rem",
                   color: "#6B7280",
                   marginTop: "2px",
                 }}
@@ -129,7 +130,7 @@ const Notificaciones = () => {
                 name={item.icon}
                 style={{ color: item.active ? "white" : "#6B7280" }}
               />
-              <span style={{ fontSize: "0.9rem", fontWeight: 500 }}>
+              <span style={{ fontSize: "1.4rem", fontWeight: 500 }}>
                 {item.name}
               </span>
             </div>
@@ -171,18 +172,18 @@ const Notificaciones = () => {
                 justifyContent: "center",
                 color: "white",
                 fontWeight: "bold",
-                fontSize: "16px",
+                fontSize: "20px",
               }}
             >
               {user?.name?.charAt(0) || "A"}
             </div>
             <div>
               <p
-                style={{ color: "#8C7354", fontSize: "1rem", fontWeight: 600 }}
+                style={{ color: "#8C7354", fontSize: "1.3rem", fontWeight: 600 }}
               >
                 {user?.name || "Admin User"}
               </p>
-              <p style={{ color: "#9CA3AF", fontSize: "0.75rem" }}>
+              <p style={{ color: "#9CA3AF", fontSize: "1rem" }}>
                 Administrador
               </p>
             </div>
@@ -204,7 +205,7 @@ const Notificaciones = () => {
               cursor: "pointer",
             }}
           >
-            <MaterialIcon name="logout" style={{ fontSize: "18px" }} />
+            <MaterialIcon name="logout" style={{ fontSize: "20px" }} />
             Cerrar Sesión
           </button>
         </div>
@@ -225,7 +226,7 @@ const Notificaciones = () => {
         >
           <h2
             style={{
-              fontSize: "1.25rem",
+              fontSize: "1.5rem",
               fontWeight: 600,
               color: "#1F2937",
               margin: 0,
@@ -245,7 +246,7 @@ const Notificaciones = () => {
                   top: "50%",
                   transform: "translateY(-50%)",
                   color: "#9CA3AF",
-                  fontSize: "20px",
+                  fontSize: "22px",
                 }}
               />
               <input
@@ -257,7 +258,7 @@ const Notificaciones = () => {
                   padding: "8px 12px 8px 40px",
                   border: "1px solid #E5E7EB",
                   borderRadius: "20px",
-                  fontSize: "0.95rem",
+                  fontSize: "1.1rem",
                   width: "220px",
                   outline: "none",
                   background: "#F9FAFB",
@@ -268,8 +269,8 @@ const Notificaciones = () => {
             {/* Icono campana roja */}
             <div
               style={{
-                width: "36px",
-                height: "36px",
+                width: "40px",
+                height: "40px",
                 background: "#FEE2E2",
                 borderRadius: "50%",
                 display: "flex",
@@ -280,7 +281,7 @@ const Notificaciones = () => {
             >
               <MaterialIcon
                 name="notifications"
-                style={{ fontSize: "20px", color: "#EF4444" }}
+                style={{ fontSize: "22px", color: "#EF4444" }}
               />
             </div>
           </div>
@@ -299,7 +300,7 @@ const Notificaciones = () => {
           >
             <h1
               style={{
-                fontSize: "1.8rem",
+                fontSize: "2rem",
                 fontWeight: 700,
                 color: "#1F2937",
                 margin: 0,
@@ -309,7 +310,7 @@ const Notificaciones = () => {
             </h1>
 
             {/* Filtros */}
-            <div style={{ display: "flex", gap: "8px" }}>
+            <div style={{ display: "flex", gap: "12px" }}>
               {["HOY", "AYER", "SEMANA"].map((item) => (
                 <button
                   key={item}
@@ -317,7 +318,7 @@ const Notificaciones = () => {
                   style={{
                     padding: "6px 16px",
                     borderRadius: "20px",
-                    fontSize: "0.85rem",
+                    fontSize: "1rem",
                     fontWeight: 500,
                     border: "none",
                     cursor: "pointer",
@@ -334,7 +335,7 @@ const Notificaciones = () => {
           </div>
 
           {/* NOTIFICACIONES */}
-          <div style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
+          <div style={{ display: "flex", flexDirection: "column", gap: "24px" }}>
             {/* Card 1 - Nuevo crédito registrado */}
             <div
               style={{
@@ -347,8 +348,8 @@ const Notificaciones = () => {
               <div style={{ display: "flex", gap: "14px" }}>
                 <div
                   style={{
-                    width: "40px",
-                    height: "40px",
+                    width: "44px",
+                    height: "44px",
                     background: "#FEF3C7",
                     borderRadius: "50%",
                     display: "flex",
@@ -358,7 +359,7 @@ const Notificaciones = () => {
                 >
                   <MaterialIcon
                     name="description"
-                    style={{ fontSize: "20px", color: "#F59E0B" }}
+                    style={{ fontSize: "22px", color: "#F59E0B" }}
                   />
                 </div>
                 <div style={{ flex: 1 }}>
@@ -372,7 +373,7 @@ const Notificaciones = () => {
                   >
                     <h3
                       style={{
-                        fontSize: "1.2rem",
+                        fontSize: "1.25rem",
                         fontWeight: 600,
                         color: "#1F2937",
                         margin: 0,
@@ -382,10 +383,10 @@ const Notificaciones = () => {
                     </h3>
                     <span
                       style={{
-                        fontSize: "0.8rem",
+                        fontSize: "0.9rem",
                         color: "#9CA3AF",
                         background: "#F3F4F6",
-                        padding: "2px 8px",
+                        padding: "2px 10px",
                         borderRadius: "12px",
                       }}
                     >
@@ -394,7 +395,7 @@ const Notificaciones = () => {
                   </div>
                   <p
                     style={{
-                      fontSize: "0.95rem",
+                      fontSize: "1rem",
                       color: "#6B7280",
                       marginBottom: "12px",
                       lineHeight: 1.4,
@@ -409,7 +410,7 @@ const Notificaciones = () => {
                         background: "none",
                         border: "none",
                         color: "#8C7354",
-                        fontSize: "0.85rem",
+                        fontSize: "0.95rem",
                         fontWeight: 500,
                         cursor: "pointer",
                       }}
@@ -421,7 +422,7 @@ const Notificaciones = () => {
                         background: "none",
                         border: "none",
                         color: "#6B7280",
-                        fontSize: "0.85rem",
+                        fontSize: "0.95rem",
                         fontWeight: 500,
                         cursor: "pointer",
                       }}
@@ -445,8 +446,8 @@ const Notificaciones = () => {
               <div style={{ display: "flex", gap: "14px" }}>
                 <div
                   style={{
-                    width: "40px",
-                    height: "40px",
+                    width: "44px",
+                    height: "44px",
                     background: "#EFF6FF",
                     borderRadius: "50%",
                     display: "flex",
@@ -456,7 +457,7 @@ const Notificaciones = () => {
                 >
                   <MaterialIcon
                     name="person"
-                    style={{ fontSize: "20px", color: "#3B82F6" }}
+                    style={{ fontSize: "22px", color: "#3B82F6" }}
                   />
                 </div>
                 <div style={{ flex: 1 }}>
@@ -480,10 +481,10 @@ const Notificaciones = () => {
                     </h3>
                     <span
                       style={{
-                        fontSize: "0.8rem",
+                        fontSize: "0.9rem",
                         color: "#9CA3AF",
                         background: "#F3F4F6",
-                        padding: "2px 8px",
+                        padding: "2px 10px",
                         borderRadius: "12px",
                       }}
                     >
@@ -492,7 +493,7 @@ const Notificaciones = () => {
                   </div>
                   <p
                     style={{
-                      fontSize: "0.95rem",
+                      fontSize: "1rem",
                       color: "#6B7280",
                       marginBottom: "12px",
                       lineHeight: 1.4,
@@ -506,7 +507,7 @@ const Notificaciones = () => {
                         background: "none",
                         border: "none",
                         color: "#8C7354",
-                        fontSize: "0.85rem",
+                        fontSize: "0.95rem",
                         fontWeight: 500,
                         cursor: "pointer",
                       }}
@@ -518,7 +519,7 @@ const Notificaciones = () => {
                         background: "none",
                         border: "none",
                         color: "#6B7280",
-                        fontSize: "0.85rem",
+                        fontSize: "0.95rem",
                         fontWeight: 500,
                         cursor: "pointer",
                       }}
@@ -543,8 +544,8 @@ const Notificaciones = () => {
               <div style={{ display: "flex", gap: "14px" }}>
                 <div
                   style={{
-                    width: "40px",
-                    height: "40px",
+                    width: "44px",
+                    height: "44px",
                     background: "#FEE2E2",
                     borderRadius: "50%",
                     display: "flex",
@@ -554,7 +555,7 @@ const Notificaciones = () => {
                 >
                   <MaterialIcon
                     name="security"
-                    style={{ fontSize: "20px", color: "#EF4444" }}
+                    style={{ fontSize: "22px", color: "#EF4444" }}
                   />
                 </div>
                 <div style={{ flex: 1 }}>
@@ -566,10 +567,10 @@ const Notificaciones = () => {
                       marginBottom: "8px",
                     }}
                   >
-                    <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+                    <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
                       <h3
                         style={{
-                          fontSize: "1.2rem",
+                          fontSize: "1.25rem",
                           fontWeight: 600,
                           color: "#1F2937",
                           margin: 0,
@@ -579,11 +580,11 @@ const Notificaciones = () => {
                       </h3>
                       <span
                         style={{
-                          fontSize: "0.7rem",
+                          fontSize: "0.8rem",
                           fontWeight: 600,
                           color: "#EF4444",
                           background: "#FEE2E2",
-                          padding: "2px 8px",
+                          padding: "2px 10px",
                           borderRadius: "12px",
                         }}
                       >
@@ -592,10 +593,10 @@ const Notificaciones = () => {
                     </div>
                     <span
                       style={{
-                        fontSize: "0.8rem",
+                        fontSize: "0.9rem",
                         color: "#9CA3AF",
                         background: "#F3F4F6",
-                        padding: "2px 8px",
+                        padding: "2px 10px",
                         borderRadius: "12px",
                       }}
                     >
@@ -604,7 +605,7 @@ const Notificaciones = () => {
                   </div>
                   <p
                     style={{
-                      fontSize: "0.95rem",
+                      fontSize: "1rem",
                       color: "#6B7280",
                       marginBottom: "12px",
                       lineHeight: 1.4,
@@ -619,7 +620,7 @@ const Notificaciones = () => {
                         background: "#EF4444",
                         border: "none",
                         color: "white",
-                        fontSize: "0.85rem",
+                        fontSize: "0.95rem",
                         fontWeight: 500,
                         padding: "6px 14px",
                         borderRadius: "6px",
@@ -633,7 +634,7 @@ const Notificaciones = () => {
                         background: "none",
                         border: "none",
                         color: "#6B7280",
-                        fontSize: "0.85rem",
+                        fontSize: "0.95rem",
                         fontWeight: 500,
                         cursor: "pointer",
                       }}

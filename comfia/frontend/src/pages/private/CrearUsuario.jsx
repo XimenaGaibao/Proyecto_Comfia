@@ -176,20 +176,20 @@ const CrearUsuario = () => {
       }}>
         <div onClick={() => navigate("/dashboard")} style={{ display: "flex", alignItems: "center", gap: "10px", cursor: "pointer" }}>
           <div style={{ width: "36px", height: "36px", background: "#8C7354", borderRadius: "10px", display: "flex", alignItems: "center", justifyContent: "center" }}>
-            <span style={{ color: "white", fontWeight: "bold", fontSize: "18px" }}>C</span>
+            <span style={{ color: "white", fontWeight: "bold", fontSize: "20px" }}>C</span>
           </div>
-          <span style={{ fontWeight: "bold", fontSize: "1.2rem", color: "#8C7354" }}>COMFÍA</span>
+          <span style={{ fontWeight: "bold", fontSize: "1.5rem", color: "#8C7354" }}>COMFÍA</span>
         </div>
 
         <div style={{ display: "flex", alignItems: "center", gap: "20px" }}>
           <button onClick={() => navigate("/notificaciones")} style={{ background: "none", border: "none", cursor: "pointer", padding: "8px", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", transition: "background 0.2s" }}
             onMouseEnter={(e) => e.currentTarget.style.background = "#F3F4F6"}
             onMouseLeave={(e) => e.currentTarget.style.background = "transparent"}>
-            <MaterialIcon name="notifications_none" style={{ fontSize: "22px", color: "#4B5563" }} />
+            <MaterialIcon name="notifications_none" style={{ fontSize: "24px", color: "#4B5563" }} />
           </button>
 
           <button onClick={() => navigate("/perfil")} style={{ background: "none", border: "none", cursor: "pointer", padding: "4px", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center" }}>
-            <div style={{ width: "36px", height: "36px", background: "#8C7354", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", color: "white", fontWeight: "bold", fontSize: "16px" }}>
+            <div style={{ width: "36px", height: "36px", background: "#8C7354", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", color: "white", fontWeight: "bold", fontSize: "20px" }}>
               {user?.name?.charAt(0) || "A"}
             </div>
           </button>
@@ -200,16 +200,16 @@ const CrearUsuario = () => {
       <div style={{ flex: 1, display: "flex", alignItems: "center", justifyContent: "center", padding: "40px" }}>
         
         {/* Tarjeta del formulario */}
-        <div style={{ width: "100%", maxWidth: "600px", background: "white", borderRadius: "24px", boxShadow: "0 10px 30px rgba(0,0,0,0.1)", overflow: "hidden" }}>
+        <div style={{ width: "100%", maxWidth: "700px", background: "white", borderRadius: "24px", boxShadow: "0 10px 30px rgba(0,0,0,0.1)", overflow: "hidden" }}>
           
           <div style={{ padding: "24px 32px", borderBottom: "1px solid #F0F0F0" }}>
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
               <div>
-                <h1 style={{ fontSize: "1.6rem", fontWeight: 700, color: "#1F2937" }}>Registrar Usuario</h1>
-                <p style={{ fontSize: "0.8rem", color: "#6B7280", marginTop: "4px" }}>Complete la información para crear un nuevo usuario en el sistema.</p>
+                <h1 style={{ fontSize: "2rem", fontWeight: 700, color: "#1F2937" }}>Registrar Usuario</h1>
+                <p style={{ fontSize: "1.2rem", color: "#6B7280", marginTop: "4px" }}>Complete la información para crear un nuevo usuario en el sistema.</p>
               </div>
               <button onClick={() => navigate("/usuarios")} style={{ padding: "8px", background: "transparent", border: "none", cursor: "pointer", borderRadius: "8px" }}>
-                <MaterialIcon name="close" style={{ color: "#6B7280" }} />
+                <MaterialIcon name="close" style={{ color: "#6B7280", fontSize: "20px" }} />
               </button>
             </div>
           </div>
@@ -219,8 +219,8 @@ const CrearUsuario = () => {
               
               {/* Nombre completo */}
               <div>
-                <label style={{ display: "flex", alignItems: "center", gap: "8px", fontSize: "0.8rem", fontWeight: 600, color: "#4B5563", marginBottom: "8px" }}>
-                  <MaterialIcon name="person" style={{ fontSize: "18px", color: "#8C7354" }} />
+                <label style={{ display: "flex", alignItems: "center", gap: "8px", fontSize: "1rem", fontWeight: 600, color: "#4B5563", marginBottom: "8px" }}>
+                  <MaterialIcon name="person" style={{ fontSize: "22px", color: "#8C7354" }} />
                   Nombre completo
                 </label>
                 <input
@@ -235,7 +235,7 @@ const CrearUsuario = () => {
                     padding: "12px 16px",
                     border: `1px solid ${errors.name && touched.name ? "#EF4444" : "#E5E7EB"}`,
                     borderRadius: "12px",
-                    fontSize: "0.9rem",
+                    fontSize: "1.2rem",
                     outline: "none",
                     transition: "all 0.2s",
                     background: "#f7f7f7"
@@ -243,16 +243,16 @@ const CrearUsuario = () => {
                   onFocus={(e) => e.target.style.borderColor = "#8C7354"}
                 />
                 {errors.name && touched.name && (
-                  <p style={{ color: "#EF4444", fontSize: "0.7rem", marginTop: "4px", display: "flex", alignItems: "center", gap: "4px" }}>
-                    <MaterialIcon name="error" style={{ fontSize: "14px" }} /> {errors.name}
+                  <p style={{ color: "#EF4444", fontSize: "1rem", marginTop: "4px", display: "flex", alignItems: "center", gap: "4px" }}>
+                    <MaterialIcon name="error" style={{ fontSize: "16px" }} /> {errors.name}
                   </p>
                 )}
               </div>
 
               {/* Correo electrónico */}
               <div>
-                <label style={{ display: "flex", alignItems: "center", gap: "8px", fontSize: "0.8rem", fontWeight: 600, color: "#4B5563", marginBottom: "8px" }}>
-                  <MaterialIcon name="mail" style={{ fontSize: "18px", color: "#8C7354" }} />
+                <label style={{ display: "flex", alignItems: "center", gap: "8px", fontSize: "1rem", fontWeight: 600, color: "#4B5563", marginBottom: "8px" }}>
+                  <MaterialIcon name="mail" style={{ fontSize: "22px", color: "#8C7354" }} />
                   Correo electrónico
                 </label>
                 <input
@@ -267,21 +267,21 @@ const CrearUsuario = () => {
                     padding: "12px 16px",
                     border: `1px solid ${errors.email && touched.email ? "#EF4444" : "#E5E7EB"}`,
                     borderRadius: "12px",
-                    fontSize: "0.9rem",
+                    fontSize: "1.2rem",
                     outline: "none",
                     background: "#f7f7f7"
                   }}
                   onFocus={(e) => e.target.style.borderColor = "#8C7354"}
                 />
                 {errors.email && touched.email && (
-                  <p style={{ color: "#EF4444", fontSize: "0.7rem", marginTop: "4px" }}>{errors.email}</p>
+                  <p style={{ color: "#EF4444", fontSize: "1rem", marginTop: "4px" }}>{errors.email}</p>
                 )}
               </div>
 
               {/* Número de identificación */}
               <div>
-                <label style={{ display: "flex", alignItems: "center", gap: "8px", fontSize: "0.8rem", fontWeight: 600, color: "#4B5563", marginBottom: "8px" }}>
-                  <MaterialIcon name="credit_card" style={{ fontSize: "18px", color: "#8C7354" }} />
+                <label style={{ display: "flex", alignItems: "center", gap: "8px", fontSize: "1rem", fontWeight: 600, color: "#4B5563", marginBottom: "8px" }}>
+                  <MaterialIcon name="credit_card" style={{ fontSize: "22px", color: "#8C7354" }} />
                   Número de identificación (CC)
                 </label>
                 <input
@@ -296,21 +296,21 @@ const CrearUsuario = () => {
                     padding: "12px 16px",
                     border: `1px solid ${errors.document && touched.document ? "#EF4444" : "#E5E7EB"}`,
                     borderRadius: "12px",
-                    fontSize: "0.9rem",
+                    fontSize: "1.2rem",
                     outline: "none",
                     background: "#f7f7f7"
                   }}
                   onFocus={(e) => e.target.style.borderColor = "#8C7354"}
                 />
                 {errors.document && touched.document && (
-                  <p style={{ color: "#EF4444", fontSize: "0.7rem", marginTop: "4px" }}>{errors.document}</p>
+                  <p style={{ color: "#EF4444", fontSize: "1rem", marginTop: "4px" }}>{errors.document}</p>
                 )}
               </div>
 
               {/* Teléfono */}
               <div>
-                <label style={{ display: "flex", alignItems: "center", gap: "8px", fontSize: "0.8rem", fontWeight: 600, color: "#4B5563", marginBottom: "8px" }}>
-                  <MaterialIcon name="phone" style={{ fontSize: "18px", color: "#8C7354" }} />
+                <label style={{ display: "flex", alignItems: "center", gap: "8px", fontSize: "1rem", fontWeight: 600, color: "#4B5563", marginBottom: "8px" }}>
+                  <MaterialIcon name="phone" style={{ fontSize: "22px", color: "#8C7354" }} />
                   Número de teléfono
                 </label>
                 <input
@@ -325,22 +325,22 @@ const CrearUsuario = () => {
                     padding: "12px 16px",
                     border: `1px solid ${errors.phone && touched.phone ? "#EF4444" : "#E5E7EB"}`,
                     borderRadius: "12px",
-                    fontSize: "0.9rem",
+                    fontSize: "1.2rem",
                     outline: "none",
                     background: "#f7f7f7"
                   }}
                   onFocus={(e) => e.target.style.borderColor = "#8C7354"}
                 />
                 {errors.phone && touched.phone && (
-                  <p style={{ color: "#EF4444", fontSize: "0.7rem", marginTop: "4px" }}>{errors.phone}</p>
+                  <p style={{ color: "#EF4444", fontSize: "1rem", marginTop: "4px" }}>{errors.phone}</p>
                 )}
               </div>
 
               {/* Rol y Estado en grid */}
               <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "16px" }}>
                 <div>
-                  <label style={{ display: "flex", alignItems: "center", gap: "8px", fontSize: "0.8rem", fontWeight: 600, color: "#4B5563", marginBottom: "8px" }}>
-                    <MaterialIcon name="badge" style={{ fontSize: "18px", color: "#8C7354" }} />
+                  <label style={{ display: "flex", alignItems: "center", gap: "8px", fontSize: "1rem", fontWeight: 600, color: "#4B5563", marginBottom: "8px" }}>
+                    <MaterialIcon name="badge" style={{ fontSize: "22px", color: "#8C7354" }} />
                     Rol
                   </label>
                   <select
@@ -353,7 +353,7 @@ const CrearUsuario = () => {
                       padding: "12px 16px",
                       border: `1px solid ${errors.role && touched.role ? "#EF4444" : "#E5E7EB"}`,
                       borderRadius: "12px",
-                      fontSize: "0.9rem",
+                      fontSize: "1.2rem",
                       background: "white",
                       outline: "none",
                       cursor: "pointer"
@@ -364,13 +364,13 @@ const CrearUsuario = () => {
                     ))}
                   </select>
                   {errors.role && touched.role && (
-                    <p style={{ color: "#EF4444", fontSize: "0.7rem", marginTop: "4px" }}>{errors.role}</p>
+                    <p style={{ color: "#EF4444", fontSize: "1rem", marginTop: "4px" }}>{errors.role}</p>
                   )}
                 </div>
 
                 <div>
-                  <label style={{ display: "flex", alignItems: "center", gap: "8px", fontSize: "0.8rem", fontWeight: 600, color: "#4B5563", marginBottom: "8px" }}>
-                    <MaterialIcon name="check_circle" style={{ fontSize: "18px", color: "#8C7354" }} />
+                  <label style={{ display: "flex", alignItems: "center", gap: "8px", fontSize: "1rem", fontWeight: 600, color: "#4B5563", marginBottom: "8px" }}>
+                    <MaterialIcon name="check_circle" style={{ fontSize: "22px", color: "#8C7354" }} />
                     Estado
                   </label>
                   <select
@@ -383,7 +383,7 @@ const CrearUsuario = () => {
                       padding: "12px 16px",
                       border: `1px solid ${errors.status && touched.status ? "#EF4444" : "#E5E7EB"}`,
                       borderRadius: "12px",
-                      fontSize: "0.9rem",
+                      fontSize: "1.2rem",
                       background: "white",
                       outline: "none",
                       cursor: "pointer"
@@ -394,15 +394,15 @@ const CrearUsuario = () => {
                     ))}
                   </select>
                   {errors.status && touched.status && (
-                    <p style={{ color: "#EF4444", fontSize: "0.7rem", marginTop: "4px" }}>{errors.status}</p>
+                    <p style={{ color: "#EF4444", fontSize: "1rem", marginTop: "4px" }}>{errors.status}</p>
                   )}
                 </div>
               </div>
 
               {/* Nota informativa */}
               <div style={{ background: "#FEF3C7", borderRadius: "12px", padding: "12px 16px", border: "1px solid #FDE68A", marginTop: "8px" }}>
-                <p style={{ fontSize: "0.7rem", color: "#92400E", display: "flex", alignItems: "center", gap: "8px" }}>
-                  <span style={{ width: "18px", height: "18px", background: "#F59E0B", borderRadius: "50%", display: "inline-flex", alignItems: "center", justifyContent: "center", color: "white", fontSize: "12px", fontWeight: "bold" }}>!</span>
+                <p style={{ fontSize: "1rem", color: "#92400E", display: "flex", alignItems: "center", gap: "8px" }}>
+                  <span style={{ width: "18px", height: "18px", background: "#F59E0B", borderRadius: "50%", display: "inline-flex", alignItems: "center", justifyContent: "center", color: "white", fontSize: "14px", fontWeight: "bold" }}>!</span>
                   Al crear un usuario, se enviará un correo electrónico con sus credenciales de acceso.
                 </p>
               </div>
@@ -419,7 +419,7 @@ const CrearUsuario = () => {
                     border: "none",
                     padding: "12px 24px",
                     borderRadius: "12px",
-                    fontSize: "0.9rem",
+                    fontSize: "1.2rem",
                     fontWeight: 600,
                     cursor: isSubmitting ? "not-allowed" : "pointer",
                     opacity: isSubmitting ? 0.7 : 1,
@@ -436,7 +436,7 @@ const CrearUsuario = () => {
                     <>Procesando...</>
                   ) : (
                     <>
-                      <MaterialIcon name="person_add" style={{ fontSize: "18px" }} />
+                      <MaterialIcon name="person_add" style={{ fontSize: "22px" }} />
                       Registrar Usuario
                     </>
                   )}
@@ -451,7 +451,7 @@ const CrearUsuario = () => {
                     color: "#6B7280",
                     padding: "12px 24px",
                     borderRadius: "12px",
-                    fontSize: "0.9rem",
+                    fontSize: "1.2rem",
                     fontWeight: 600,
                     cursor: "pointer",
                     transition: "all 0.2s"

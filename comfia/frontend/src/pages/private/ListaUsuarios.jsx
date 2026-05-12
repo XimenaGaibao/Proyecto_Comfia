@@ -35,7 +35,7 @@ const ListaUsuarios = () => {
   };
 
   // Datos simulados de usuarios
-  const  [users, setUsers] = useState([
+  const [users, setUsers] = useState([
     {
       id: 1,
       name: "Juan Pérez",
@@ -119,6 +119,7 @@ const ListaUsuarios = () => {
       icon: "settings",
       active: false,
     },
+    { name: "Reportes", path: "/reportes", icon: "assessment", active: false },
   ];
 
   // Estilos según el rol
@@ -149,26 +150,26 @@ const ListaUsuarios = () => {
 
   //eliminar usuario
   const handleDelete = async (id, name) => {
-  const result = await showConfirm(
-    `¿Estás seguro de eliminar al usuario "${name}"? Esta acción no se puede deshacer`,
-    "Confirmar  Eliminación Usuarios",
-    "Eliminar",
-    "Cancelar"
-  );
-  
-  if (result.isConfirmed) {
-    try {
-      setUsers(users.filter(u => u.id !== id));
-      showSuccess(`Usuario "${name}" eliminado correctamente`);
-      if (paginatedUsers.length === 1 && currentPage > 1) {
-        setCurrentPage(currentPage - 1);
-      }
-    } catch (error) {
+    const result = await showConfirm(
+      `¿Estás seguro de eliminar al usuario "${name}"? Esta acción no se puede deshacer`,
+      "Confirmar Eliminación Usuarios",
+      "Eliminar",
+      "Cancelar"
+    );
+    
+    if (result.isConfirmed) {
+      try {
+        setUsers(users.filter(u => u.id !== id));
+        showSuccess(`Usuario "${name}" eliminado correctamente`);
+        if (paginatedUsers.length === 1 && currentPage > 1) {
+          setCurrentPage(currentPage - 1);
+        }
+      } catch (error) {
         console.error("Error al eliminar:", error);
-        showError(error.message ||"Ocurrió un error al eliminar el usuario");
+        showError(error.message || "Ocurrió un error al eliminar el usuario");
       }
-  }
-};
+    }
+  };
 
   return (
     <div style={{ display: "flex", minHeight: "100vh", background: "#F3F4F6" }}>
@@ -204,7 +205,7 @@ const ListaUsuarios = () => {
               }}
             >
               <span
-                style={{ color: "white", fontWeight: "bold", fontSize: "18px" }}
+                style={{ color: "white", fontWeight: "bold", fontSize: "20px" }}
               >
                 C
               </span>
@@ -214,14 +215,14 @@ const ListaUsuarios = () => {
                 style={{
                   color: "#8C7354",
                   fontWeight: "bold",
-                  fontSize: "1.2rem",
+                  fontSize: "1.5rem",
                 }}
               >
                 COMFÍA
               </span>
               <p
                 style={{
-                  fontSize: "0.6rem",
+                  fontSize: "0.85rem",
                   color: "#6B7280",
                   marginTop: "2px",
                 }}
@@ -255,7 +256,7 @@ const ListaUsuarios = () => {
                 name={item.icon}
                 style={{ color: item.active ? "white" : "#6B7280" }}
               />
-              <span style={{ fontSize: "0.9rem", fontWeight: 500 }}>
+              <span style={{ fontSize: "1.4rem", fontWeight: 500 }}>
                 {item.name}
               </span>
             </div>
@@ -266,7 +267,6 @@ const ListaUsuarios = () => {
         <div
           style={{ padding: "20px", borderTop: "1px solid rgba(0,0,0,0.05)" }}
         >
-          {/* ✅ Envuelve el avatar y nombre en un div clickeable */}
           <div
             onClick={() => navigate("/perfil")}
             style={{
@@ -295,18 +295,18 @@ const ListaUsuarios = () => {
                 justifyContent: "center",
                 color: "white",
                 fontWeight: "bold",
-                fontSize: "16px",
+                fontSize: "20px",
               }}
             >
               {user?.name?.charAt(0) || "A"}
             </div>
             <div>
               <p
-                style={{ color: "#8C7354", fontSize: "1rem", fontWeight: 600 }}
+                style={{ color: "#8C7354", fontSize: "1.3rem", fontWeight: 600 }}
               >
                 {user?.name || "Admin User"}
               </p>
-              <p style={{ color: "#9CA3AF", fontSize: "0.75rem" }}>
+              <p style={{ color: "#9CA3AF", fontSize: "1rem" }}>
                 Administrador
               </p>
             </div>
@@ -328,23 +328,21 @@ const ListaUsuarios = () => {
               cursor: "pointer",
             }}
           >
-            <MaterialIcon name="logout" style={{ fontSize: "18px" }} />
+            <MaterialIcon name="logout" style={{ fontSize: "20px" }} />
             Cerrar Sesión
           </button>
         </div>
       </div>
+
       {/* CONTENIDO PRINCIPAL */}
       <div style={{ flex: 1, padding: "24px 32px", overflowY: "auto" }}>
         {/* Título */}
         <div style={{ marginBottom: "20px" }}>
-          <h1 style={{ fontSize: "1.5rem", fontWeight: 700, color: "#1F2937" }}>
+          <h1 style={{ fontSize: "2rem", fontWeight: 800, color: "#1F2937" }}>
             Gestión de Usuarios
           </h1>
-          <p
-            style={{ fontSize: "0.85rem", color: "#6B7280", marginTop: "4px" }}
-          >
-            Administre los roles, permisos y estados de los usuarios del sistema
-            central.
+          <p style={{ fontSize: "1.2rem", color: "#6B7280", marginTop: "4px" }}>
+            Administre los roles, permisos y estados de los usuarios del sistema central.
           </p>
         </div>
 
@@ -393,7 +391,7 @@ const ListaUsuarios = () => {
                   padding: "10px 12px 10px 40px",
                   border: "1px solid #E5E7EB",
                   borderRadius: "10px",
-                  fontSize: "16px",
+                  fontSize: "22px",
                   outline: "none",
                   background: "white",
                   paddingRight: searchTerm ? "35px" : "12px",
@@ -413,7 +411,7 @@ const ListaUsuarios = () => {
                     color: "#9CA3AF",
                   }}
                 >
-                  <MaterialIcon name="close" style={{ fontSize: "16px" }} />
+                  <MaterialIcon name="close" style={{ fontSize: "20px" }} />
                 </button>
               )}
             </div>
@@ -433,9 +431,9 @@ const ListaUsuarios = () => {
             >
               <MaterialIcon
                 name="notifications"
-                style={{ fontSize: "16px", color: "#4B5563" }}
+                style={{ fontSize: "20px", color: "#4B5563" }}
               />
-              <span style={{ fontSize: "16px", color: "#4B5563" }}>
+              <span style={{ fontSize: "22px", color: "#4B5563" }}>
                 Notificaciones
               </span>
             </button>
@@ -451,7 +449,7 @@ const ListaUsuarios = () => {
                 border: "none",
                 padding: "10px 24px",
                 borderRadius: "8px",
-                fontSize: "14px",
+                fontSize: "22px",
                 fontWeight: 600,
                 cursor: "pointer",
                 display: "flex",
@@ -459,7 +457,7 @@ const ListaUsuarios = () => {
                 gap: "6px",
               }}
             >
-              <MaterialIcon name="add" style={{ fontSize: "18px" }} />
+              <MaterialIcon name="add" style={{ fontSize: "20px" }} />
               Registrar usuario
             </button>
             <button
@@ -468,7 +466,7 @@ const ListaUsuarios = () => {
                 border: "1px solid #E5E7EB",
                 borderRadius: "8px",
                 padding: "10px 20px",
-                fontSize: "14px",
+                fontSize: "22px",
                 fontWeight: 500,
                 color: "#4B5563",
                 cursor: "pointer",
@@ -477,7 +475,7 @@ const ListaUsuarios = () => {
                 gap: "6px",
               }}
             >
-              <MaterialIcon name="refresh" style={{ fontSize: "18px" }} />
+              <MaterialIcon name="refresh" style={{ fontSize: "20px" }} />
               Actualizar usuarios
             </button>
           </div>
@@ -506,9 +504,9 @@ const ListaUsuarios = () => {
                     style={{
                       padding: "14px 16px",
                       textAlign: "left",
-                      fontSize: "0.8rem",
-                      fontWeight: 700,
-                      color: "#8C7354",
+                      fontSize: "1.2rem",
+                      fontWeight: 600,
+                      color: "#6B7280",
                     }}
                   >
                     USUARIO
@@ -517,9 +515,9 @@ const ListaUsuarios = () => {
                     style={{
                       padding: "14px 16px",
                       textAlign: "left",
-                      fontSize: "0.8rem",
-                      fontWeight: 700,
-                      color: "#8C7354",
+                      fontSize: "1.2rem",
+                      fontWeight: 600,
+                      color: "#6B7280",
                     }}
                   >
                     CORREO ELECTRÓNICO
@@ -528,9 +526,9 @@ const ListaUsuarios = () => {
                     style={{
                       padding: "14px 16px",
                       textAlign: "left",
-                      fontSize: "0.8rem",
-                      fontWeight: 700,
-                      color: "#8C7354",
+                      fontSize: "1.2rem",
+                      fontWeight: 600,
+                      color: "#6B7280",
                     }}
                   >
                     ROL
@@ -539,9 +537,9 @@ const ListaUsuarios = () => {
                     style={{
                       padding: "14px 16px",
                       textAlign: "left",
-                      fontSize: "0.8rem",
-                      fontWeight: 700,
-                      color: "#8C7354",
+                      fontSize: "1.2rem",
+                      fontWeight: 600,
+                      color: "#6B7280",
                     }}
                   >
                     ESTADO
@@ -550,9 +548,9 @@ const ListaUsuarios = () => {
                     style={{
                       padding: "14px 16px",
                       textAlign: "center",
-                      fontSize: "0.8rem",
-                      fontWeight: 700,
-                      color: "#8C7354",
+                      fontSize: "1.2rem",
+                      fontWeight: 600,
+                      color: "#6B7280",
                     }}
                   >
                     ACCIONES
@@ -571,7 +569,7 @@ const ListaUsuarios = () => {
                       <td
                         style={{
                           padding: "14px 16px",
-                          fontSize: "1rem",
+                          fontSize: "1.2rem",
                           fontWeight: 500,
                           color: "#1F2937",
                         }}
@@ -593,7 +591,7 @@ const ListaUsuarios = () => {
                               alignItems: "center",
                               justifyContent: "center",
                               fontWeight: "bold",
-                              fontSize: "14px",
+                              fontSize: "16px",
                               color: "#8C7354",
                             }}
                           >
@@ -605,7 +603,7 @@ const ListaUsuarios = () => {
                       <td
                         style={{
                           padding: "14px 16px",
-                          fontSize: "1rem",
+                          fontSize: "1.2rem",
                           color: "#6B7280",
                         }}
                       >
@@ -616,7 +614,7 @@ const ListaUsuarios = () => {
                           style={{
                             padding: "4px 12px",
                             borderRadius: "20px",
-                            fontSize: "0.8rem",
+                            fontSize: "1.2rem",
                             fontWeight: 600,
                             background: roleStyle.bg,
                             color: roleStyle.color,
@@ -631,7 +629,7 @@ const ListaUsuarios = () => {
                             display: "flex",
                             alignItems: "center",
                             gap: "6px",
-                            fontSize: "0.85rem",
+                            fontSize: "1.2rem",
                             fontWeight: 500,
                             color: statusStyle.color,
                           }}
@@ -669,7 +667,7 @@ const ListaUsuarios = () => {
                           >
                             <MaterialIcon
                               name="edit"
-                              style={{ fontSize: "22px" }}
+                              style={{ fontSize: "26px" }}
                             />
                           </button>
                           <button
@@ -685,7 +683,7 @@ const ListaUsuarios = () => {
                           >
                             <MaterialIcon
                               name="delete"
-                              style={{ fontSize: "22px" }}
+                              style={{ fontSize: "26px" }}
                             />
                           </button>
                         </div>
@@ -709,7 +707,7 @@ const ListaUsuarios = () => {
                   gap: "12px",
                 }}
               >
-                <span style={{ fontSize: "0.8rem", color: "#9CA3AF" }}>
+                <span style={{ fontSize: "1.3rem", color: "#9CA3AF" }}>
                   Mostrando {startIndex + 1}-
                   {Math.min(startIndex + itemsPerPage, filteredUsers.length)} de{" "}
                   {filteredUsers.length} usuarios
@@ -723,7 +721,7 @@ const ListaUsuarios = () => {
                       border: "1px solid #E5E7EB",
                       borderRadius: "6px",
                       background: "white",
-                      fontSize: "0.8rem",
+                      fontSize: "1rem",
                       cursor: currentPage === 1 ? "not-allowed" : "pointer",
                       color: currentPage === 1 ? "#D1D5DB" : "#4B5563",
                     }}
@@ -744,7 +742,7 @@ const ListaUsuarios = () => {
                         borderRadius: "6px",
                         background: currentPage === page ? "#8C6A3D" : "white",
                         color: currentPage === page ? "white" : "#4B5563",
-                        fontSize: "0.75rem",
+                        fontSize: "1rem",
                         fontWeight: currentPage === page ? 600 : 400,
                         cursor: "pointer",
                       }}
@@ -760,7 +758,7 @@ const ListaUsuarios = () => {
                       border: "1px solid #E5E7EB",
                       borderRadius: "6px",
                       background: "white",
-                      fontSize: "0.8rem",
+                      fontSize: "1rem",
                       cursor:
                         currentPage === totalPages ? "not-allowed" : "pointer",
                       color: currentPage === totalPages ? "#D1D5DB" : "#4B5563",

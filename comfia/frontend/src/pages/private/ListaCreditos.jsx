@@ -43,7 +43,7 @@ const ListaCreditos = () => {
   };
 
   // Datos simulados
-  const  [credits, setCredits] = useState([
+  const [credits, setCredits] = useState([
     {
       id: 1,
       client: "Carlos Rodríguez",
@@ -225,6 +225,7 @@ const ListaCreditos = () => {
       icon: "settings",
       active: false,
     },
+    { name: "Reportes", path: "/reportes", icon: "assessment", active: false },
   ];
 
   // Estilos según el estado del crédito
@@ -275,7 +276,7 @@ const ListaCreditos = () => {
               }}
             >
               <span
-                style={{ color: "white", fontWeight: "bold", fontSize: "18px" }}
+                style={{ color: "white", fontWeight: "bold", fontSize: "20px" }}
               >
                 C
               </span>
@@ -285,14 +286,14 @@ const ListaCreditos = () => {
                 style={{
                   color: "#8C7354",
                   fontWeight: "bold",
-                  fontSize: "1.2rem",
+                  fontSize: "1.5rem",
                 }}
               >
                 COMFÍA
               </span>
               <p
                 style={{
-                  fontSize: "0.6rem",
+                  fontSize: "0.85rem",
                   color: "#6B7280",
                   marginTop: "2px",
                 }}
@@ -326,7 +327,7 @@ const ListaCreditos = () => {
                 name={item.icon}
                 style={{ color: item.active ? "white" : "#6B7280" }}
               />
-              <span style={{ fontSize: "0.9rem", fontWeight: 500 }}>
+              <span style={{ fontSize: "1.4rem", fontWeight: 500 }}>
                 {item.name}
               </span>
             </div>
@@ -366,18 +367,22 @@ const ListaCreditos = () => {
                 justifyContent: "center",
                 color: "white",
                 fontWeight: "bold",
-                fontSize: "16px",
+                fontSize: "20px",
               }}
             >
               {user?.name?.charAt(0) || "A"}
             </div>
             <div>
               <p
-                style={{ color: "#8C7354", fontSize: "1rem", fontWeight: 600 }}
+                style={{
+                  color: "#8C7354",
+                  fontSize: "1.3rem",
+                  fontWeight: 600,
+                }}
               >
                 {user?.name || "Admin User"}
               </p>
-              <p style={{ color: "#9CA3AF", fontSize: "0.75rem" }}>
+              <p style={{ color: "#9CA3AF", fontSize: "1rem" }}>
                 Administrador
               </p>
             </div>
@@ -399,7 +404,7 @@ const ListaCreditos = () => {
               cursor: "pointer",
             }}
           >
-            <MaterialIcon name="logout" style={{ fontSize: "18px" }} />
+            <MaterialIcon name="logout" style={{ fontSize: "20px" }} />
             Cerrar Sesión
           </button>
         </div>
@@ -416,10 +421,10 @@ const ListaCreditos = () => {
       >
         {/* Título de la página */}
         <div style={{ marginBottom: "20px" }}>
-          <h1 style={{ fontSize: "1.8rem", fontWeight: 800, color: "#1F2937" }}>
+          <h1 style={{ fontSize: "2rem", fontWeight: 800, color: "#1F2937" }}>
             Gestión de Créditos
           </h1>
-          <p style={{ fontSize: "1rem", color: "#6B7280", marginTop: "4px" }}>
+          <p style={{ fontSize: "1.2rem", color: "#6B7280", marginTop: "4px" }}>
             Administre y supervise las solicitudes de crédito de sus clientes de
             forma ágil.
           </p>
@@ -454,7 +459,7 @@ const ListaCreditos = () => {
                   top: "50%",
                   transform: "translateY(-50%)",
                   color: "#9CA3AF",
-                  fontSize: "18px",
+                  fontSize: "20px",
                 }}
               />
               <input
@@ -467,7 +472,7 @@ const ListaCreditos = () => {
                   padding: "10px 12px 10px 40px",
                   border: "1px solid #E5E7EB",
                   borderRadius: "10px",
-                  fontSize: "14px",
+                  fontSize: "22px",
                   outline: "none",
                   background: "white",
                   paddingRight: searchTerm ? "35px" : "12px",
@@ -487,7 +492,7 @@ const ListaCreditos = () => {
                     color: "#9CA3AF",
                   }}
                 >
-                  <MaterialIcon name="close" style={{ fontSize: "16px" }} />
+                  <MaterialIcon name="close" style={{ fontSize: "20px" }} />
                 </button>
               )}
             </div>
@@ -502,7 +507,7 @@ const ListaCreditos = () => {
                 background: showFilters ? "#8C7354" : "white",
                 border: "1px solid #E5E7EB",
                 borderRadius: "10px",
-                fontSize: "14px",
+                fontSize: "22px",
                 fontWeight: 500,
                 color: showFilters ? "white" : "#4B5563",
                 cursor: "pointer",
@@ -525,13 +530,13 @@ const ListaCreditos = () => {
                 background: "white",
                 border: "1px solid #E5E7EB",
                 borderRadius: "8px",
-                fontSize: "14px",
+                fontSize: "22px",
                 fontWeight: 500,
                 color: "#4B5563",
                 cursor: "pointer",
               }}
             >
-              <MaterialIcon name="download" style={{ fontSize: "18px" }} />
+              <MaterialIcon name="download" style={{ fontSize: "20px" }} />
               Exportar
             </button>
 
@@ -543,7 +548,7 @@ const ListaCreditos = () => {
                 border: "none",
                 padding: "10px 24px",
                 borderRadius: "8px",
-                fontSize: "14px",
+                fontSize: "22px",
                 fontWeight: 600,
                 cursor: "pointer",
                 display: "flex",
@@ -551,7 +556,7 @@ const ListaCreditos = () => {
                 gap: "6px",
               }}
             >
-              <MaterialIcon name="add" style={{ fontSize: "18px" }} />
+              <MaterialIcon name="add" style={{ fontSize: "20px" }} />
               Registrar crédito
             </button>
           </div>
@@ -582,7 +587,11 @@ const ListaCreditos = () => {
               }}
             >
               <h3
-                style={{ fontSize: "1rem", fontWeight: 700, color: "#1F2937" }}
+                style={{
+                  fontSize: "1.2rem",
+                  fontWeight: 700,
+                  color: "#1F2937",
+                }}
               >
                 FILTROS
               </h3>
@@ -592,7 +601,7 @@ const ListaCreditos = () => {
                   background: "none",
                   border: "none",
                   cursor: "pointer",
-                  fontSize: "18px",
+                  fontSize: "20px",
                 }}
               >
                 ✕
@@ -603,7 +612,7 @@ const ListaCreditos = () => {
             <div style={{ marginBottom: "16px" }}>
               <label
                 style={{
-                  fontSize: "0.8rem",
+                  fontSize: "1rem",
                   fontWeight: 600,
                   color: "#6B7280",
                   marginBottom: "6px",
@@ -620,7 +629,7 @@ const ListaCreditos = () => {
                   padding: "8px 12px",
                   border: "1px solid #E5E7EB",
                   borderRadius: "8px",
-                  fontSize: "14px",
+                  fontSize: "18px",
                   background: "white",
                 }}
               >
@@ -636,7 +645,7 @@ const ListaCreditos = () => {
             <div style={{ marginBottom: "16px" }}>
               <label
                 style={{
-                  fontSize: "0.8rem",
+                  fontSize: "1rem",
                   fontWeight: 600,
                   color: "#6B7280",
                   marginBottom: "6px",
@@ -655,7 +664,7 @@ const ListaCreditos = () => {
                   padding: "8px 12px",
                   border: "1px solid #E5E7EB",
                   borderRadius: "8px",
-                  fontSize: "14px",
+                  fontSize: "18px",
                 }}
               />
             </div>
@@ -664,7 +673,7 @@ const ListaCreditos = () => {
             <div style={{ marginBottom: "16px" }}>
               <label
                 style={{
-                  fontSize: "0.8rem",
+                  fontSize: "1rem",
                   fontWeight: 600,
                   color: "#6B7280",
                   marginBottom: "6px",
@@ -697,7 +706,7 @@ const ListaCreditos = () => {
             <div style={{ marginBottom: "24px" }}>
               <label
                 style={{
-                  fontSize: "0.8rem",
+                  fontSize: "1rem",
                   fontWeight: 600,
                   color: "#6B7280",
                   marginBottom: "6px",
@@ -714,7 +723,7 @@ const ListaCreditos = () => {
                   padding: "8px 12px",
                   border: "1px solid #E5E7EB",
                   borderRadius: "8px",
-                  fontSize: "14px",
+                  fontSize: "18px",
                   background: "white",
                 }}
               >
@@ -742,7 +751,7 @@ const ListaCreditos = () => {
                   background: "#F3F4F6",
                   border: "none",
                   borderRadius: "8px",
-                  fontSize: "12px",
+                  fontSize: "16px",
                   cursor: "pointer",
                   fontWeight: 500,
                 }}
@@ -758,7 +767,7 @@ const ListaCreditos = () => {
                   color: "white",
                   border: "none",
                   borderRadius: "8px",
-                  fontSize: "12px",
+                  fontSize: "16px",
                   fontWeight: 600,
                   cursor: "pointer",
                 }}
@@ -792,7 +801,7 @@ const ListaCreditos = () => {
                     style={{
                       padding: "14px 16px",
                       textAlign: "left",
-                      fontSize: "0.8rem",
+                      fontSize: "1.2rem",
                       fontWeight: 600,
                       color: "#6B7280",
                     }}
@@ -803,7 +812,7 @@ const ListaCreditos = () => {
                     style={{
                       padding: "14px 16px",
                       textAlign: "left",
-                      fontSize: "0.8rem",
+                      fontSize: "1.2rem",
                       fontWeight: 600,
                       color: "#6B7280",
                     }}
@@ -814,7 +823,7 @@ const ListaCreditos = () => {
                     style={{
                       padding: "14px 16px",
                       textAlign: "left",
-                      fontSize: "0.8rem",
+                      fontSize: "1.2rem",
                       fontWeight: 600,
                       color: "#6B7280",
                     }}
@@ -825,7 +834,7 @@ const ListaCreditos = () => {
                     style={{
                       padding: "14px 16px",
                       textAlign: "left",
-                      fontSize: "0.8rem",
+                      fontSize: "1.2rem",
                       fontWeight: 600,
                       color: "#6B7280",
                     }}
@@ -836,7 +845,7 @@ const ListaCreditos = () => {
                     style={{
                       padding: "14px 16px",
                       textAlign: "left",
-                      fontSize: "0.8rem",
+                      fontSize: "1.2rem",
                       fontWeight: 600,
                       color: "#6B7280",
                     }}
@@ -847,7 +856,7 @@ const ListaCreditos = () => {
                     style={{
                       padding: "14px 16px",
                       textAlign: "center",
-                      fontSize: "0.8rem",
+                      fontSize: "1.2rem",
                       fontWeight: 600,
                       color: "#6B7280",
                     }}
@@ -867,10 +876,12 @@ const ListaCreditos = () => {
                       <td
                         style={{
                           padding: "14px 16px",
-                          fontSize: "0.9rem",
+                          fontSize: "1.2rem",
                           fontWeight: 500,
                           color: "#1F2937",
+                          cursor: "pointer",
                         }}
+                        onClick={() => navigate(`/creditos/${credit.id}`)}
                       >
                         <div
                           style={{
@@ -891,7 +902,7 @@ const ListaCreditos = () => {
                               justifyContent: "center",
                               color: "white",
                               fontWeight: "bold",
-                              fontSize: "12px",
+                              fontSize: "16px",
                             }}
                           >
                             {getInitials(credit.client)}
@@ -902,7 +913,7 @@ const ListaCreditos = () => {
                       <td
                         style={{
                           padding: "14px 16px",
-                          fontSize: "0.9rem",
+                          fontSize: "1.2rem",
                           color: "#6B7280",
                         }}
                       >
@@ -911,7 +922,7 @@ const ListaCreditos = () => {
                       <td
                         style={{
                           padding: "14px 16px",
-                          fontSize: "0.9rem",
+                          fontSize: "1.2rem ",
                           fontWeight: 600,
                           color: "#8C7354",
                         }}
@@ -921,7 +932,7 @@ const ListaCreditos = () => {
                       <td
                         style={{
                           padding: "14px 16px",
-                          fontSize: "0.9rem",
+                          fontSize: "1.2rem",
                           color: "#6B7280",
                         }}
                       >
@@ -932,7 +943,7 @@ const ListaCreditos = () => {
                           style={{
                             padding: "4px 12px",
                             borderRadius: "20px",
-                            fontSize: "0.75rem",
+                            fontSize: "1.2rem",
                             fontWeight: 600,
                             background: statusStyle.bg,
                             color: statusStyle.color,
@@ -962,7 +973,7 @@ const ListaCreditos = () => {
                           >
                             <MaterialIcon
                               name="edit"
-                              style={{ fontSize: "20px" }}
+                              style={{ fontSize: "26px" }}
                             />
                           </button>
                           <button
@@ -978,7 +989,22 @@ const ListaCreditos = () => {
                           >
                             <MaterialIcon
                               name="delete"
-                              style={{ fontSize: "20px" }}
+                              style={{ fontSize: "26px" }}
+                            />
+                          </button>
+                          <button
+                            onClick={() => navigate(`/creditos/${credit.id}`)}
+                            style={{
+                              background: "none",
+                              border: "none",
+                              cursor: "pointer",
+                              color: "#6B7280",
+                            }}
+                            title="Ver detalle"
+                          >
+                            <MaterialIcon
+                              name="visibility"
+                              style={{ fontSize: "26px" }}
                             />
                           </button>
                         </div>
@@ -1001,7 +1027,7 @@ const ListaCreditos = () => {
                   gap: "12px",
                 }}
               >
-                <span style={{ fontSize: "0.75rem", color: "#9CA3AF" }}>
+                <span style={{ fontSize: "1.3rem", color: "#9CA3AF" }}>
                   Mostrando {startIndex + 1}-
                   {Math.min(startIndex + itemsPerPage, filteredCredits.length)}{" "}
                   de {filteredCredits.length} créditos
@@ -1015,7 +1041,7 @@ const ListaCreditos = () => {
                       border: "1px solid #E5E7EB",
                       borderRadius: "6px",
                       background: "white",
-                      fontSize: "0.75rem",
+                      fontSize: "1rem",
                       cursor: currentPage === 1 ? "not-allowed" : "pointer",
                       color: currentPage === 1 ? "#D1D5DB" : "#4B5563",
                     }}
@@ -1036,7 +1062,7 @@ const ListaCreditos = () => {
                         borderRadius: "6px",
                         background: currentPage === page ? "#8C6A3D" : "white",
                         color: currentPage === page ? "white" : "#4B5563",
-                        fontSize: "0.75rem",
+                        fontSize: "1rem",
                         fontWeight: currentPage === page ? 600 : 400,
                         cursor: "pointer",
                       }}
@@ -1052,7 +1078,7 @@ const ListaCreditos = () => {
                       border: "1px solid #E5E7EB",
                       borderRadius: "6px",
                       background: "white",
-                      fontSize: "0.75rem",
+                      fontSize: "1rem",
                       cursor:
                         currentPage === totalPages ? "not-allowed" : "pointer",
                       color: currentPage === totalPages ? "#D1D5DB" : "#4B5563",

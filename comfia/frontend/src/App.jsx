@@ -17,6 +17,11 @@ import EditarCredito from './pages/private/EditarCredito.jsx';
 import CrearUsuario from './pages/private/CrearUsuario.jsx';
 import EditarUsuario from './pages/private/EditarUsuario.jsx';
 import Notificaciones from './pages/private/Notificaciones.jsx';
+import Reportes from './pages/private/Reportes.jsx';
+import DetalleCredito from './pages/private/DetalleCredito.jsx';
+import RecuperarPassword from './pages/auth/RecuperarPassword.jsx';
+import Forbidden from './pages/Forbbiden.jsx';
+import NotFound from './pages/NotFound.jsx';
 
 
 function App() {
@@ -32,6 +37,13 @@ function App() {
           <Route path="/contacto" element={<Contact />} />
           <Route path="/descarga" element={<Descarga />} />
           <Route path="/guide" element={<Guide />} />
+          <Route path="/recuperar-password" element={<RecuperarPassword />} />
+
+          {/* Rutas de error */}
+          <Route path="/403" element={<Forbidden />} />
+          <Route path="*" element={<NotFound />} />
+
+          
           
           {/* Rutas privadas */}
           <Route path="/dashboard" element={<Dashboard />} />
@@ -44,6 +56,8 @@ function App() {
           <Route path="/usuarios/nuevo" element={<CrearUsuario />} />
           <Route path="/usuarios/editar/:id" element={<EditarUsuario />} />
           <Route path="/notificaciones" element={<Notificaciones />} />
+          <Route path="/reportes" element={<Reportes />} />
+          <Route path="/creditos/:id" element={<DetalleCredito />} />
         </Routes>
       </AuthProvider>
     </BrowserRouter>
