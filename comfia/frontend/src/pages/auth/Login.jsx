@@ -2,6 +2,7 @@ import { useState } from "react";
 import { C, font } from "../../styles/tokens";
 import { Btn, Input } from "../../components/UI";
 import { useNavigate } from "react-router-dom";
+import { showError, showWarning, showSuccess } from "../../Alerts";
 
 export default function Login() {
   const navigate = useNavigate();
@@ -13,21 +14,30 @@ export default function Login() {
 
   const handleLogin = () => {
     if (!email || !password) {
-      setError("Por favor completa todos los campos.");
-      return;
+    showWarning("Por favor completa todos los campos");
+    return;
+  }
+  
+  if (attempts >= 3) {
+    showError("Demasiados intentos fallidos. Cuenta bloqueada temporalmente.");
+    return;
+  }
+  
+  // Simular login
+  if (password.length < 6) {
+    const newAttempts = attempts + 1;
+    setAttempts(newAttempts);
+    if (newAttempts >= 3) {
+      showError("Demasiados intentos fallidos. Cuenta bloqueada temporalmente.");
+    } else {
+      showError("Contraseña incorrecta. Inténtalo de nuevo.");
     }
-    if (password.length < 6) {
-      const a = attempts + 1;
-      setAttempts(a);
-      setError(
-        a >= 3
-          ? "Demasiados intentos fallidos. Cuenta bloqueada temporalmente."
-          : "Contraseña incorrecta. Inténtalo de nuevo.",
-      );
-      return;
-    }
-    navigate("/register");
-  };
+    return;
+  }
+  
+  showSuccess("¡Bienvenido de nuevo!");
+  navigate("/dashboard");
+};
 
   return (
     <div

@@ -1,8 +1,13 @@
 import { useNavigate, Link } from 'react-router-dom';
 import { useState } from 'react';
+import RegistroExitosoModal from '../../components/RegistroExitoso'; 
 
 export default function Register() {
   const navigate = useNavigate();
+  
+  // 2. Agregar este estado para controlar el modal
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
+  
   const [form, setForm] = useState({
     name: "", cc: "", email: "", phone: "", country: "", password: "",
   });
@@ -10,6 +15,12 @@ export default function Register() {
   const set = (key) => (e) => setForm({ ...form, [key]: e.target.value });
 
   const fontFamily = "'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif";
+
+  // 3. Crear una función para manejar el registro exitoso
+  const handleRegisterSuccess = () => {
+    // Aquí puedes agregar la lógica de registro si la tienes
+    setShowSuccessModal(true);
+  };
 
   return (
     <div style={{ 
@@ -306,9 +317,9 @@ export default function Register() {
             />
           </div>
 
-          {/* Botón Registrarse */}
+          {/* Botón Registrarse*/}
           <button
-            onClick={() => navigate("/login")}
+            onClick={handleRegisterSuccess}  // ✅ Cambiar esto
             style={{ 
               width: "100%", 
               padding: "14px", 
@@ -351,19 +362,24 @@ export default function Register() {
             </span>
           </p>
 
-        {/* Footer Copyright */}
-        <p style={{ 
-          textAlign: "center", 
-          fontSize: "0.rem", 
-          color: "#9CA3AF", 
-          marginTop: 32,
-          marginBottom: 0,
-          fontFamily: fontFamily
-        }}>
-          © 2026 COMFÍA. Todos los derechos reservados.
-        </p>
+          {/* Footer Copyright */}
+          <p style={{ 
+            textAlign: "center", 
+            fontSize: "0.7rem", 
+            color: "#9CA3AF", 
+            marginTop: 32,
+            marginBottom: 0,
+            fontFamily: fontFamily
+          }}>
+            © 2026 COMFÍA. Todos los derechos reservados.
+          </p>
+        </div>
       </div>
-    </div>
+
+   
+      {showSuccessModal && (
+        <RegistroExitosoModal onClose={() => setShowSuccessModal(false)} />
+      )}
     </div>
   );
 }

@@ -13,6 +13,10 @@ import ListaUsuarios from './pages/private/ListaUsuarios.jsx';
 import Configuracion from './pages/private/Configuracion.jsx';
 import Perfil from './pages/private/Perfil.jsx';
 import CrearCredito from './pages/private/CrearCredito.jsx';
+import EditarCredito from './pages/private/EditarCredito.jsx';
+import CrearUsuario from './pages/private/CrearUsuario.jsx';
+import EditarUsuario from './pages/private/EditarUsuario.jsx';
+import Notificaciones from './pages/private/Notificaciones.jsx';
 
 
 function App() {
@@ -36,6 +40,10 @@ function App() {
           <Route path="/configuracion" element={<Configuracion />} />
           <Route path="/perfil" element={<Perfil />} />
           <Route path="/creditos/nuevo" element={<CrearCredito />} />
+          <Route path="/creditos/editar/:id" element={<EditarCredito />} />
+          <Route path="/usuarios/nuevo" element={<CrearUsuario />} />
+          <Route path="/usuarios/editar/:id" element={<EditarUsuario />} />
+          <Route path="/notificaciones" element={<Notificaciones />} />
         </Routes>
       </AuthProvider>
     </BrowserRouter>
