@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { AuthProvider } from '../Context/AuthContext';
 import ProtectedRoute from './ProtectedRoute';
 
+
 // Layouts
 import PublicLayout from '../Layouts/PublicLayout';
 import AuthLayout from '../Layouts/AuthLayout';

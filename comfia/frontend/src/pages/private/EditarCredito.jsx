@@ -15,7 +15,6 @@ const MaterialIcon = ({ name, style = {} }) => (
 const EditarCredito = () => {
   const navigate = useNavigate();
   const { user, logout } = useAuth();
-  //const [isEditing, setIsEditing] = useState(false);
 
   // Datos del crédito
   const [formData, setFormData] = useState({
@@ -65,6 +64,10 @@ const EditarCredito = () => {
       icon: "settings",
       active: false,
     },
+    { name: "Reportes", 
+      path: "/reportes", 
+      icon: "assessment", 
+      active: false },
   ];
 
   return (
@@ -101,7 +104,7 @@ const EditarCredito = () => {
               }}
             >
               <span
-                style={{ color: "white", fontWeight: "bold", fontSize: "18px" }}
+                style={{ color: "white", fontWeight: "bold", fontSize: "20px" }}
               >
                 C
               </span>
@@ -111,14 +114,14 @@ const EditarCredito = () => {
                 style={{
                   color: "#8C7354",
                   fontWeight: "bold",
-                  fontSize: "1.2rem",
+                  fontSize: "1.5rem",
                 }}
               >
                 COMFÍA
               </span>
               <p
                 style={{
-                  fontSize: "0.6rem",
+                  fontSize: "0.85rem",
                   color: "#6B7280",
                   marginTop: "2px",
                 }}
@@ -152,7 +155,7 @@ const EditarCredito = () => {
                 name={item.icon}
                 style={{ color: item.active ? "white" : "#6B7280" }}
               />
-              <span style={{ fontSize: "0.9rem", fontWeight: 500 }}>
+              <span style={{ fontSize: "1.4rem", fontWeight: 500 }}>
                 {item.name}
               </span>
             </div>
@@ -191,18 +194,18 @@ const EditarCredito = () => {
                 justifyContent: "center",
                 color: "white",
                 fontWeight: "bold",
-                fontSize: "16px",
+                fontSize: "20px",
               }}
             >
               {user?.name?.charAt(0) || "A"}
             </div>
             <div>
               <p
-                style={{ color: "#8C7354", fontSize: "1rem", fontWeight: 600 }}
+                style={{ color: "#8C7354", fontSize: "1.3rem", fontWeight: 600 }}
               >
                 {user?.name || "Admin User"}
               </p>
-              <p style={{ color: "#9CA3AF", fontSize: "0.75rem" }}>
+              <p style={{ color: "#9CA3AF", fontSize: "1rem" }}>
                 Administrador
               </p>
             </div>
@@ -224,7 +227,7 @@ const EditarCredito = () => {
               cursor: "pointer",
             }}
           >
-            <MaterialIcon name="logout" style={{ fontSize: "18px" }} />
+            <MaterialIcon name="logout" style={{ fontSize: "20px" }} />
             Cerrar Sesión
           </button>
         </div>
@@ -234,13 +237,13 @@ const EditarCredito = () => {
       <div style={{ flex: 1, padding: "40px", width: "100%" }}>
 
         <div style={{ marginBottom: "8px" }}>
-          <span style={{ fontSize: "0.95rem", color: "#9CA3AF", letterSpacing: "0.5px" }}>
+          <span style={{ fontSize: "1.2rem", color: "#9CA3AF", letterSpacing: "0.5px" }}>
             CRÉDITOS &gt; EDITAR
           </span>
         </div>
 
         {/* Título */}
-        <h1 style={{ fontSize: "1.8rem", fontWeight: 800, color: "#1F2937", marginBottom: "32px" }}>
+        <h1 style={{ fontSize: "2rem", fontWeight: 800, color: "#1F2937", marginBottom: "32px" }}>
           Editar Crédito
         </h1>
 
@@ -258,7 +261,7 @@ const EditarCredito = () => {
             {/* INFORMACIÓN DEL CRÉDITO */}
             <div style={{ marginBottom: "32px" }}>
               <h2 style={{
-                fontSize: "1.25rem",
+                fontSize: "1.5rem",
                 fontWeight: 700,
                 color: "#8C7354",
                 letterSpacing: "1px",
@@ -266,7 +269,7 @@ const EditarCredito = () => {
                 paddingBottom: "8px",
                 borderBottom: "1px solid #E5E0A0"
               }}>
-                <MaterialIcon name="person" style={{ fontSize: "25px" }}  />
+                <MaterialIcon name="person" style={{ fontSize: "28px" }}  />
                 INFORMACIÓN DEL CRÉDITO
               </h2>
               
@@ -278,14 +281,13 @@ const EditarCredito = () => {
                 <div>
                   <label style={{
                     display: "block",
-                    fontSize: "0.85rem",
+                    fontSize: "1rem",
                     fontWeight: 600,
                     color: "#6B7280",
                     textTransform: "uppercase",
                     letterSpacing: "0.5px",
                     marginBottom: "8px"
                   }}>
-                    
                     NOMBRE DEL CLIENTE
                   </label>
                   <input
@@ -298,7 +300,7 @@ const EditarCredito = () => {
                       padding: "12px 16px",
                       border: "1px solid #E5E7EB",
                       borderRadius: "10px",
-                      fontSize: "0.9rem",
+                      fontSize: "1.2rem",
                       background: "white",
                       outline: "none"
                     }}
@@ -308,7 +310,7 @@ const EditarCredito = () => {
                 <div>
                   <label style={{
                     display: "block",
-                    fontSize: "0.85rem",
+                    fontSize: "1rem",
                     fontWeight: 600,
                     color: "#6B7280",
                     textTransform: "uppercase",
@@ -327,7 +329,7 @@ const EditarCredito = () => {
                       padding: "12px 16px",
                       border: "1px solid #E5E7EB",
                       borderRadius: "10px",
-                      fontSize: "0.9rem",
+                      fontSize: "1.2rem",
                       background: "white",
                       outline: "none"
                     }}
@@ -339,7 +341,7 @@ const EditarCredito = () => {
             {/* DETALLES FINANCIEROS */}
             <div style={{ marginBottom: "0" }}>
               <h2 style={{
-                fontSize: "1.25rem",
+                fontSize: "1.5rem",
                 fontWeight: 700,
                 color: "#8C7354",
                 letterSpacing: "1px",
@@ -347,7 +349,7 @@ const EditarCredito = () => {
                 paddingBottom: "8px",
                 borderBottom: "1px solid #E5E0A0"
               }}>
-                <MaterialIcon name="payments" style={{ fontSize: "25px" }}  />
+                <MaterialIcon name="payments" style={{ fontSize: "28px" }}  />
                 DETALLES FINANCIEROS
               </h2>
               
@@ -359,14 +361,13 @@ const EditarCredito = () => {
                 <div>
                   <label style={{
                     display: "block",
-                    fontSize: "0.85rem",
+                    fontSize: "1rem",
                     fontWeight: 600,
                     color: "#6B7280",
                     textTransform: "uppercase",
                     letterSpacing: "0.5px",
                     marginBottom: "8px"
                   }}>
-                    
                     VALOR DEL CRÉDITO
                   </label>
                   <div style={{ position: "relative" }}>
@@ -376,7 +377,7 @@ const EditarCredito = () => {
                       top: "50%",
                       transform: "translateY(-50%)",
                       color: "#6B7280",
-                      fontSize: "0.9rem"
+                      fontSize: "1.2rem"
                     }}>$</span>
                     <input
                       type="text"
@@ -388,7 +389,7 @@ const EditarCredito = () => {
                         padding: "12px 16px 12px 32px",
                         border: "1px solid #E5E7EB",
                         borderRadius: "10px",
-                        fontSize: "0.9rem",
+                        fontSize: "1.2rem",
                         background: "white",
                         outline: "none"
                       }}
@@ -399,7 +400,7 @@ const EditarCredito = () => {
                 <div>
                   <label style={{
                     display: "block",
-                    fontSize: "0.85rem",
+                    fontSize: "1rem",
                     fontWeight: 600,
                     color: "#6B7280",
                     textTransform: "uppercase",
@@ -417,7 +418,7 @@ const EditarCredito = () => {
                       padding: "12px 16px",
                       border: "1px solid #E5E7EB",
                       borderRadius: "10px",
-                      fontSize: "0.9rem",
+                      fontSize: "1.2rem",
                       background: "white",
                       outline: "none",
                       cursor: "pointer"
@@ -434,7 +435,7 @@ const EditarCredito = () => {
                 <div>
                   <label style={{
                     display: "block",
-                    fontSize: "0.85rem",
+                    fontSize: "1rem",
                     fontWeight: 600,
                     color: "#6B7280",
                     textTransform: "uppercase",
@@ -453,7 +454,7 @@ const EditarCredito = () => {
                       padding: "12px 16px",
                       border: "1px solid #E5E7EB",
                       borderRadius: "10px",
-                      fontSize: "0.9rem",
+                      fontSize: "1.2rem",
                       background: "white",
                       outline: "none"
                     }}
@@ -463,7 +464,7 @@ const EditarCredito = () => {
                 <div>
                   <label style={{
                     display: "block",
-                    fontSize: "0.85rem",
+                    fontSize: "1rem",
                     fontWeight: 600,
                     color: "#6B7280",
                     textTransform: "uppercase",
@@ -482,7 +483,7 @@ const EditarCredito = () => {
                       padding: "12px 16px",
                       border: "1px solid #E5E7EB",
                       borderRadius: "10px",
-                      fontSize: "0.9rem",
+                      fontSize: "1.2rem",
                       background: "white",
                       outline: "none"
                     }}
@@ -507,7 +508,7 @@ const EditarCredito = () => {
                 background: "transparent",
                 border: "none",
                 color: "#6B7280",
-                fontSize: "1rem",
+                fontSize: "1.2rem",
                 fontWeight: 500,
                 cursor: "pointer",
                 padding: "10px 20px",
@@ -531,7 +532,7 @@ const EditarCredito = () => {
                 border: "none",
                 padding: "10px 24px",
                 borderRadius: "8px",
-                fontSize: "1rem",
+                fontSize: "1.2rem",
                 fontWeight: 600,
                 cursor: "pointer",
                 transition: "background 0.2s"
@@ -539,7 +540,7 @@ const EditarCredito = () => {
               onMouseEnter={(e) => e.currentTarget.style.background = "#6B5740"}
               onMouseLeave={(e) => e.currentTarget.style.background = "#8C7354"}
             >
-              <MaterialIcon name="save" style={{ fontSize: "18px" }} />
+              <MaterialIcon name="save" style={{ fontSize: "22px" }} />
               Guardar Cambios
             </button>
           </div>

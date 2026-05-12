@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { C, font } from "../../styles/tokens";
 import { Btn, Input } from "../../components/UI";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { showError, showWarning, showSuccess } from "../../Alerts";
 
 export default function Login() {
@@ -14,30 +14,34 @@ export default function Login() {
 
   const handleLogin = () => {
     if (!email || !password) {
-    showWarning("Por favor completa todos los campos");
-    return;
-  }
-  
-  if (attempts >= 3) {
-    showError("Demasiados intentos fallidos. Cuenta bloqueada temporalmente.");
-    return;
-  }
-  
-  // Simular login
-  if (password.length < 6) {
-    const newAttempts = attempts + 1;
-    setAttempts(newAttempts);
-    if (newAttempts >= 3) {
-      showError("Demasiados intentos fallidos. Cuenta bloqueada temporalmente.");
-    } else {
-      showError("Contraseña incorrecta. Inténtalo de nuevo.");
+      showWarning("Por favor completa todos los campos");
+      return;
     }
-    return;
-  }
-  
-  showSuccess("¡Bienvenido de nuevo!");
-  navigate("/dashboard");
-};
+
+    if (attempts >= 3) {
+      showError(
+        "Demasiados intentos fallidos. Cuenta bloqueada temporalmente.",
+      );
+      return;
+    }
+
+    // Simular login
+    if (password.length < 6) {
+      const newAttempts = attempts + 1;
+      setAttempts(newAttempts);
+      if (newAttempts >= 3) {
+        showError(
+          "Demasiados intentos fallidos. Cuenta bloqueada temporalmente.",
+        );
+      } else {
+        showError("Contraseña incorrecta. Inténtalo de nuevo.");
+      }
+      return;
+    }
+
+    showSuccess("¡Bienvenido de nuevo!");
+    navigate("/dashboard");
+  };
 
   return (
     <div
@@ -217,16 +221,19 @@ export default function Login() {
             >
               <input type="checkbox" /> Recordarme
             </label>
-            <span
-              style={{
-                fontSize: "0.95rem",
-                color: C.gold,
-                cursor: "pointer",
-                fontWeight: 600,
-              }}
-            >
-              Recordar contraseña
-            </span>
+
+            <p style={{ textAlign: "center", marginTop: "16px" }}>
+              <Link
+                to="/recuperar-password"
+                style={{
+                  color: "#8C7354",
+                  fontSize: "0.9rem",
+                  textDecoration: "none",
+                }}
+              >
+                ¿Olvidaste tu contraseña?
+              </Link>
+            </p>
           </div>
 
           <Btn
@@ -241,7 +248,6 @@ export default function Login() {
           >
             Iniciar sesión
           </Btn>
-
           <div
             style={{
               textAlign: "center",

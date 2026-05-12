@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../Context/AuthContext";
-import { showSuccess, showInfo } from "../../alerts";
+import { showSuccess, showInfo } from "../../Alerts";
 
 // Componente de íconos
 const MaterialIcon = ({ name, style = {} }) => (
@@ -29,6 +29,7 @@ const Perfil = () => {
     setIsEditing(true);
     showInfo("Modo edición activado", "Editar Perfil");
   };
+  
   // Datos del perfil
   const [profile, setProfile] = useState({
     name: "Juan Perez",
@@ -68,6 +69,7 @@ const Perfil = () => {
       icon: "settings",
       active: false,
     },
+    { name: "Reportes", path: "/reportes", icon: "assessment", active: false },
   ];
 
   return (
@@ -111,7 +113,7 @@ const Perfil = () => {
               }}
             >
               <span
-                style={{ color: "white", fontWeight: "bold", fontSize: "18px" }}
+                style={{ color: "white", fontWeight: "bold", fontSize: "20px" }}
               >
                 C
               </span>
@@ -121,14 +123,14 @@ const Perfil = () => {
                 style={{
                   color: "#8C7354",
                   fontWeight: "bold",
-                  fontSize: "1.2rem",
+                  fontSize: "1.5rem",
                 }}
               >
                 COMFÍA
               </span>
               <p
                 style={{
-                  fontSize: "0.6rem",
+                  fontSize: "0.85rem",
                   color: "#6B7280",
                   marginTop: "2px",
                 }}
@@ -162,7 +164,7 @@ const Perfil = () => {
                 name={item.icon}
                 style={{ color: item.active ? "white" : "#6B7280" }}
               />
-              <span style={{ fontSize: "0.9rem", fontWeight: 500 }}>
+              <span style={{ fontSize: "1.4rem", fontWeight: 500 }}>
                 {item.name}
               </span>
             </div>
@@ -173,7 +175,6 @@ const Perfil = () => {
         <div
           style={{ padding: "20px", borderTop: "1px solid rgba(0,0,0,0.05)" }}
         >
-          {/* ✅ Envuelve el avatar y nombre en un div clickeable */}
           <div
             onClick={() => navigate("/perfil")}
             style={{
@@ -202,18 +203,18 @@ const Perfil = () => {
                 justifyContent: "center",
                 color: "white",
                 fontWeight: "bold",
-                fontSize: "16px",
+                fontSize: "20px",
               }}
             >
               {user?.name?.charAt(0) || "A"}
             </div>
             <div>
               <p
-                style={{ color: "#8C7354", fontSize: "1rem", fontWeight: 600 }}
+                style={{ color: "#8C7354", fontSize: "1.3rem", fontWeight: 600 }}
               >
                 {user?.name || "Admin User"}
               </p>
-              <p style={{ color: "#9CA3AF", fontSize: "0.75rem" }}>
+              <p style={{ color: "#9CA3AF", fontSize: "1rem" }}>
                 Administrador
               </p>
             </div>
@@ -235,11 +236,12 @@ const Perfil = () => {
               cursor: "pointer",
             }}
           >
-            <MaterialIcon name="logout" style={{ fontSize: "18px" }} />
+            <MaterialIcon name="logout" style={{ fontSize: "20px" }} />
             Cerrar Sesión
           </button>
         </div>
       </div>
+
       {/* CONTENIDO PRINCIPAL */}
       <div style={{ flex: 1, padding: "40px 48px", overflowY: "auto" }}>
         {/* 1. ENCABEZADO DEL PERFIL */}
@@ -296,7 +298,7 @@ const Perfil = () => {
               }}
             >
               <span
-                style={{ fontSize: "48px", fontWeight: 500, color: "#8C6A3D" }}
+                style={{ fontSize: "56px", fontWeight: 500, color: "#8C6A3D" }}
               >
                 JP
               </span>
@@ -312,7 +314,7 @@ const Perfil = () => {
                   color: "#10B981",
                   padding: "5px 14px",
                   borderRadius: "20px",
-                  fontSize: "0.7rem",
+                  fontSize: "0.85rem",
                   fontWeight: 600,
                 }}
               >
@@ -324,7 +326,7 @@ const Perfil = () => {
                   color: "#8C6A3D",
                   padding: "5px 14px",
                   borderRadius: "20px",
-                  fontSize: "0.7rem",
+                  fontSize: "0.85rem",
                   fontWeight: 600,
                 }}
               >
@@ -334,7 +336,7 @@ const Perfil = () => {
 
             <h1
               style={{
-                fontSize: "2rem",
+                fontSize: "2.2rem",
                 fontWeight: 700,
                 color: "#1F2937",
                 marginBottom: "6px",
@@ -344,7 +346,7 @@ const Perfil = () => {
             </h1>
             <p
               style={{
-                fontSize: "1rem",
+                fontSize: "1.1rem",
                 color: "#8C6A3D",
                 fontWeight: 500,
                 marginBottom: "28px",
@@ -362,7 +364,7 @@ const Perfil = () => {
                   border: "none",
                   padding: "12px 32px",
                   borderRadius: "30px",
-                  fontSize: "0.9rem",
+                  fontSize: "1rem",
                   fontWeight: 600,
                   cursor: "pointer",
                   display: "flex",
@@ -370,7 +372,7 @@ const Perfil = () => {
                   gap: "8px",
                 }}
               >
-                <MaterialIcon name="edit" style={{ fontSize: "18px" }} /> Editar
+                <MaterialIcon name="edit" style={{ fontSize: "20px" }} /> Editar
                 Perfil
               </button>
             ) : (
@@ -382,7 +384,7 @@ const Perfil = () => {
                   border: "none",
                   padding: "12px 32px",
                   borderRadius: "30px",
-                  fontSize: "0.9rem",
+                  fontSize: "1rem",
                   fontWeight: 600,
                   cursor: "pointer",
                   display: "flex",
@@ -390,7 +392,7 @@ const Perfil = () => {
                   gap: "8px",
                 }}
               >
-                <MaterialIcon name="save" style={{ fontSize: "18px" }} />{" "}
+                <MaterialIcon name="save" style={{ fontSize: "20px" }} />{" "}
                 Guardar Cambios
               </button>
             )}
@@ -407,8 +409,8 @@ const Perfil = () => {
         >
           <div
             style={{
-              width: "280px",
-              height: "160px",
+              width: "300px",
+              height: "170px",
               background: "white",
               borderRadius: "20px",
               padding: "24px",
@@ -421,7 +423,7 @@ const Perfil = () => {
           >
             <p
               style={{
-                fontSize: "0.75rem",
+                fontSize: "0.85rem",
                 color: "#6B7280",
                 letterSpacing: "1px",
                 marginBottom: "8px",
@@ -431,7 +433,7 @@ const Perfil = () => {
             </p>
             <p
               style={{
-                fontSize: "1.8rem",
+                fontSize: "2rem",
                 fontWeight: 700,
                 color: "#1F2937",
                 marginBottom: "8px",
@@ -440,14 +442,14 @@ const Perfil = () => {
               ${(profile.credit / 1000000).toFixed(1)}M
             </p>
             <p
-              style={{ fontSize: "0.75rem", color: "#10B981", fontWeight: 600 }}
+              style={{ fontSize: "0.85rem", color: "#10B981", fontWeight: 600 }}
             >
               ↗ {profile.creditChange} this month
             </p>
           </div>
         </div>
 
-        {/* 3. TARJETAS INFORMACIÓN - MÁS ANCHAS */}
+        {/* 3. TARJETAS INFORMACIÓN */}
         <div
           style={{
             display: "grid",
@@ -464,12 +466,12 @@ const Perfil = () => {
               borderRadius: "20px",
               padding: "36px",
               boxShadow: "0 2px 8px rgba(0,0,0,0.04)",
-              minHeight: "380px",
+              minHeight: "400px",
             }}
           >
             <h3
               style={{
-                fontSize: "0.8rem",
+                fontSize: "0.95rem",
                 fontWeight: 600,
                 color: "#9CA3AF",
                 letterSpacing: "1.5px",
@@ -490,7 +492,7 @@ const Perfil = () => {
               <div>
                 <p
                   style={{
-                    fontSize: "0.75rem",
+                    fontSize: "0.85rem",
                     fontWeight: 600,
                     color: "#9CA3AF",
                     letterSpacing: "0.5px",
@@ -511,14 +513,14 @@ const Perfil = () => {
                       padding: "8px 12px",
                       border: "1px solid #E5E7EB",
                       borderRadius: "8px",
-                      fontSize: "1rem",
+                      fontSize: "1.1rem",
                       marginBottom: "32px",
                     }}
                   />
                 ) : (
                   <p
                     style={{
-                      fontSize: "1rem",
+                      fontSize: "1.1rem",
                       fontWeight: 500,
                       color: "#1F2937",
                       marginBottom: "32px",
@@ -530,7 +532,7 @@ const Perfil = () => {
 
                 <p
                   style={{
-                    fontSize: "0.75rem",
+                    fontSize: "0.85rem",
                     fontWeight: 600,
                     color: "#9CA3AF",
                     letterSpacing: "0.5px",
@@ -551,14 +553,14 @@ const Perfil = () => {
                       padding: "8px 12px",
                       border: "1px solid #E5E7EB",
                       borderRadius: "8px",
-                      fontSize: "1rem",
+                      fontSize: "1.1rem",
                       marginBottom: "32px",
                     }}
                   />
                 ) : (
                   <p
                     style={{
-                      fontSize: "1rem",
+                      fontSize: "1.1rem",
                       color: "#1F2937",
                       marginBottom: "32px",
                     }}
@@ -569,7 +571,7 @@ const Perfil = () => {
 
                 <p
                   style={{
-                    fontSize: "0.75rem",
+                    fontSize: "0.85rem",
                     fontWeight: 600,
                     color: "#9CA3AF",
                     letterSpacing: "0.5px",
@@ -590,11 +592,11 @@ const Perfil = () => {
                       padding: "8px 12px",
                       border: "1px solid #E5E7EB",
                       borderRadius: "8px",
-                      fontSize: "1rem",
+                      fontSize: "1.1rem",
                     }}
                   />
                 ) : (
-                  <p style={{ fontSize: "1rem", color: "#1F2937" }}>
+                  <p style={{ fontSize: "1.1rem", color: "#1F2937" }}>
                     {profile.location}
                   </p>
                 )}
@@ -604,7 +606,7 @@ const Perfil = () => {
               <div>
                 <p
                   style={{
-                    fontSize: "0.75rem",
+                    fontSize: "0.85rem",
                     fontWeight: 600,
                     color: "#9CA3AF",
                     letterSpacing: "0.5px",
@@ -625,14 +627,14 @@ const Perfil = () => {
                       padding: "8px 12px",
                       border: "1px solid #E5E7EB",
                       borderRadius: "8px",
-                      fontSize: "1rem",
+                      fontSize: "1.1rem",
                       marginBottom: "32px",
                     }}
                   />
                 ) : (
                   <p
                     style={{
-                      fontSize: "1rem",
+                      fontSize: "1.1rem",
                       color: "#1F2937",
                       marginBottom: "32px",
                     }}
@@ -643,7 +645,7 @@ const Perfil = () => {
 
                 <p
                   style={{
-                    fontSize: "0.75rem",
+                    fontSize: "0.85rem",
                     fontWeight: 600,
                     color: "#9CA3AF",
                     letterSpacing: "0.5px",
@@ -664,11 +666,11 @@ const Perfil = () => {
                       padding: "8px 12px",
                       border: "1px solid #E5E7EB",
                       borderRadius: "8px",
-                      fontSize: "1rem",
+                      fontSize: "1.1rem",
                     }}
                   />
                 ) : (
-                  <p style={{ fontSize: "1rem", color: "#1F2937" }}>
+                  <p style={{ fontSize: "1.1rem", color: "#1F2937" }}>
                     {profile.phone}
                   </p>
                 )}
@@ -684,12 +686,12 @@ const Perfil = () => {
               padding: "36px",
               boxShadow: "0 2px 8px rgba(0,0,0,0.04)",
               borderLeft: "4px solid #8C6A3D",
-              minHeight: "380px",
+              minHeight: "400px",
             }}
           >
             <h3
               style={{
-                fontSize: "0.8rem",
+                fontSize: "0.95rem",
                 fontWeight: 600,
                 color: "#9CA3AF",
                 letterSpacing: "1.5px",
@@ -702,7 +704,7 @@ const Perfil = () => {
             <div style={{ marginBottom: "32px" }}>
               <p
                 style={{
-                  fontSize: "0.75rem",
+                  fontSize: "0.85rem",
                   fontWeight: 600,
                   color: "#9CA3AF",
                   letterSpacing: "0.5px",
@@ -712,7 +714,7 @@ const Perfil = () => {
                 LAST LOGIN
               </p>
               <p
-                style={{ fontSize: "1rem", fontWeight: 500, color: "#1F2937" }}
+                style={{ fontSize: "1.1rem", fontWeight: 500, color: "#1F2937" }}
               >
                 {profile.lastLogin}
               </p>
@@ -721,7 +723,7 @@ const Perfil = () => {
             <div>
               <p
                 style={{
-                  fontSize: "0.75rem",
+                  fontSize: "0.85rem",
                   fontWeight: 600,
                   color: "#9CA3AF",
                   letterSpacing: "0.5px",
@@ -753,13 +755,13 @@ const Perfil = () => {
                 >
                   <MaterialIcon
                     name="computer"
-                    style={{ fontSize: "24px", color: "#8C6A3D" }}
+                    style={{ fontSize: "26px", color: "#8C6A3D" }}
                   />
                 </div>
                 <div>
                   <p
                     style={{
-                      fontSize: "0.95rem",
+                      fontSize: "1rem",
                       fontWeight: 600,
                       color: "#1F2937",
                     }}
@@ -768,7 +770,7 @@ const Perfil = () => {
                   </p>
                   <p
                     style={{
-                      fontSize: "0.75rem",
+                      fontSize: "0.85rem",
                       color: "#6B7280",
                       marginTop: "6px",
                     }}
@@ -796,7 +798,7 @@ const Perfil = () => {
           <div>
             <h4
               style={{
-                fontSize: "0.9rem",
+                fontSize: "1rem",
                 fontWeight: 600,
                 color: "#1F2937",
                 marginBottom: "6px",
@@ -804,7 +806,7 @@ const Perfil = () => {
             >
               Privacidad y Visibilidad
             </h4>
-            <p style={{ fontSize: "0.8rem", color: "#6B7280" }}>
+            <p style={{ fontSize: "0.9rem", color: "#6B7280" }}>
               Ajusta la forma en que se muestra tu información a otros analistas
               de crédito en el directorio.
             </p>
@@ -821,7 +823,7 @@ const Perfil = () => {
               border: "none",
               borderRadius: "30px",
               color: "#DC2626",
-              fontSize: "0.85rem",
+              fontSize: "0.95rem",
               fontWeight: 600,
               cursor: "pointer",
               transition: "all 0.2s",
@@ -829,7 +831,7 @@ const Perfil = () => {
             onMouseEnter={(e) => (e.currentTarget.style.background = "#FECACA")}
             onMouseLeave={(e) => (e.currentTarget.style.background = "#FEE2E2")}
           >
-            <MaterialIcon name="logout" style={{ fontSize: "16px" }} /> Salir de
+            <MaterialIcon name="logout" style={{ fontSize: "18px" }} /> Salir de
             la cuenta
           </button>
         </div>

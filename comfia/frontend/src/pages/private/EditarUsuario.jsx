@@ -61,6 +61,10 @@ const ActualizarUsuario = () => {
       icon: "settings",
       active: false,
     },
+    { name: "Reportes", 
+      path: "/reportes", 
+      icon: "assessment", 
+      active: false },
   ];
 
   return (
@@ -97,7 +101,7 @@ const ActualizarUsuario = () => {
               }}
             >
               <span
-                style={{ color: "white", fontWeight: "bold", fontSize: "18px" }}
+                style={{ color: "white", fontWeight: "bold", fontSize: "20px" }}
               >
                 C
               </span>
@@ -107,14 +111,14 @@ const ActualizarUsuario = () => {
                 style={{
                   color: "#8C7354",
                   fontWeight: "bold",
-                  fontSize: "1.2rem",
+                  fontSize: "1.5rem",
                 }}
               >
                 COMFÍA
               </span>
               <p
                 style={{
-                  fontSize: "0.6rem",
+                  fontSize: "0.85rem",
                   color: "#6B7280",
                   marginTop: "2px",
                 }}
@@ -148,7 +152,7 @@ const ActualizarUsuario = () => {
                 name={item.icon}
                 style={{ color: item.active ? "white" : "#6B7280" }}
               />
-              <span style={{ fontSize: "0.9rem", fontWeight: 500 }}>
+              <span style={{ fontSize: "1.4rem", fontWeight: 500 }}>
                 {item.name}
               </span>
             </div>
@@ -187,18 +191,18 @@ const ActualizarUsuario = () => {
                 justifyContent: "center",
                 color: "white",
                 fontWeight: "bold",
-                fontSize: "16px",
+                fontSize: "20px",
               }}
             >
               {user?.name?.charAt(0) || "A"}
             </div>
             <div>
               <p
-                style={{ color: "#8C7354", fontSize: "1rem", fontWeight: 600 }}
+                style={{ color: "#8C7354", fontSize: "1.3rem", fontWeight: 600 }}
               >
                 {user?.name || "Admin User"}
               </p>
-              <p style={{ color: "#9CA3AF", fontSize: "0.75rem" }}>
+              <p style={{ color: "#9CA3AF", fontSize: "1rem" }}>
                 Administrador
               </p>
             </div>
@@ -220,14 +224,14 @@ const ActualizarUsuario = () => {
               cursor: "pointer",
             }}
           >
-            <MaterialIcon name="logout" style={{ fontSize: "18px" }} />
+            <MaterialIcon name="logout" style={{ fontSize: "20px" }} />
             Cerrar Sesión
           </button>
         </div>
       </div>
 
       {/* CONTENIDO PRINCIPAL */}
-      <div style={{ flex: 1, padding: "40px", overflowY: "auto", width: "50%" }}>
+      <div style={{ flex: 1, padding: "40px", overflowY: "auto", width: "100%" }}>
         {/* Encabezado */}
         <div
           style={{
@@ -237,7 +241,7 @@ const ActualizarUsuario = () => {
             marginBottom: "32px",
           }}
         >
-          <h1 style={{ fontSize: "1.8rem", fontWeight: 800, color: "#1F2937" }}>
+          <h1 style={{ fontSize: "2rem", fontWeight: 800, color: "#1F2937" }}>
             Actualizar Usuario
           </h1>
           <button
@@ -249,7 +253,7 @@ const ActualizarUsuario = () => {
               background: "none",
               border: "none",
               color: "#6B7280",
-              fontSize: "0.9rem",
+              fontSize: "1.2rem",
               cursor: "pointer",
               padding: "8px 12px",
               borderRadius: "8px",
@@ -258,7 +262,7 @@ const ActualizarUsuario = () => {
             onMouseEnter={(e) => (e.currentTarget.style.background = "#F3F4F6")}
             onMouseLeave={(e) => (e.currentTarget.style.background = "transparent")}
           >
-            <MaterialIcon name="arrow_back" style={{ fontSize: "18px" }} />
+            <MaterialIcon name="arrow_back" style={{ fontSize: "22px" }} />
             Regresar
           </button>
         </div>
@@ -279,7 +283,7 @@ const ActualizarUsuario = () => {
             >
               <h2
                 style={{
-                  fontSize: "0.95rem",
+                  fontSize: "1.2rem",
                   fontWeight: 600,
                   color: "#8C7354",
                   letterSpacing: "1px",
@@ -302,7 +306,7 @@ const ActualizarUsuario = () => {
                   <label
                     style={{
                       display: "block",
-                      fontSize: "0.85rem",
+                      fontSize: "1rem",
                       fontWeight: 600,
                       color: "#6B7280",
                       textTransform: "uppercase",
@@ -322,7 +326,7 @@ const ActualizarUsuario = () => {
                       padding: "12px 16px",
                       border: "1px solid #E5E7EB",
                       borderRadius: "12px",
-                      fontSize: "0.95rem",
+                      fontSize: "1.2rem",
                       background: "white",
                       outline: "none",
                     }}
@@ -334,7 +338,7 @@ const ActualizarUsuario = () => {
                   <label
                     style={{
                       display: "block",
-                      fontSize: "0.85rem",
+                      fontSize: "1rem",
                       fontWeight: 600,
                       color: "#6B7280",
                       textTransform: "uppercase",
@@ -354,7 +358,7 @@ const ActualizarUsuario = () => {
                       padding: "12px 16px",
                       border: "1px solid #E5E7EB",
                       borderRadius: "12px",
-                      fontSize: "0.95rem",
+                      fontSize: "1.2rem",
                       background: "white",
                       outline: "none",
                     }}
@@ -366,7 +370,7 @@ const ActualizarUsuario = () => {
                   <label
                     style={{
                       display: "block",
-                      fontSize: "0.85rem",
+                      fontSize: "1rem",
                       fontWeight: 600,
                       color: "#6B7280",
                       textTransform: "uppercase",
@@ -386,7 +390,7 @@ const ActualizarUsuario = () => {
                       padding: "12px 16px",
                       border: "1px solid #E5E7EB",
                       borderRadius: "12px",
-                      fontSize: "0.95rem",
+                      fontSize: "1.2rem",
                       background: "white",
                       outline: "none",
                     }}
@@ -398,7 +402,7 @@ const ActualizarUsuario = () => {
                   <label
                     style={{
                       display: "block",
-                      fontSize: "0.7rem",
+                      fontSize: "1rem",
                       fontWeight: 600,
                       color: "#6B7280",
                       textTransform: "uppercase",
@@ -418,7 +422,7 @@ const ActualizarUsuario = () => {
                       padding: "12px 16px",
                       border: "1px solid #E5E7EB",
                       borderRadius: "12px",
-                      fontSize: "0.95rem",
+                      fontSize: "1.2rem",
                       background: "white",
                       outline: "none",
                     }}
@@ -440,7 +444,7 @@ const ActualizarUsuario = () => {
             >
               <h2
                 style={{
-                  fontSize: "0.95rem",
+                  fontSize: "1.2rem",
                   fontWeight: 600,
                   color: "#8C7354",
                   letterSpacing: "1px",
@@ -456,7 +460,7 @@ const ActualizarUsuario = () => {
                 <label
                   style={{
                     display: "block",
-                    fontSize: "0.85rem",
+                    fontSize: "1rem",
                     fontWeight: 600,
                     color: "#6B7280",
                     textTransform: "uppercase",
@@ -474,7 +478,7 @@ const ActualizarUsuario = () => {
                       top: "50%",
                       transform: "translateY(-50%)",
                       color: "#6B7280",
-                      fontSize: "0.9rem",
+                      fontSize: "1.2rem",
                     }}
                   >
                     $
@@ -489,7 +493,7 @@ const ActualizarUsuario = () => {
                       padding: "12px 16px 12px 36px",
                       border: "1px solid #E5E7EB",
                       borderRadius: "12px",
-                      fontSize: "0.9rem",
+                      fontSize: "1.2rem",
                       background: "white",
                       outline: "none",
                     }}
@@ -510,7 +514,7 @@ const ActualizarUsuario = () => {
                 border: "none",
                 padding: "12px 32px",
                 borderRadius: "16px",
-                fontSize: "1rem",
+                fontSize: "1.2rem",
                 fontWeight: 600,
                 cursor: "pointer",
                 display: "flex",
@@ -522,7 +526,7 @@ const ActualizarUsuario = () => {
               onMouseEnter={(e) => (e.currentTarget.style.background = "#6B5740")}
               onMouseLeave={(e) => (e.currentTarget.style.background = "#8C7354")}
             >
-              <MaterialIcon name="person" style={{ fontSize: "18px" }} />
+              <MaterialIcon name="person" style={{ fontSize: "22px" }} />
               Actualizar Usuario
             </button>
           </div>
@@ -553,7 +557,7 @@ const ActualizarUsuario = () => {
                     margin: "0 auto 12px auto",
                   }}
                 >
-                  <span style={{ color: "white", fontWeight: "bold", fontSize: "32px" }}>
+                  <span style={{ color: "white", fontWeight: "bold", fontSize: "36px" }}>
                     {formData.name.charAt(0)}
                   </span>
                 </div>
@@ -574,7 +578,7 @@ const ActualizarUsuario = () => {
 
               <h3
                 style={{
-                  fontSize: "1.5rem",
+                  fontSize: "1.8rem",
                   fontWeight: 600,
                   color: "#1F2937",
                   marginBottom: "16px",
@@ -602,7 +606,7 @@ const ActualizarUsuario = () => {
                 <div style={{ textAlign: "center" }}>
                   <p
                     style={{
-                      fontSize: "1.5rem",
+                      fontSize: "1.8rem",
                       fontWeight: 700,
                       color: "#1F2937",
                       marginBottom: "4px",
@@ -612,7 +616,7 @@ const ActualizarUsuario = () => {
                   </p>
                   <p
                     style={{
-                      fontSize: "0.9rem",
+                      fontSize: "1.1rem",
                       color: "#6B7280",
                       textTransform: "uppercase",
                       letterSpacing: "0.5px",
@@ -624,7 +628,7 @@ const ActualizarUsuario = () => {
                 <div style={{ textAlign: "center" }}>
                   <p
                     style={{
-                      fontSize: "1.5rem",
+                      fontSize: "1.8rem",
                       fontWeight: 700,
                       color: "#1F2937",
                       marginBottom: "4px",
@@ -634,7 +638,7 @@ const ActualizarUsuario = () => {
                   </p>
                   <p
                     style={{
-                      fontSize: "0.9rem",
+                      fontSize: "1.1rem",
                       color: "#6B7280",
                       textTransform: "uppercase",
                       letterSpacing: "0.5px",
@@ -646,7 +650,7 @@ const ActualizarUsuario = () => {
               </div>
             </div>
 
-             {/* Card: ESTADO CUENTA con indicadores visuales */}
+            {/* Card: ESTADO CUENTA con indicadores visuales */}
             <div
               style={{
                 background: "#FFF5AC",
@@ -657,7 +661,7 @@ const ActualizarUsuario = () => {
             >
               <h2
                 style={{
-                  fontSize: "0.8rem",
+                  fontSize: "1rem",
                   fontWeight: 600,
                   color: "#8C7354",
                   letterSpacing: "1px",
@@ -700,12 +704,12 @@ const ActualizarUsuario = () => {
                     }}
                   >
                     {accountStatus === "Activa" && (
-                      <MaterialIcon name="check" style={{ fontSize: "14px", color: "white" }} />
+                      <MaterialIcon name="check" style={{ fontSize: "16px", color: "white" }} />
                     )}
                   </div>
                   <span
                     style={{
-                      fontSize: "0.95rem",
+                      fontSize: "1.1rem",
                       color: accountStatus === "Activa" ? "#10B981" : "#6B7280",
                       fontWeight: accountStatus === "Activa" ? 600 : 400,
                     }}
@@ -738,12 +742,12 @@ const ActualizarUsuario = () => {
                     }}
                   >
                     {accountStatus === "Inactiva" && (
-                      <MaterialIcon name="close" style={{ fontSize: "14px", color: "white" }} />
+                      <MaterialIcon name="close" style={{ fontSize: "16px", color: "white" }} />
                     )}
                   </div>
                   <span
                     style={{
-                      fontSize: "0.95rem",
+                      fontSize: "1.1rem",
                       color: accountStatus === "Inactiva" ? "#EF4444" : "#6B7280",
                       fontWeight: accountStatus === "Inactiva" ? 600 : 400,
                     }}

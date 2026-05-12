@@ -119,39 +119,39 @@ const CrearCredito = () => {
     return isValid;
   };
 
- const handleSubmit = async (e) => {
-  e.preventDefault();
-  if (!validateForm()) {
-    showWarning("Por favor completa todos los campos correctamente");
-    return;
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (!validateForm()) {
+      showWarning("Por favor completa todos los campos correctamente");
+      return;
+    }
+
+    setIsSubmitting(true);
+
+    try {
+      // Simular envío a API
+      await new Promise(resolve => setTimeout(resolve, 1500));
+      
+      console.log("Crédito registrado:", {
+        ...formData,
+        amount: parseInt(formData.amount, 10),
+      });
+      
+      showSuccess("¡Crédito registrado exitosamente!");
+      
+      setTimeout(() => {
+        handleCancel();
+        navigate("/creditos");
+      }, 2000);
+    } catch (error) {
+      console.error("Error al registrar el crédito:", error);
+      showError(error.message || "Ocurrió un error al registrar el crédito");
+    } finally {
+      setIsSubmitting(false);
+    }
   }
 
-  setIsSubmitting(true);
-
-  try {
-    // Simular envío a API
-    await new Promise(resolve => setTimeout(resolve, 1500));
-    
-    console.log("Crédito registrado:", {
-      ...formData,
-      amount: parseInt(formData.amount, 10),
-    });
-    
-    showSuccess("¡Crédito registrado exitosamente!");
-    
-    setTimeout(() => {
-      handleCancel();
-      navigate("/creditos");
-    }, 2000);
-  } catch (error) {
-    console.error("Error al registrar el crédito:", error);
-    showError(error.message || "Ocurrió un error al registrar el crédito");
-  } finally {
-    setIsSubmitting(false);
-  }
-}
-
-  //  limpia todos los campos
+  // limpia todos los campos
   const handleCancel = () => {
     setFormData({
       clientName: "",
@@ -181,20 +181,20 @@ const CrearCredito = () => {
       }}>
         <div onClick={() => navigate("/dashboard")} style={{ display: "flex", alignItems: "center", gap: "10px", cursor: "pointer" }}>
           <div style={{ width: "36px", height: "36px", background: "#8C7354", borderRadius: "10px", display: "flex", alignItems: "center", justifyContent: "center" }}>
-            <span style={{ color: "white", fontWeight: "bold", fontSize: "18px" }}>C</span>
+            <span style={{ color: "white", fontWeight: "bold", fontSize: "20px" }}>C</span>
           </div>
-          <span style={{ fontWeight: "bold", fontSize: "1.2rem", color: "#8C7354" }}>COMFÍA</span>
+          <span style={{ fontWeight: "bold", fontSize: "1.5rem", color: "#8C7354" }}>COMFÍA</span>
         </div>
 
         <div style={{ display: "flex", alignItems: "center", gap: "20px" }}>
           <button onClick={() => navigate("/notificaciones")} style={{ background: "none", border: "none", cursor: "pointer", padding: "8px", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", transition: "background 0.2s" }}
             onMouseEnter={(e) => e.currentTarget.style.background = "#F3F4F6"}
             onMouseLeave={(e) => e.currentTarget.style.background = "transparent"}>
-            <MaterialIcon name="notifications_none" style={{ fontSize: "22px", color: "#4B5563" }} />
+            <MaterialIcon name="notifications_none" style={{ fontSize: "24px", color: "#4B5563" }} />
           </button>
 
           <button onClick={() => navigate("/perfil")} style={{ background: "none", border: "none", cursor: "pointer", padding: "4px", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center" }}>
-            <div style={{ width: "36px", height: "36px", background: "#8C7354", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", color: "white", fontWeight: "bold", fontSize: "16px" }}>
+            <div style={{ width: "36px", height: "36px", background: "#8C7354", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", color: "white", fontWeight: "bold", fontSize: "20px" }}>
               {user?.name?.charAt(0) || "A"}
             </div>
           </button>
@@ -205,16 +205,16 @@ const CrearCredito = () => {
       <div style={{ flex: 1, display: "flex", alignItems: "center", justifyContent: "center", padding: "40px" }}>
         
         {/* Tarjeta del formulario */}
-        <div style={{ width: "100%", maxWidth: "600px", background: "white", borderRadius: "24px", boxShadow: "0 10px 30px rgba(0,0,0,0.1)", overflow: "hidden" }}>
+        <div style={{ width: "100%", maxWidth: "700px", background: "white", borderRadius: "24px", boxShadow: "0 10px 30px rgba(0,0,0,0.1)", overflow: "hidden" }}>
           
           <div style={{ padding: "24px 32px", borderBottom: "1px solid #F0F0F0" }}>
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
               <div>
-                <h1 style={{ fontSize: "1.6rem", fontWeight: 700, color: "#1F2937" }}>Registrar Crédito</h1>
-                <p style={{ fontSize: "0.8rem", color: "#6B7280", marginTop: "4px" }}>Complete la información detallada para procesar la solicitud de crédito.</p>
+                <h1 style={{ fontSize: "2rem", fontWeight: 700, color: "#1F2937" }}>Registrar Crédito</h1>
+                <p style={{ fontSize: "1.2rem", color: "#6B7280", marginTop: "4px" }}>Complete la información detallada para procesar la solicitud de crédito.</p>
               </div>
               <button onClick={() => navigate("/creditos")} style={{ padding: "8px", background: "transparent", border: "none", cursor: "pointer", borderRadius: "8px" }}>
-                <MaterialIcon name="close" style={{ color: "#6B7280" }} />
+                <MaterialIcon name="close" style={{ color: "#6B7280", fontSize: "20px" }} />
               </button>
             </div>
           </div>
@@ -224,8 +224,8 @@ const CrearCredito = () => {
               
               {/* Nombre del cliente */}
               <div>
-                <label style={{ display: "flex", alignItems: "center", gap: "8px", fontSize: "0.8rem", fontWeight: 600, color: "#4B5563", marginBottom: "8px" }}>
-                  <MaterialIcon name="person" style={{ fontSize: "18px", color: "#8C7354" }} />
+                <label style={{ display: "flex", alignItems: "center", gap: "8px", fontSize: "1rem", fontWeight: 600, color: "#4B5563", marginBottom: "8px" }}>
+                  <MaterialIcon name="person" style={{ fontSize: "22px", color: "#8C7354" }} />
                   Nombre del cliente
                 </label>
                 <input
@@ -240,7 +240,7 @@ const CrearCredito = () => {
                     padding: "12px 16px",
                     border: `1px solid ${errors.clientName && touched.clientName ? "#EF4444" : "#E5E7EB"}`,
                     borderRadius: "12px",
-                    fontSize: "0.9rem",
+                    fontSize: "1.2rem",
                     outline: "none",
                     transition: "all 0.2s",
                     background: "#f7f7f7"
@@ -248,16 +248,16 @@ const CrearCredito = () => {
                   onFocus={(e) => e.target.style.borderColor = "#8C7354"}
                 />
                 {errors.clientName && touched.clientName && (
-                  <p style={{ color: "#EF4444", fontSize: "0.7rem", marginTop: "4px", display: "flex", alignItems: "center", gap: "4px" }}>
-                    <MaterialIcon name="error" style={{ fontSize: "14px" }} /> {errors.clientName}
+                  <p style={{ color: "#EF4444", fontSize: "1rem", marginTop: "4px", display: "flex", alignItems: "center", gap: "4px" }}>
+                    <MaterialIcon name="error" style={{ fontSize: "16px" }} /> {errors.clientName}
                   </p>
                 )}
               </div>
 
               {/* CC */}
               <div>
-                <label style={{ display: "flex", alignItems: "center", gap: "8px", fontSize: "0.8rem", fontWeight: 600, color: "#4B5563", marginBottom: "8px" }}>
-                  <MaterialIcon name="credit_card" style={{ fontSize: "18px", color: "#8C7354" }} />
+                <label style={{ display: "flex", alignItems: "center", gap: "8px", fontSize: "1rem", fontWeight: 600, color: "#4B5563", marginBottom: "8px" }}>
+                  <MaterialIcon name="credit_card" style={{ fontSize: "22px", color: "#8C7354" }} />
                   CC (Número de identificación)
                 </label>
                 <input
@@ -272,21 +272,21 @@ const CrearCredito = () => {
                     padding: "12px 16px",
                     border: `1px solid ${errors.identification && touched.identification ? "#EF4444" : "#E5E7EB"}`,
                     borderRadius: "12px",
-                    fontSize: "0.9rem",
+                    fontSize: "1.2rem",
                     outline: "none",
                     background: "#f7f7f7"
                   }}
                   onFocus={(e) => e.target.style.borderColor = "#8C7354"}
                 />
                 {errors.identification && touched.identification && (
-                  <p style={{ color: "#EF4444", fontSize: "0.7rem", marginTop: "4px" }}>{errors.identification}</p>
+                  <p style={{ color: "#EF4444", fontSize: "1rem", marginTop: "4px" }}>{errors.identification}</p>
                 )}
               </div>
 
               {/* Valor del crédito */}
               <div>
-                <label style={{ display: "flex", alignItems: "center", gap: "8px", fontSize: "0.8rem", fontWeight: 600, color: "#4B5563", marginBottom: "8px" }}>
-                  <MaterialIcon name="attach_money" style={{ fontSize: "18px", color: "#8C7354" }} />
+                <label style={{ display: "flex", alignItems: "center", gap: "8px", fontSize: "1rem", fontWeight: 600, color: "#4B5563", marginBottom: "8px" }}>
+                  <MaterialIcon name="attach_money" style={{ fontSize: "22px", color: "#8C7354" }} />
                   Valor del crédito
                 </label>
                 <div style={{ position: "relative" }}>
@@ -301,24 +301,24 @@ const CrearCredito = () => {
                       padding: "12px 16px",
                       border: `1px solid ${errors.amount && touched.amount ? "#EF4444" : "#E5E7EB"}`,
                       borderRadius: "12px",
-                      fontSize: "0.9rem",
+                      fontSize: "1.2rem",
                       outline: "none",
                       background: "#f7f7f7"
                     }}
                     onFocus={(e) => e.target.style.borderColor = "#8C7354"}
                   />
-                  <span style={{ position: "absolute", right: "16px", top: "50%", transform: "translateY(-50%)", color: "#9CA3AF", fontSize: "0.7rem" }}>COP</span>
+                  <span style={{ position: "absolute", right: "16px", top: "50%", transform: "translateY(-50%)", color: "#9CA3AF", fontSize: "0.85rem" }}>COP</span>
                 </div>
                 {errors.amount && touched.amount && (
-                  <p style={{ color: "#EF4444", fontSize: "0.7rem", marginTop: "4px" }}>{errors.amount}</p>
+                  <p style={{ color: "#EF4444", fontSize: "1rem", marginTop: "4px" }}>{errors.amount}</p>
                 )}
               </div>
 
               {/* Fechas */}
               <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "16px" }}>
                 <div>
-                  <label style={{ display: "flex", alignItems: "center", gap: "8px", fontSize: "0.8rem", fontWeight: 600, color: "#4B5563", marginBottom: "8px" }}>
-                    <MaterialIcon name="calendar_today" style={{ fontSize: "18px", color: "#8C7354" }} />
+                  <label style={{ display: "flex", alignItems: "center", gap: "8px", fontSize: "1rem", fontWeight: 600, color: "#4B5563", marginBottom: "8px" }}>
+                    <MaterialIcon name="calendar_today" style={{ fontSize: "22px", color: "#8C7354" }} />
                     Fecha inicio
                   </label>
                   <input
@@ -332,19 +332,19 @@ const CrearCredito = () => {
                       padding: "12px 16px",
                       border: `1px solid ${errors.startDate && touched.startDate ? "#EF4444" : "#E5E7EB"}`,
                       borderRadius: "12px",
-                      fontSize: "0.9rem",
+                      fontSize: "1.2rem",
                       outline: "none",
                       background: "#f7f7f7"
                     }}
                   />
                   {errors.startDate && touched.startDate && (
-                    <p style={{ color: "#EF4444", fontSize: "0.7rem", marginTop: "4px" }}>{errors.startDate}</p>
+                    <p style={{ color: "#EF4444", fontSize: "1rem", marginTop: "4px" }}>{errors.startDate}</p>
                   )}
                 </div>
 
                 <div>
-                  <label style={{ display: "flex", alignItems: "center", gap: "8px", fontSize: "0.8rem", fontWeight: 600, color: "#4B5563", marginBottom: "8px" }}>
-                    <MaterialIcon name="event" style={{ fontSize: "18px", color: "#8C7354" }} />
+                  <label style={{ display: "flex", alignItems: "center", gap: "8px", fontSize: "1rem", fontWeight: 600, color: "#4B5563", marginBottom: "8px" }}>
+                    <MaterialIcon name="event" style={{ fontSize: "22px", color: "#8C7354" }} />
                     Fecha límite
                   </label>
                   <input
@@ -358,21 +358,21 @@ const CrearCredito = () => {
                       padding: "12px 16px",
                       border: `1px solid ${errors.endDate && touched.endDate ? "#EF4444" : "#E5E7EB"}`,
                       borderRadius: "12px",
-                      fontSize: "0.9rem",
+                      fontSize: "1.2rem",
                       outline: "none",
                       background: "#f7f7f7"
                     }}
                   />
                   {errors.endDate && touched.endDate && (
-                    <p style={{ color: "#EF4444", fontSize: "0.7rem", marginTop: "4px" }}>{errors.endDate}</p>
+                    <p style={{ color: "#EF4444", fontSize: "1rem", marginTop: "4px" }}>{errors.endDate}</p>
                   )}
                 </div>
               </div>
 
               {/* Nota informativa */}
               <div style={{ background: "#FEF3C7", borderRadius: "12px", padding: "12px 16px", border: "1px solid #FDE68A", marginTop: "8px" }}>
-                <p style={{ fontSize: "0.7rem", color: "#92400E", display: "flex", alignItems: "center", gap: "8px" }}>
-                  <span style={{ width: "18px", height: "18px", background: "#F59E0B", borderRadius: "50%", display: "inline-flex", alignItems: "center", justifyContent: "center", color: "white", fontSize: "12px", fontWeight: "bold" }}>!</span>
+                <p style={{ fontSize: "1rem", color: "#92400E", display: "flex", alignItems: "center", gap: "8px" }}>
+                  <span style={{ width: "18px", height: "18px", background: "#F59E0B", borderRadius: "50%", display: "inline-flex", alignItems: "center", justifyContent: "center", color: "white", fontSize: "14px", fontWeight: "bold" }}>!</span>
                   Asegúrese de verificar toda la documentación antes de proceder con el registro digital.
                 </p>
               </div>
@@ -389,7 +389,7 @@ const CrearCredito = () => {
                     border: "none",
                     padding: "12px 24px",
                     borderRadius: "12px",
-                    fontSize: "0.9rem",
+                    fontSize: "1.2rem",
                     fontWeight: 600,
                     cursor: isSubmitting ? "not-allowed" : "pointer",
                     opacity: isSubmitting ? 0.7 : 1,
@@ -406,7 +406,7 @@ const CrearCredito = () => {
                     <>Procesando...</>
                   ) : (
                     <>
-                      <MaterialIcon name="check_circle" style={{ fontSize: "18px" }} />
+                      <MaterialIcon name="check_circle" style={{ fontSize: "22px" }} />
                       Registrar Solicitud
                     </>
                   )}
@@ -421,7 +421,7 @@ const CrearCredito = () => {
                     color: "#6B7280",
                     padding: "12px 24px",
                     borderRadius: "12px",
-                    fontSize: "0.9rem",
+                    fontSize: "1.2rem",
                     fontWeight: 600,
                     cursor: "pointer",
                     transition: "all 0.2s"

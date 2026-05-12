@@ -7,6 +7,7 @@ import {
   showWarning,
   showDeactivateAccountModal,
 } from "../../Alerts";
+
 // Componente de íconos
 const MaterialIcon = ({ name, style = {} }) => (
   <span
@@ -113,11 +114,15 @@ const Configuracion = () => {
       icon: "settings",
       active: true,
     },
+    { name: "Reportes", 
+      path: "/reportes", 
+      icon: "assessment", 
+      active: false },
   ];
 
-  // Estilos dinámicos según el tema - Mejorados para modo oscuro elegante
-  const getBgColor = () => (theme === "oscuro" ? "#0F172A" : "#F7F7F7"); // slate-900
-  const getCardBgColor = () => (theme === "oscuro" ? "#1E293B" : "white"); // slate-800
+  // Estilos dinámicos según el tema
+  const getBgColor = () => (theme === "oscuro" ? "#0F172A" : "#F7F7F7");
+  const getCardBgColor = () => (theme === "oscuro" ? "#1E293B" : "white");
   const getSidebarBg = () => (theme === "oscuro" ? "#1E293B" : "#FFF5AC");
   const getTextColor = () => (theme === "oscuro" ? "#F1F5F9" : "#1F2937");
   const getSecondaryTextColor = () =>
@@ -171,7 +176,7 @@ const Configuracion = () => {
               }}
             >
               <span
-                style={{ color: "white", fontWeight: "bold", fontSize: "18px" }}
+                style={{ color: "white", fontWeight: "bold", fontSize: "20px" }}
               >
                 C
               </span>
@@ -181,14 +186,14 @@ const Configuracion = () => {
                 style={{
                   color: theme === "oscuro" ? "white" : "#8C7354",
                   fontWeight: "bold",
-                  fontSize: "1.2rem",
+                  fontSize: "1.5rem",
                 }}
               >
                 COMFÍA
               </span>
               <p
                 style={{
-                  fontSize: "0.6rem",
+                  fontSize: "0.85rem",
                   color: theme === "oscuro" ? "#94A3B8" : "#6B7280",
                   marginTop: "2px",
                 }}
@@ -232,7 +237,7 @@ const Configuracion = () => {
                       : "#6B7280",
                 }}
               />
-              <span style={{ fontSize: "0.9rem", fontWeight: 500 }}>
+              <span style={{ fontSize: "1.4rem", fontWeight: 500 }}>
                 {item.name}
               </span>
             </div>
@@ -277,7 +282,7 @@ const Configuracion = () => {
                 justifyContent: "center",
                 color: "white",
                 fontWeight: "bold",
-                fontSize: "16px",
+                fontSize: "20px",
               }}
             >
               {user?.name?.charAt(0) || "A"}
@@ -286,7 +291,7 @@ const Configuracion = () => {
               <p
                 style={{
                   color: theme === "oscuro" ? "white" : "#8C7354",
-                  fontSize: "1rem",
+                  fontSize: "1.3rem",
                   fontWeight: 600,
                 }}
               >
@@ -295,7 +300,7 @@ const Configuracion = () => {
               <p
                 style={{
                   color: theme === "oscuro" ? "#94A3B8" : "#9CA3AF",
-                  fontSize: "0.75rem",
+                  fontSize: "1rem",
                 }}
               >
                 Administrador
@@ -319,7 +324,7 @@ const Configuracion = () => {
               cursor: "pointer",
             }}
           >
-            <MaterialIcon name="logout" style={{ fontSize: "18px" }} />
+            <MaterialIcon name="logout" style={{ fontSize: "20px" }} />
             Cerrar Sesión
           </button>
         </div>
@@ -338,7 +343,7 @@ const Configuracion = () => {
         >
           <h1
             style={{
-              fontSize: "1.8rem",
+              fontSize: "2rem",
               fontWeight: 800,
               color: getTextColor(),
             }}
@@ -400,7 +405,7 @@ const Configuracion = () => {
             <div>
               <h2
                 style={{
-                  fontSize: "1.2rem",
+                  fontSize: "1.5rem",
                   fontWeight: 600,
                   color: getTextColor(),
                 }}
@@ -409,7 +414,7 @@ const Configuracion = () => {
               </h2>
               <p
                 style={{
-                  fontSize: "0.95rem",
+                  fontSize: "1.2rem",
                   color: getSecondaryTextColor(),
                   marginTop: "4px",
                 }}
@@ -425,7 +430,7 @@ const Configuracion = () => {
                 border: "none",
                 padding: "8px 20px",
                 borderRadius: "8px",
-                fontSize: "0.95rem",
+                fontSize: "1rem",
                 fontWeight: 500,
                 cursor: "pointer",
                 transition: "all 0.2s",
@@ -453,7 +458,7 @@ const Configuracion = () => {
                 <label
                   style={{
                     display: "block",
-                    fontSize: "0.85rem",
+                    fontSize: "1rem",
                     fontWeight: 600,
                     color: "#9CA3AF",
                     letterSpacing: "0.5px",
@@ -473,7 +478,7 @@ const Configuracion = () => {
                     padding: "10px 14px",
                     border: `1px solid ${getInputBorderColor()}`,
                     borderRadius: "10px",
-                    fontSize: "0.95rem",
+                    fontSize: "1.2rem",
                     background: getInputBgColor(),
                     outline: "none",
                     color: getTextColor(),
@@ -484,7 +489,7 @@ const Configuracion = () => {
                 <label
                   style={{
                     display: "block",
-                    fontSize: "0.85rem",
+                    fontSize: "1rem",
                     fontWeight: 600,
                     color: "#9CA3AF",
                     letterSpacing: "0.5px",
@@ -504,7 +509,7 @@ const Configuracion = () => {
                     padding: "10px 14px",
                     border: `1px solid ${getInputBorderColor()}`,
                     borderRadius: "10px",
-                    fontSize: "0.95rem",
+                    fontSize: "1.2rem",
                     background: getInputBgColor(),
                     outline: "none",
                     color: getTextColor(),
@@ -580,7 +585,7 @@ const Configuracion = () => {
               </div>
               <p
                 style={{
-                  fontSize: "0.85rem",
+                  fontSize: "1rem",
                   fontWeight: 500,
                   color: "#8C6A3D",
                   marginBottom: "4px",
@@ -588,7 +593,7 @@ const Configuracion = () => {
               >
                 Cambiar Foto de Perfil
               </p>
-              <p style={{ fontSize: "0.7rem", color: "#6B7280" }}>
+              <p style={{ fontSize: "0.85rem", color: "#6B7280" }}>
                 JPG, PNG, GIF • Máx 2MB
               </p>
             </div>
@@ -609,7 +614,7 @@ const Configuracion = () => {
           <div style={{ marginBottom: "20px" }}>
             <h2
               style={{
-                fontSize: "1.2rem",
+                fontSize: "1.5rem",
                 fontWeight: 600,
                 color: getTextColor(),
               }}
@@ -618,7 +623,7 @@ const Configuracion = () => {
             </h2>
             <p
               style={{
-                fontSize: "0.85rem",
+                fontSize: "1.2rem",
                 color: getSecondaryTextColor(),
                 marginTop: "4px",
               }}
@@ -638,7 +643,7 @@ const Configuracion = () => {
             <div>
               <p
                 style={{
-                  fontSize: "0.85rem",
+                  fontSize: "1rem",
                   fontWeight: 600,
                   color: "#9CA3AF",
                   letterSpacing: "0.5px",
@@ -648,7 +653,7 @@ const Configuracion = () => {
                 CONTRASEÑA
               </p>
               <p
-                style={{ fontSize: "0.89rem", color: getSecondaryTextColor() }}
+                style={{ fontSize: "1rem", color: getSecondaryTextColor() }}
               >
                 Actualiza tu contraseña periódicamente para mantener tu cuenta
                 segura.
@@ -665,7 +670,7 @@ const Configuracion = () => {
                   padding: "10px 14px",
                   border: `1px solid ${getInputBorderColor()}`,
                   borderRadius: "10px",
-                  fontSize: "0.95rem",
+                  fontSize: "1.2rem",
                   marginBottom: "12px",
                   outline: "none",
                   background: getInputBgColor(),
@@ -682,7 +687,7 @@ const Configuracion = () => {
                   padding: "10px 14px",
                   border: `1px solid ${getInputBorderColor()}`,
                   borderRadius: "10px",
-                  fontSize: "0.95rem",
+                  fontSize: "1.2rem",
                   outline: "none",
                   background: getInputBgColor(),
                   color: getTextColor(),
@@ -699,7 +704,7 @@ const Configuracion = () => {
               color: "#8C6A3D",
               padding: "8px 20px",
               borderRadius: "8px",
-              fontSize: "0.85rem",
+              fontSize: "1rem",
               fontWeight: 500,
               cursor: "pointer",
             }}
@@ -723,7 +728,7 @@ const Configuracion = () => {
         >
           <h2
             style={{
-              fontSize: "0.85rem",
+              fontSize: "1rem",
               fontWeight: 600,
               color: "#9CA3AF",
               letterSpacing: "1px",
@@ -755,7 +760,7 @@ const Configuracion = () => {
                 style={{ display: "flex", alignItems: "center", gap: "10px" }}
               >
                 <MaterialIcon name="light_mode" style={{ color: "#F59E0B" }} />
-                <span style={{ fontSize: "0.95rem", color: getTextColor() }}>
+                <span style={{ fontSize: "1.2rem", color: getTextColor() }}>
                   Modo Claro
                 </span>
               </div>
@@ -794,7 +799,7 @@ const Configuracion = () => {
                 style={{ display: "flex", alignItems: "center", gap: "10px" }}
               >
                 <MaterialIcon name="dark_mode" style={{ color: "#94A3B8" }} />
-                <span style={{ fontSize: "0.95rem", color: getTextColor() }}>
+                <span style={{ fontSize: "1.2rem", color: getTextColor() }}>
                   Modo Oscuro
                 </span>
               </div>
@@ -827,7 +832,7 @@ const Configuracion = () => {
         >
           <h2
             style={{
-              fontSize: "0.85rem",
+              fontSize: "1rem",
               fontWeight: 600,
               color: "#9CA3AF",
               letterSpacing: "1px",
@@ -849,7 +854,7 @@ const Configuracion = () => {
                 name="notifications"
                 style={{ color: theme === "oscuro" ? "#94A3B8" : "#6B7280" }}
               />
-              <span style={{ fontSize: "0.95rem", color: getTextColor() }}>
+              <span style={{ fontSize: "1.2rem", color: getTextColor() }}>
                 Alertas de Crédito
               </span>
             </div>
@@ -907,7 +912,7 @@ const Configuracion = () => {
             <div>
               <p
                 style={{
-                  fontSize: "0.95rem",
+                  fontSize: "1.2rem",
                   color: theme === "oscuro" ? "#F87171" : "#DC2626",
                   fontWeight: 500,
                   marginBottom: "4px",
@@ -916,7 +921,7 @@ const Configuracion = () => {
                 Ten en cuenta que estas acciones son irreversibles
               </p>
               <p
-                style={{ fontSize: "0.75rem", color: getSecondaryTextColor() }}
+                style={{ fontSize: "1rem", color: getSecondaryTextColor() }}
               >
                 y pueden afectar el acceso a tus datos.
               </p>
@@ -929,7 +934,7 @@ const Configuracion = () => {
                 border: "none",
                 padding: "10px 24px",
                 borderRadius: "8px",
-                fontSize: "0.85rem",
+                fontSize: "1rem",
                 fontWeight: 600,
                 cursor: "pointer",
                 transition: "all 0.2s",

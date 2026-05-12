@@ -125,8 +125,8 @@ const Dashboard = () => {
           flexDirection: 'column'
         }}>
           <div style={{ marginBottom: '24px' }}>
-            <h2 style={{ fontSize: '1.8rem', fontWeight: 700, color: '#1F2937' }}>Menú Principal</h2>
-            <p style={{ color: '#6B7280', fontSize: '1rem', marginTop: '4px' }}>
+            <h2 style={{ fontSize: '2rem', fontWeight: 700, color: '#1F2937' }}>Menú Principal</h2>
+            <p style={{ color: '#6B7280', fontSize: '1.3rem', marginTop: '4px' }}>
               Bienvenido al sistema de gestión estratégica
             </p>
           </div>
@@ -182,8 +182,8 @@ const Dashboard = () => {
                     </span>
                   </div>
                   <div>
-                    <h3 style={{ fontWeight: 700, color: '#1F2937', fontSize: '1rem' }}>{item.title}</h3>
-                    <p style={{ fontSize: '0.9rem', color: '#6B7280', marginTop: '2px' }}>{item.description}</p>
+                    <h3 style={{ fontWeight: 700, color: '#1F2937', fontSize: '1.3rem' }}>{item.title}</h3>
+                    <p style={{ fontSize: ' 1.2rem', color: '#6B7280', marginTop: '2px' }}>{item.description}</p>
                   </div>
                 </div>
                 <span className="material-symbols-outlined" style={{ color: '#D1D5DB', fontSize: '20px' }}>
@@ -213,8 +213,8 @@ const Dashboard = () => {
                     {stat.change}
                   </span>
                 </div>
-                <div style={{ fontSize: '20px', fontWeight: 700, color: stat.color }}>{stat.value}</div>
-                <div style={{ fontSize: '12px', color: '#6B7280' }}>{stat.title}</div>
+                <div style={{ fontSize: '30px', fontWeight: 700, color: stat.color }}>{stat.value}</div>
+                <div style={{ fontSize: '18px', color: '#6B7280' }}>{stat.title}</div>
               </div>
             ))}
           </div>
@@ -243,8 +243,8 @@ const Dashboard = () => {
                 {user?.name?.charAt(0) || 'A'}
               </div>
               <div>
-                <p style={{ fontWeight: 700, color: '#1F2937', fontSize: '16px' }}>{user?.name || 'Admin User'}</p>
-                <p style={{ fontSize: '12px', color: '#10B981' }}>Sesión activa</p>
+                <p style={{ fontWeight: 700, color: '#1F2937', fontSize: '20px' }}>{user?.name || 'Admin User'}</p>
+                <p style={{ fontSize: '18px', color: '#10B981' }}>Sesión activa</p>
               </div>
             </div>
             <button
@@ -256,7 +256,7 @@ const Dashboard = () => {
                 background: 'none',
                 border: 'none',
                 color: '#8C7354',
-                fontSize: '16px',
+                fontSize: '18px',
                 fontWeight: 600,
                 cursor: 'pointer'
               }}
