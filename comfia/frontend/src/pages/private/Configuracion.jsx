@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../Context/AuthContext";
+import { UserService } from "../../Services/UserService";
 import {
   showSuccess,
   showError,
@@ -61,26 +62,36 @@ const Configuracion = () => {
 
   // Actualizar contraseña
   const handleUpdatePassword = async () => {
-    if (!currentPassword || !newPassword) {
-      showWarning("Por favor completa ambos campos");
-      return;
-    }
+  if (!currentPassword || !newPassword) {
+    showWarning("Por favor completa ambos campos");
+    return;
+  }
 
-    if (newPassword !== confirmPassword) {
-      showError("Las contraseñas nuevas no coinciden");
-      return;
-    }
+  if (newPassword !== confirmPassword) {
+    showError("Las contraseñas nuevas no coinciden");
+    return;
+  }
 
-    if (newPassword.length < 6) {
-      showWarning("La contraseña debe tener al menos 6 caracteres");
-      return;
-    }
+  if (newPassword.length < 6) {
+    showWarning("La contraseña debe tener al menos 6 caracteres");
+    return;
+  }
 
+  try {
+    await UserService.changePassword({
+      currentPassword,
+      newPassword
+    });
+    
     showSuccess("Contraseña actualizada correctamente");
     setCurrentPassword("");
     setNewPassword("");
     setConfirmPassword("");
-  };
+  } catch (error) {
+    console.error("Error al cambiar contraseña:", error);
+    showError(error.response?.data?.message || "Error al cambiar la contraseña");
+  }
+};
 
   //desactivar cuenta
   const handleDeactivateAccount = async () => {
@@ -158,9 +169,11 @@ const Configuracion = () => {
       >
         {/* Logo */}
         <div
+          onClick={() => navigate("/dashboard")}
           style={{
             padding: "28px 20px",
-            borderBottom: `1px solid ${theme === "oscuro" ? "#334155" : "rgba(0,0,0,0.05)"}`,
+            borderBottom: "1px solid rgba(0,0,0,0.05)",
+            cursor: "pointer",
           }}
         >
           <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
@@ -184,7 +197,7 @@ const Configuracion = () => {
             <div>
               <span
                 style={{
-                  color: theme === "oscuro" ? "white" : "#8C7354",
+                  color: "#8C7354",
                   fontWeight: "bold",
                   fontSize: "1.5rem",
                 }}
@@ -194,7 +207,7 @@ const Configuracion = () => {
               <p
                 style={{
                   fontSize: "0.85rem",
-                  color: theme === "oscuro" ? "#94A3B8" : "#6B7280",
+                  color: "#6B7280",
                   marginTop: "2px",
                 }}
               >

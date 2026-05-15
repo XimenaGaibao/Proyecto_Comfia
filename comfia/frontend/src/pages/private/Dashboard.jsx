@@ -1,21 +1,82 @@
+import { useState, useEffect } from "react";
 import { useAuth } from '../../Context/AuthContext';
 import { useNavigate } from 'react-router-dom';
+import { CreditService } from "../../Services/CreditService";
 
 const Dashboard = () => {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(true);
+  const [dashboardStats, setDashboardStats] = useState({
+    totalCredits: 0,
+    totalAmount: 0,
+    activeCredits: 0,
+    pendingCredits: 0,
+    clients: 0
+  });
+
+  const loadStats = async () => {
+    try {
+      const data = await CreditService.getStats();
+      
+      // Procesar estadísticas
+      const totalCredits = data.total?.total || 0;
+      const totalAmount = data.total?.total_monto || 0;
+      
+      // Procesar créditos por estado
+      let active = 0, pending = 0;
+      if (data.byStatus && Array.isArray(data.byStatus)) {
+        data.byStatus.forEach(item => {
+          const estado = item.estado?.toLowerCase() || '';
+          if (estado === 'aprobado' || estado === 'activo') active = item.count;
+          else if (estado === 'pendiente') pending = item.count;
+        });
+      }
+      
+      setDashboardStats({
+        totalCredits,
+        totalAmount,
+        activeCredits: active,
+        pendingCredits: pending,
+        clients: 0  
+      });
+    } catch (error) {
+      console.error("Error al cargar estadísticas:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const loadRecentCredits = async () => {
+    try {
+      const data = await CreditService.getAll();
+      // Puedes usar los datos para algo si lo deseas
+      console.log("Créditos recientes:", data.slice(0, 4));
+    } catch (error) {
+      console.error("Error al cargar créditos recientes:", error);
+    }
+  };
+
+  // Cargar estadísticas desde el backend
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    loadStats();
+    loadRecentCredits();
+  }, []);
+
+  
 
   const handleLogout = () => {
     logout();
     navigate('/login');
   };
 
-  // Stats financieras
+  // Stats financieras con datos reales
   const stats = [
-    { title: 'Créditos Activos', value: '24', icon: '💰', color: '#8C7354', change: '+12%' },
-    { title: 'Total Prestado', value: '$12,450,000', icon: '💵', color: '#10B981', change: '+8%' },
-    { title: 'Clientes', value: '156', icon: '👥', color: '#3B82F6', change: '+5%' },
-    { title: 'Tasa de Pago', value: '94%', icon: '📊', color: '#F59E0B', change: '+2%' },
+    { title: 'Créditos Activos', value: dashboardStats.activeCredits.toString(), icon: '💰', color: '#8C7354', change: '+12%' },
+    { title: 'Total Prestado', value: `$${(dashboardStats.totalAmount / 1000000).toFixed(1)}M`, icon: '💵', color: '#10B981', change: '+8%' },
+    { title: 'Clientes', value: dashboardStats.clients.toString(), icon: '👥', color: '#3B82F6', change: '+5%' },
+    { title: 'Tasa de Pago', value: dashboardStats.totalCredits > 0 ? `${Math.round((dashboardStats.activeCredits / dashboardStats.totalCredits) * 100)}%` : '0%', icon: '📊', color: '#F59E0B', change: '+2%' },
   ];
 
   // Menú principal con Material Symbols
@@ -36,15 +97,34 @@ const Dashboard = () => {
       title: 'Contacto Programador',
       description: 'Soporte técnico y desarrollo',
       icon: 'terminal',
-      path: '/contacto-programador'
+      path: '/contacto'
     },
     {
       title: 'Sistemas Compatibles',
       description: 'Integraciones y plataformas',
       icon: 'devices',
-      path: '/sistemas'
+      path: '/guide'
     }
   ];
+
+  if (loading) {
+    return (
+      <div style={{ 
+        background: '#8C7354',
+        minHeight: '100vh',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        padding: '40px'
+      }}>
+        <div style={{ textAlign: 'center' }}>
+          <div style={{ width: '50px', height: '50px', border: '3px solid #E5E7EB', borderTopColor: '#FFF5AC', borderRadius: '50%', animation: 'spin 1s linear infinite', margin: '0 auto 16px auto' }}></div>
+          <p style={{ color: 'white' }}>Cargando estadísticas...</p>
+          <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div style={{ 
@@ -193,7 +273,7 @@ const Dashboard = () => {
             ))}
           </div>
 
-          {/* Stats */}
+          {/* Stats con datos reales */}
           <div style={{
             display: 'grid',
             gridTemplateColumns: 'repeat(2, 1fr)',

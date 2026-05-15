@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../Context/AuthContext";
 import { showConfirm, showSuccess, showError } from "../../Alerts";
+import { UserService } from "../../Services/UserService";
 
 // Componente de íconos
 const MaterialIcon = ({ name, style = {} }) => (
@@ -20,7 +21,39 @@ const ListaUsuarios = () => {
   // Estados
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
+  const [users, setUsers] = useState([]);
+  const [loading, setLoading] = useState(true);
   const itemsPerPage = 10;
+
+  const loadUsers = async () => {
+  try {
+    setLoading(true);
+    const data = await UserService.getAll();
+    
+    const formattedUsers = data.map((user) => ({
+      id: user.id,
+      name: user.nombre || "Sin nombre",
+      email: user.email || "Sin email",
+      document: user.documento_id || "N/A",
+      phone: user.telefono || "N/A",
+      role: user.rol || "Visualizador",
+      // ✅ CORREGIDO: Comparar sin importar mayúsculas/minúsculas
+      status: user.estado && user.estado.toLowerCase() === "activo" ? "Activo" : "Inactivo",
+    }));
+    
+    setUsers(formattedUsers);
+  } catch (error) {
+    console.error("Error al cargar usuarios:", error);
+    showError("Error al cargar los usuarios");
+  } finally {
+    setLoading(false);
+  }
+};
+  // Cargar usuarios desde el backend
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    loadUsers();
+  }, []);
 
   // Función para obtener iniciales del nombre
   const getInitials = (name) => {
@@ -33,38 +66,6 @@ const ListaUsuarios = () => {
       words[0].charAt(0) + words[words.length - 1].charAt(0)
     ).toUpperCase();
   };
-
-  // Datos simulados de usuarios
-  const [users, setUsers] = useState([
-    {
-      id: 1,
-      name: "Juan Pérez",
-      email: "juan.perez@comfia.com",
-      role: "Administrador",
-      status: "Activo",
-    },
-    {
-      id: 2,
-      name: "Ximena Gaibao",
-      email: "x.gaibao@comfia.com",
-      role: "Editor",
-      status: "Activo",
-    },
-    {
-      id: 3,
-      name: "Sol Rojas",
-      email: "sol.rojas@comfia.com",
-      role: "Administrador",
-      status: "Inactivo",
-    },
-    {
-      id: 4,
-      name: "Ana Martínez",
-      email: "ana.martinez@comfia.com",
-      role: "Visualizador",
-      status: "Activo",
-    },
-  ]);
 
   // Filtrar usuarios
   const filteredUsers = users.filter((user) => {
@@ -91,6 +92,33 @@ const ListaUsuarios = () => {
   const clearSearch = () => {
     setSearchTerm("");
     setCurrentPage(1);
+  };
+
+  // Eliminar usuario
+  const handleDelete = async (id, name) => {
+    const result = await showConfirm(
+      `¿Estás seguro de eliminar al usuario "${name}"? Esta acción no se puede deshacer`,
+      "Confirmar Eliminación Usuarios",
+      "Eliminar",
+      "Cancelar",
+    );
+
+    if (result.isConfirmed) {
+      try {
+        await UserService.delete(id);
+        showSuccess(`Usuario "${name}" eliminado correctamente`);
+        await loadUsers(); // Recargar lista
+        if (paginatedUsers.length === 1 && currentPage > 1) {
+          setCurrentPage(currentPage - 1);
+        }
+      } catch (error) {
+        console.error("Error al eliminar:", error);
+        showError(
+          error.response?.data?.message ||
+            "Ocurrió un error al eliminar el usuario",
+        );
+      }
+    }
   };
 
   // Cerrar sesión
@@ -138,38 +166,50 @@ const ListaUsuarios = () => {
 
   // Estilos según el estado
   const getStatusStyle = (status) => {
-    switch (status) {
-      case "Activo":
-        return { color: "#10B981", bg: "#D4EDDA" };
-      case "Inactivo":
-        return { color: "#6B7280", bg: "#F3F4F6" };
-      default:
-        return { color: "#6B7280", bg: "#F3F4F6" };
-    }
-  };
-
-  //eliminar usuario
-  const handleDelete = async (id, name) => {
-    const result = await showConfirm(
-      `¿Estás seguro de eliminar al usuario "${name}"? Esta acción no se puede deshacer`,
-      "Confirmar Eliminación Usuarios",
-      "Eliminar",
-      "Cancelar"
+  switch (status) {
+    case "Activo":
+      return { color: "#10B981", bg: "#D4EDDA" };
+    case "Inactivo":
+      return { color: "#EF4444", bg: "#FEE2E2" }; 
+    default:
+      return { color: "#6B7280", bg: "#F3F4F6" };
+  }
+};
+  if (loading) {
+    return (
+      <div
+        style={{ display: "flex", minHeight: "100vh", background: "#F3F4F6" }}
+      >
+        <div style={{ width: "260px", background: "#FFF5AC" }}></div>
+        <div
+          style={{
+            flex: 1,
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <div style={{ textAlign: "center" }}>
+            <div
+              style={{
+                width: "50px",
+                height: "50px",
+                border: "3px solid #E5E7EB",
+                borderTopColor: "#8C7354",
+                borderRadius: "50%",
+                animation: "spin 1s linear infinite",
+                margin: "0 auto 16px auto",
+              }}
+            ></div>
+            <p style={{ fontSize: "1rem", color: "#6B7280" }}>
+              Cargando usuarios...
+            </p>
+            <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
+          </div>
+        </div>
+      </div>
     );
-    
-    if (result.isConfirmed) {
-      try {
-        setUsers(users.filter(u => u.id !== id));
-        showSuccess(`Usuario "${name}" eliminado correctamente`);
-        if (paginatedUsers.length === 1 && currentPage > 1) {
-          setCurrentPage(currentPage - 1);
-        }
-      } catch (error) {
-        console.error("Error al eliminar:", error);
-        showError(error.message || "Ocurrió un error al eliminar el usuario");
-      }
-    }
-  };
+  }
 
   return (
     <div style={{ display: "flex", minHeight: "100vh", background: "#F3F4F6" }}>
@@ -187,9 +227,11 @@ const ListaUsuarios = () => {
       >
         {/* Logo */}
         <div
+          onClick={() => navigate("/dashboard")}
           style={{
             padding: "28px 20px",
             borderBottom: "1px solid rgba(0,0,0,0.05)",
+            cursor: "pointer",
           }}
         >
           <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
@@ -302,7 +344,11 @@ const ListaUsuarios = () => {
             </div>
             <div>
               <p
-                style={{ color: "#8C7354", fontSize: "1.3rem", fontWeight: 600 }}
+                style={{
+                  color: "#8C7354",
+                  fontSize: "1.3rem",
+                  fontWeight: 600,
+                }}
               >
                 {user?.name || "Admin User"}
               </p>
@@ -342,7 +388,8 @@ const ListaUsuarios = () => {
             Gestión de Usuarios
           </h1>
           <p style={{ fontSize: "1.2rem", color: "#6B7280", marginTop: "4px" }}>
-            Administre los roles, permisos y estados de los usuarios del sistema central.
+            Administre los roles, permisos y estados de los usuarios del sistema
+            central.
           </p>
         </div>
 
@@ -662,7 +709,7 @@ const ListaUsuarios = () => {
                               background: "none",
                               border: "none",
                               cursor: "pointer",
-                              color: "#8C7354",
+                              color: "#6B7280",
                             }}
                           >
                             <MaterialIcon
@@ -671,9 +718,7 @@ const ListaUsuarios = () => {
                             />
                           </button>
                           <button
-                            onClick={() =>
-                              handleDelete(user.id, user.name)
-                            }
+                            onClick={() => handleDelete(user.id, user.name)}
                             style={{
                               background: "none",
                               border: "none",

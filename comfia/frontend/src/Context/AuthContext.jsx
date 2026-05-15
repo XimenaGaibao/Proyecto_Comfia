@@ -101,15 +101,15 @@ export function AuthProvider({ children }) {
     loading,
     error,
     isAuthenticated: !!user && !!token,
-    role: user?.role || null,
+    usuariosrol: user?.rol || null,
     login,
     register,
     logout,
     updateUser,
     // Helpers de rol
-    isAdmin: user?.role === 'admin',
-    isWorker: user?.role === 'trabajador',
-    isClient: user?.role === 'cliente',
+    isAdmin: user?.rol === 'Admin',
+    isWorker: user?.rol === 'Visualizador', 
+    isClient: user?.rol === 'Editor',
   };
 
   return (

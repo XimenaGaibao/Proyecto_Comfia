@@ -1,6 +1,8 @@
 import { useNavigate, Link } from 'react-router-dom';
 import { useState } from 'react';
 import RegistroExitosoModal from '../../components/RegistroExitoso'; 
+import { AuthService } from "../../services/AuthService";
+import { showSuccess, showError } from "../../Alerts";
 
 export default function Register() {
   const navigate = useNavigate();
@@ -16,11 +18,31 @@ export default function Register() {
 
   const fontFamily = "'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif";
 
-  // 3. Crear una función para manejar el registro exitoso
-  const handleRegisterSuccess = () => {
-    // Aquí puedes agregar la lógica de registro si la tienes
-    setShowSuccessModal(true);
-  };
+
+  // Crear una función para manejar el registro exitoso
+  const handleRegister = async () => {
+
+    try {
+        const response = await AuthService.register({
+            nombre: form.name,
+            email: form.email,
+            password: form.password,
+            documento: form.cc,
+            telefono: form.phone,
+            rol: 'cliente'
+        });
+        
+        if (response.success) {
+            localStorage.setItem('comfia_token', response.token);
+            localStorage.setItem('user', JSON.stringify(response.user));
+            showSuccess("¡Usuario registrado exitosamente!");
+            setShowSuccessModal(true);
+        }
+    } catch (error) {
+        const message = error.response?.data?.message || "Error al registrar usuario";
+        showError(message);
+    }
+};
 
   return (
     <div style={{ 
@@ -319,7 +341,7 @@ export default function Register() {
 
           {/* Botón Registrarse*/}
           <button
-            onClick={handleRegisterSuccess}  // ✅ Cambiar esto
+            onClick={handleRegister} 
             style={{ 
               width: "100%", 
               padding: "14px", 
