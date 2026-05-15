@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../Context/AuthContext";
-import { showConfirm, showSuccess, showError } from "../../alerts";
+import { showConfirm, showSuccess, showError } from "../../Alerts";
+import { CreditService } from "../../Services/CreditService";
 
 // Componente de íconos (definido fuera para evitar recreaciones)
 const MaterialIcon = ({ name, style = {} }) => (
@@ -16,6 +17,7 @@ const MaterialIcon = ({ name, style = {} }) => (
 const ListaCreditos = () => {
   const navigate = useNavigate();
   const { user, logout } = useAuth();
+  
 
   // Estados para filtros y búsqueda
   const [searchTerm, setSearchTerm] = useState("");
@@ -27,7 +29,40 @@ const ListaCreditos = () => {
 
   // Estados para paginación
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 10; // Cantidad de registros por página
+  const itemsPerPage = 10;
+
+  // Estado para datos reales
+  const [credits, setCredits] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  const loadCredits = async () => {
+    try {
+      setLoading(true);
+      const data = await CreditService.getAll();
+
+      const formattedCredits = data.map((credit) => ({
+        id: credit.id,
+        client: credit.nombre_cliente,
+        document: credit.documento_cliente,
+        amount: credit.monto,
+        date: new Date(credit.fecha_inicio).toLocaleDateString("es-CO"),
+        status: credit.estado,
+        type: credit.tipo || "Personal",
+      }));
+      setCredits(formattedCredits);
+    } catch (error) {
+      console.error("Error al cargar créditos:", error);
+      showError("Error al cargar los créditos");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Cargar créditos desde el backend
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    loadCredits();
+  }, []);
 
   // Función para obtener iniciales del nombre
   const getInitials = (name) => {
@@ -36,69 +71,10 @@ const ListaCreditos = () => {
     if (words.length === 1) {
       return words[0].charAt(0).toUpperCase();
     }
-    // Toma la primera letra del primer nombre y primera del último apellido
     return (
       words[0].charAt(0) + words[words.length - 1].charAt(0)
     ).toUpperCase();
   };
-
-  // Datos simulados
-  const [credits, setCredits] = useState([
-    {
-      id: 1,
-      client: "Carlos Rodríguez",
-      document: "1.023.456.789",
-      amount: 5000000,
-      date: "12/10/2023",
-      status: "Aprobado",
-      type: "Personal",
-    },
-    {
-      id: 2,
-      client: "Ana María Rojas",
-      document: "52.876.543",
-      amount: 12000000,
-      date: "15/10/2023",
-      status: "Pendiente",
-      type: "Empresarial",
-    },
-    {
-      id: 3,
-      client: "Luis Gabriel Peña",
-      document: "79.345.210",
-      amount: 3500000,
-      date: "18/10/2023",
-      status: "En revisión",
-      type: "Vivienda",
-    },
-    {
-      id: 4,
-      client: "Diana Marcela Ortiz",
-      document: "1110.987.654",
-      amount: 8200000,
-      date: "20/10/2023",
-      status: "Rechazado",
-      type: "Estudio",
-    },
-    {
-      id: 5,
-      client: "Pedro Sánchez",
-      document: "998.877.665",
-      amount: 2500000,
-      date: "22/10/2023",
-      status: "Aprobado",
-      type: "Personal",
-    },
-    {
-      id: 6,
-      client: "Laura Gómez",
-      document: "554.433.221",
-      amount: 15000000,
-      date: "25/10/2023",
-      status: "Pendiente",
-      type: "Empresarial",
-    },
-  ]);
 
   // Aplicar filtros
   const filteredCredits = credits.filter((credit) => {
@@ -110,7 +86,6 @@ const ListaCreditos = () => {
     const matchesType =
       typeFilter === "Todos los tipos" || credit.type === typeFilter;
 
-    // Filtro por monto
     let matchesAmount = true;
     if (amountFilter !== "Cualquier monto") {
       if (amountFilter === "Menos de $1M")
@@ -149,25 +124,29 @@ const ListaCreditos = () => {
   const handleDelete = async (id, clientName) => {
     const result = await showConfirm(
       `¿Estás seguro de eliminar el crédito de "${clientName}"? Esta acción no se puede deshacer`,
-      "Confirmar  Eliminación Créditos",
+      "Confirmar Eliminación Créditos",
       "Eliminar",
       "Cancelar",
     );
 
     if (result.isConfirmed) {
       try {
-        setCredits(credits.filter((c) => c.id !== id));
+        await CreditService.delete(id);
         showSuccess(`Crédito de "${clientName}" eliminado correctamente`);
-        // Si es el último elemento de la página, ir a la página anterior
+        await loadCredits(); // Recargar lista
         if (paginatedCredits.length === 1 && currentPage > 1) {
           setCurrentPage(currentPage - 1);
         }
       } catch (error) {
         console.error("Error al eliminar:", error);
-        showError(error.message || "Ocurrió un error al eliminar el crédito");
+        showError(
+          error.response?.data?.message ||
+            "Ocurrió un error al eliminar el crédito",
+        );
       }
     }
   };
+
   // Exportar a CSV
   const handleExport = () => {
     const headers = [
@@ -242,6 +221,42 @@ const ListaCreditos = () => {
     }
   };
 
+  if (loading) {
+    return (
+      <div
+        style={{ display: "flex", minHeight: "100vh", background: "#F3F4F6" }}
+      >
+        <div style={{ width: "260px", background: "#FFF5AC" }}></div>
+        <div
+          style={{
+            flex: 1,
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <div style={{ textAlign: "center" }}>
+            <div
+              style={{
+                width: "50px",
+                height: "50px",
+                border: "3px solid #E5E7EB",
+                borderTopColor: "#8C7354",
+                borderRadius: "50%",
+                animation: "spin 1s linear infinite",
+                margin: "0 auto 16px auto",
+              }}
+            ></div>
+            <p style={{ fontSize: "1rem", color: "#6B7280" }}>
+              Cargando créditos...
+            </p>
+            <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div style={{ display: "flex", minHeight: "100vh", background: "#F3F4F6" }}>
       {/* MENÚ LATERAL IZQUIERDO */}
@@ -258,9 +273,11 @@ const ListaCreditos = () => {
       >
         {/* Logo */}
         <div
+          onClick={() => navigate("/dashboard")}
           style={{
             padding: "28px 20px",
             borderBottom: "1px solid rgba(0,0,0,0.05)",
+            cursor: "pointer",
           }}
         >
           <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
@@ -338,7 +355,6 @@ const ListaCreditos = () => {
         <div
           style={{ padding: "20px", borderTop: "1px solid rgba(0,0,0,0.05)" }}
         >
-          {/* ✅ Envuelve el avatar y nombre en un div clickeable */}
           <div
             onClick={() => navigate("/perfil")}
             style={{
@@ -370,7 +386,7 @@ const ListaCreditos = () => {
                 fontSize: "20px",
               }}
             >
-              {user?.name?.charAt(0) || "A"}
+              {user?.nombre?.charAt(0) || user?.name?.charAt(0) || "U"}
             </div>
             <div>
               <p
@@ -380,10 +396,12 @@ const ListaCreditos = () => {
                   fontWeight: 600,
                 }}
               >
-                {user?.name || "Admin User"}
+
+                {user?.nombre || user?.name || "Usuario"}
               </p>
               <p style={{ color: "#9CA3AF", fontSize: "1rem" }}>
-                Administrador
+
+                {user?.rol || "Visualizador"}
               </p>
             </div>
           </div>
@@ -410,7 +428,7 @@ const ListaCreditos = () => {
         </div>
       </div>
 
-      {/* CONTENIDO PRINCIPAL */}
+      {/* CONTENIDO PRINCIPAL - El resto del JSX queda igual, solo cambiamos lo que usa credits */}
       <div
         style={{
           flex: 1,
@@ -430,7 +448,7 @@ const ListaCreditos = () => {
           </p>
         </div>
 
-        {/* BARRA DE HERRAMIENTAS */}
+        {/* BARRA DE HERRAMIENTAS - Igual */}
         <div
           style={{
             display: "flex",
@@ -562,7 +580,7 @@ const ListaCreditos = () => {
           </div>
         </div>
 
-        {/* MODAL DE FILTROS */}
+        {/* MODAL DE FILTROS - Igual */}
         {showFilters && (
           <div
             style={{
@@ -578,6 +596,7 @@ const ListaCreditos = () => {
               border: "1px solid #E5E7EB",
             }}
           >
+            {/* ... contenido del modal igual ... */}
             <div
               style={{
                 marginBottom: "20px",
@@ -890,7 +909,6 @@ const ListaCreditos = () => {
                             gap: "10px",
                           }}
                         >
-                          {/* Avatar con iniciales */}
                           <div
                             style={{
                               width: "32px",
@@ -922,7 +940,7 @@ const ListaCreditos = () => {
                       <td
                         style={{
                           padding: "14px 16px",
-                          fontSize: "1.2rem ",
+                          fontSize: "1.2rem",
                           fontWeight: 600,
                           color: "#8C7354",
                         }}

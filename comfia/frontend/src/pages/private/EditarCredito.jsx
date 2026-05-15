@@ -1,6 +1,8 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import { useAuth } from "../../Context/AuthContext";
+import { showSuccess, showError, showWarning } from "../../Alerts";
+import { CreditService } from "../../Services/CreditService";
 
 // Componente de íconos
 const MaterialIcon = ({ name, style = {} }) => (
@@ -14,26 +16,89 @@ const MaterialIcon = ({ name, style = {} }) => (
 
 const EditarCredito = () => {
   const navigate = useNavigate();
+  const { id } = useParams();
   const { user, logout } = useAuth();
+  const [loading, setLoading] = useState(true);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   // Datos del crédito
   const [formData, setFormData] = useState({
-    clientName: "Carlos Rodriguez",
-    document: "1.023.456.789",
-    amount: "5,000,000",
-    status: "Aprobado",
-    startDate: "12/10/2023",
-    endDate: "14/10/2024",
+    clientName: "",
+    document: "",
+    amount: "",
+    status: "",
+    startDate: "",
+    endDate: "",
   });
+
+  const loadCredit = async () => {
+    try {
+      setLoading(true);
+      const data = await CreditService.getById(id);
+      
+      // Formatear fechas para el input date (YYYY-MM-DD)
+      const formatDateForInput = (dateString) => {
+        if (!dateString) return "";
+        const date = new Date(dateString);
+        return date.toISOString().split('T')[0];
+      };
+      
+      setFormData({
+        clientName: data.nombre_cliente,
+        document: data.documento_cliente,
+        amount: data.monto,
+        status: data.estado,
+        startDate: formatDateForInput(data.fecha_inicio),
+        endDate: formatDateForInput(data.fecha_fin),
+      });
+    } catch (error) {
+      console.error("Error al cargar crédito:", error);
+      showError("Error al cargar los datos del crédito");
+      navigate("/creditos");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Cargar datos del crédito desde el backend
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    loadCredit();
+  }, [id]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSave = () => {
-    console.log("Crédito actualizado:", formData);
-    navigate("/creditos");
+  const handleSave = async () => {
+    if (!formData.clientName || !formData.document || !formData.amount) {
+      showWarning("Por favor completa todos los campos obligatorios");
+      return;
+    }
+
+    setIsSubmitting(true);
+
+    try {
+      const updateData = {
+        nombre_cliente: formData.clientName,
+        documento_cliente: formData.document,
+        monto: parseFloat(formData.amount),
+        estado: formData.status,
+        fecha_inicio: formData.startDate,
+        fecha_fin: formData.endDate || null,
+      };
+
+      await CreditService.update(id, updateData);
+      showSuccess("Crédito actualizado correctamente");
+      navigate("/creditos");
+    } catch (error) {
+      console.error("Error al actualizar crédito:", error);
+      const message = error.response?.data?.message || "Ocurrió un error al actualizar el crédito";
+      showError(message);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleCancel = () => {
@@ -64,11 +129,23 @@ const EditarCredito = () => {
       icon: "settings",
       active: false,
     },
-    { name: "Reportes", 
-      path: "/reportes", 
-      icon: "assessment", 
-      active: false },
+    { name: "Reportes", path: "/reportes", icon: "assessment", active: false },
   ];
+
+  if (loading) {
+    return (
+      <div style={{ display: "flex", minHeight: "100vh", background: "#F3F4F6" }}>
+        <div style={{ width: "260px", background: "#FFF5AC" }}></div>
+        <div style={{ flex: 1, display: "flex", justifyContent: "center", alignItems: "center" }}>
+          <div style={{ textAlign: "center" }}>
+            <div style={{ width: "50px", height: "50px", border: "3px solid #E5E7EB", borderTopColor: "#8C7354", borderRadius: "50%", animation: "spin 1s linear infinite", margin: "0 auto 16px auto" }}></div>
+            <p style={{ fontSize: "1rem", color: "#6B7280" }}>Cargando crédito...</p>
+            <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div style={{ display: "flex", minHeight: "100vh", background: "#F3F4F6" }}>
@@ -86,9 +163,11 @@ const EditarCredito = () => {
       >
         {/* Logo */}
         <div
+          onClick={() => navigate("/dashboard")}
           style={{
             padding: "28px 20px",
             borderBottom: "1px solid rgba(0,0,0,0.05)",
+            cursor: "pointer",
           }}
         >
           <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
@@ -197,16 +276,16 @@ const EditarCredito = () => {
                 fontSize: "20px",
               }}
             >
-              {user?.name?.charAt(0) || "A"}
+              {user?.nombre?.charAt(0) || user?.name?.charAt(0) || "U"}
             </div>
             <div>
               <p
                 style={{ color: "#8C7354", fontSize: "1.3rem", fontWeight: 600 }}
               >
-                {user?.name || "Admin User"}
+                {user?.nombre || user?.name || "Usuario"}
               </p>
               <p style={{ color: "#9CA3AF", fontSize: "1rem" }}>
-                Administrador
+                {user?.rol || "Visualizador"}
               </p>
             </div>
           </div>
@@ -269,15 +348,11 @@ const EditarCredito = () => {
                 paddingBottom: "8px",
                 borderBottom: "1px solid #E5E0A0"
               }}>
-                <MaterialIcon name="person" style={{ fontSize: "28px" }}  />
+                <MaterialIcon name="person" style={{ fontSize: "28px" }} />
                 INFORMACIÓN DEL CRÉDITO
               </h2>
               
-              <div style={{
-                display: "grid",
-                gridTemplateColumns: "1fr 1fr",
-                gap: "24px"
-              }}>
+              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "24px" }}>
                 <div>
                   <label style={{
                     display: "block",
@@ -349,15 +424,11 @@ const EditarCredito = () => {
                 paddingBottom: "8px",
                 borderBottom: "1px solid #E5E0A0"
               }}>
-                <MaterialIcon name="payments" style={{ fontSize: "28px" }}  />
+                <MaterialIcon name="payments" style={{ fontSize: "28px" }} />
                 DETALLES FINANCIEROS
               </h2>
               
-              <div style={{
-                display: "grid",
-                gridTemplateColumns: "1fr 1fr",
-                gap: "24px"
-              }}>
+              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "24px" }}>
                 <div>
                   <label style={{
                     display: "block",
@@ -380,7 +451,7 @@ const EditarCredito = () => {
                       fontSize: "1.2rem"
                     }}>$</span>
                     <input
-                      type="text"
+                      type="number"
                       name="amount"
                       value={formData.amount}
                       onChange={handleChange}
@@ -445,7 +516,7 @@ const EditarCredito = () => {
                     FECHA INICIO
                   </label>
                   <input
-                    type="text"
+                    type="date"
                     name="startDate"
                     value={formData.startDate}
                     onChange={handleChange}
@@ -474,7 +545,7 @@ const EditarCredito = () => {
                     FECHA LÍMITE
                   </label>
                   <input
-                    type="text"
+                    type="date"
                     name="endDate"
                     value={formData.endDate}
                     onChange={handleChange}
@@ -523,6 +594,7 @@ const EditarCredito = () => {
             
             <button
               onClick={handleSave}
+              disabled={isSubmitting}
               style={{
                 display: "flex",
                 alignItems: "center",
@@ -534,14 +606,15 @@ const EditarCredito = () => {
                 borderRadius: "8px",
                 fontSize: "1.2rem",
                 fontWeight: 600,
-                cursor: "pointer",
+                cursor: isSubmitting ? "not-allowed" : "pointer",
+                opacity: isSubmitting ? 0.7 : 1,
                 transition: "background 0.2s"
               }}
-              onMouseEnter={(e) => e.currentTarget.style.background = "#6B5740"}
-              onMouseLeave={(e) => e.currentTarget.style.background = "#8C7354"}
+              onMouseEnter={(e) => { if (!isSubmitting) e.currentTarget.style.background = "#6B5740" }}
+              onMouseLeave={(e) => { if (!isSubmitting) e.currentTarget.style.background = "#8C7354" }}
             >
               <MaterialIcon name="save" style={{ fontSize: "22px" }} />
-              Guardar Cambios
+              {isSubmitting ? "Guardando..." : "Guardar Cambios"}
             </button>
           </div>
         </div>

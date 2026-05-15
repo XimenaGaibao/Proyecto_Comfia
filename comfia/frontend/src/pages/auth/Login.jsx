@@ -3,6 +3,18 @@ import { C, font } from "../../styles/tokens";
 import { Btn, Input } from "../../components/UI";
 import { useNavigate, Link } from "react-router-dom";
 import { showError, showWarning, showSuccess } from "../../Alerts";
+import { AuthService } from "../../Services/AuthService";
+
+// Componente de íconos
+const MaterialIcon = ({ name, style = {} }) => (
+  <span
+    className="material-symbols-outlined"
+    style={{ fontSize: "80px", ...style }}
+  >
+    {name}
+  </span>
+);
+
 
 export default function Login() {
   const navigate = useNavigate();
@@ -12,36 +24,32 @@ export default function Login() {
   const [attempts, setAttempts] = useState(0);
   const [showPass, setShowPass] = useState(false);
 
-  const handleLogin = () => {
-    if (!email || !password) {
-      showWarning("Por favor completa todos los campos");
-      return;
+  const handleLogin = async () => {
+     if (!email || !password) {
+        showWarning("Por favor completa todos los campos");
+        return;
     }
 
-    if (attempts >= 3) {
-      showError(
-        "Demasiados intentos fallidos. Cuenta bloqueada temporalmente.",
-      );
-      return;
+    try {
+        const response = await AuthService.login({ email, password });
+        
+        if (response.success) {
+            localStorage.setItem('comfia_token', response.token);
+            localStorage.setItem('user', JSON.stringify(response.user));
+            showSuccess("¡Bienvenido de nuevo!");
+            navigate("/dashboard");
+        }
+    } catch (error) {
+        const message = error.response?.data?.message || "Error al iniciar sesión";
+        showError(message);
+        
+        const newAttempts = attempts + 1;
+        setAttempts(newAttempts);
+        if (newAttempts >= 3) {
+            showError("Demasiados intentos fallidos. Cuenta bloqueada temporalmente.");
+        }
     }
-
-    // Simular login
-    if (password.length < 6) {
-      const newAttempts = attempts + 1;
-      setAttempts(newAttempts);
-      if (newAttempts >= 3) {
-        showError(
-          "Demasiados intentos fallidos. Cuenta bloqueada temporalmente.",
-        );
-      } else {
-        showError("Contraseña incorrecta. Inténtalo de nuevo.");
-      }
-      return;
-    }
-
-    showSuccess("¡Bienvenido de nuevo!");
-    navigate("/dashboard");
-  };
+};
 
   return (
     <div
@@ -191,7 +199,7 @@ export default function Login() {
                   color: C.gray500,
                 }}
               >
-                {showPass ? "🙈" : "👁️"}
+                <MaterialIcon name={showPass ? "visibility_off" : "visibility"} style={{ fontSize: "18px" }} />
               </span>
             </div>
             {error && (

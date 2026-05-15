@@ -1,48 +1,23 @@
-// src/Services/AuthService.js
-import api from './api';
+import axios from 'axios';
+
+
+const API_URL = 'http://localhost:3000/api/auth';
 
 export const AuthService = {
   login: async (credentials) => {
-    try {
-      const response = await api.post('/auth/login', credentials);
-      return response.data;
-    } catch (error) {
-      console.error('Error en login:', error);
-      throw error;
-    }
+    const response = await axios.post(`${API_URL}/login`, credentials);
+    return response.data;
   },
-
+  
   register: async (userData) => {
-    try {
-      const response = await api.post('/auth/register', userData);
-      return response.data;
-    } catch (error) {
-      console.error('Error en registro:', error);
-      throw error;
-    }
+    const response = await axios.post(`${API_URL}/register`, userData);
+    return response.data;
   },
-
+  
   verifyToken: async (token) => {
-    try {
-      const response = await api.get('/auth/verify', {
-        headers: { Authorization: `Bearer ${token}` }
-      });
-      return response.data.user;
-    } catch (error) {
-      console.error('Error al verificar token:', error);
-      throw error;
-    }
-  },
-
-  logout: async () => {
-    try {
-      const response = await api.post('/auth/logout');
-      return response.data;
-    } catch (error) {
-      console.error('Error en logout:', error);
-      throw error;
-    }
+    const response = await axios.get(`${API_URL}/verify`, {
+      headers: { Authorization: `Bearer ${token}` }
+    });
+    return response.data.user;
   }
 };
-
-export default AuthService;

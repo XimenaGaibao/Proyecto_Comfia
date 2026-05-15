@@ -1,6 +1,8 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom"; 
 import { useAuth } from "../../Context/AuthContext";
+import { UserService } from "../../Services/UserService";
+import { showError, showSuccess, showWarning } from "../../Alerts"; 
 
 // Componente de íconos
 const MaterialIcon = ({ name, style = {} }) => (
@@ -12,29 +14,106 @@ const MaterialIcon = ({ name, style = {} }) => (
   </span>
 );
 
-const ActualizarUsuario = () => {
+const EditarUsuario = () => {
   const navigate = useNavigate();
+  const { id } = useParams(); // ← Agregar useParams
   const { user, logout } = useAuth();
+  const [loading, setLoading] = useState(true);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [accountStatus, setAccountStatus] = useState("Activa"); // Agregar estado para cuenta
 
   const [formData, setFormData] = useState({
-    name: "Juan Perez",
-    document: "1.092.384.551",
-    email: "juan.perez@comfia.com",
-    phone: "+57 310 456 7890",
-    creditLimit: "5,000,000",
+    name: "",         
+    document: "",       
+    email: "",
+    phone: "",          
+    rol: "Visualizador",
+    creditLimit: "",    
   });
 
-  const [accountStatus, setAccountStatus] = useState("Activa");
+  // Cargar datos del usuario desde el backend
+  // Cargar datos del usuario desde el backend
+  useEffect(() => {
+    const loadUser = async () => {
+      try {
+        setLoading(true);
+        console.log("Cargando usuario con ID:", id);
+        
+        const response = await UserService.getById(id);
+        console.log("Respuesta completa:", response);
+        
+        // Los datos pueden venir directamente o en response.user
+        const userData = response.user || response;
+        console.log("Usuario cargado:", userData);
+        
+        if (!userData) {
+          throw new Error("No se encontraron datos del usuario");
+        }
+        
+        setFormData({
+          name: userData.nombre || userData.name || "",
+          document: userData.documento_id || userData.document || "",
+          email: userData.email || "",
+          phone: userData.telefono || userData.phone || "",
+          rol: userData.rol || "Visualizador",
+          creditLimit: userData.limite_credito || "5,000,000",
+        });
+        
+        // Estado de la cuenta (Activa/Inactiva)
+        const estado = userData.estado || "Activo";
+        setAccountStatus(estado === "Activo" ? "Activa" : "Inactiva");
+        
+      } catch (error) {
+        console.error("Error al cargar usuario:", error);
+        showError("Error al cargar los datos del usuario");
+        navigate("/usuarios");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    if (id) {
+      loadUser();
+    } else {
+      navigate("/usuarios");
+    }
+  }, [id, navigate]);
+
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Usuario actualizado:", formData);
-    // Aquí iría la llamada a la API
+    
+    if (!formData.name || !formData.email) {
+      showWarning("Por favor completa los campos obligatorios");
+      return;
+    }
+
+    setIsSubmitting(true);
+
+    try {
+      // Preparar datos para enviar al backend
+      const updateData = {
+        nombre: formData.name,
+        email: formData.email,
+        telefono: formData.phone,
+        rol: formData.rol,
+        estado: accountStatus === "Activa" ? "Activo" : "Inactivo"
+      };
+      
+      await UserService.update(id, updateData);
+      showSuccess("Usuario actualizado correctamente");
+      navigate("/usuarios");
+    } catch (error) {
+      console.error("Error al actualizar usuario:", error);
+      showError(error.response?.data?.message || "Error al actualizar usuario");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleLogout = () => {
@@ -66,6 +145,17 @@ const ActualizarUsuario = () => {
       icon: "assessment", 
       active: false },
   ];
+
+  if (loading) {
+    return (
+      <div style={{ display: "flex", minHeight: "100vh", background: "#F3F4F6" }}>
+        <div style={{ width: "260px", background: "#FFF5AC" }}></div>
+        <div style={{ flex: 1, display: "flex", justifyContent: "center", alignItems: "center" }}>
+          <div>Cargando usuario...</div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div style={{ display: "flex", minHeight: "100vh", background: "#F3F4F6" }}>
@@ -194,16 +284,16 @@ const ActualizarUsuario = () => {
                 fontSize: "20px",
               }}
             >
-              {user?.name?.charAt(0) || "A"}
+              {user?.nombre?.charAt(0) || user?.name?.charAt(0) || "A"}
             </div>
             <div>
               <p
                 style={{ color: "#8C7354", fontSize: "1.3rem", fontWeight: 600 }}
               >
-                {user?.name || "Admin User"}
+                {user?.nombre || user?.name || "Admin User"}
               </p>
               <p style={{ color: "#9CA3AF", fontSize: "1rem" }}>
-                Administrador
+                {user?.rol || "Administrador"}
               </p>
             </div>
           </div>
@@ -352,18 +442,17 @@ const ActualizarUsuario = () => {
                     type="text"
                     name="document"
                     value={formData.document}
-                    onChange={handleChange}
+                    disabled
                     style={{
                       width: "100%",
                       padding: "12px 16px",
                       border: "1px solid #E5E7EB",
                       borderRadius: "12px",
                       fontSize: "1.2rem",
-                      background: "white",
+                      background: "#F3F4F6",
                       outline: "none",
+                      cursor: "not-allowed",
                     }}
-                    onFocus={(e) => (e.target.style.borderColor = "#8C7354")}
-                    onBlur={(e) => (e.target.style.borderColor = "#E5E7EB")}
                   />
                 </div>
                 <div>
@@ -430,8 +519,50 @@ const ActualizarUsuario = () => {
                     onBlur={(e) => (e.target.style.borderColor = "#E5E7EB")}
                   />
                 </div>
+                <div>
+                  <label
+                    style={{
+                      display: "block",
+                      fontSize: "1rem",
+                      fontWeight: 600,
+                      color: "#6B7280",
+                      textTransform: "uppercase",
+                      letterSpacing: "0.5px",
+                      marginBottom: "8px",
+                    }}
+                  >
+                    ROL DEL USUARIO
+                  </label>
+                  <select
+                    name="rol"
+                    value={formData.rol}
+                    onChange={handleChange}
+                    style={{
+                      width: "100%",
+                      padding: "12px 16px",
+                      border: "1px solid #E5E7EB",
+                      borderRadius: "12px",
+                      fontSize: "1.2rem",
+                      background: "white",
+                      outline: "none",
+                      cursor: "pointer",
+                    }}
+                  >
+                    <option value="Visualizador">Visualizador</option>
+                    <option value="Editor">Editor</option>
+                    <option value="Admin">Administrador</option>
+                  </select>
+                  <p style={{
+                    fontSize: "0.8rem",
+                    color: "#9CA3AF",
+                    marginTop: "4px"
+                  }}>
+                    El rol determina los permisos del usuario en el sistema
+                  </p>
+                </div>
               </div>
             </div>
+             
 
             {/* Card 2: Financiamiento */}
             <div
@@ -504,9 +635,10 @@ const ActualizarUsuario = () => {
               </div>
             </div>
 
-            {/* Botón Actualizar */}
+              {/* Botón Actualizar */}
             <button
               onClick={handleSubmit}
+              disabled={isSubmitting}
               style={{
                 width: "fit-content",
                 background: "#8C7354",
@@ -516,22 +648,22 @@ const ActualizarUsuario = () => {
                 borderRadius: "16px",
                 fontSize: "1.2rem",
                 fontWeight: 600,
-                cursor: "pointer",
+                cursor: isSubmitting ? "not-allowed" : "pointer",
                 display: "flex",
                 alignItems: "center",
                 gap: "8px",
-                transition: "all 0.2s",
                 marginTop: "8px",
+                opacity: isSubmitting ? 0.7 : 1,
               }}
-              onMouseEnter={(e) => (e.currentTarget.style.background = "#6B5740")}
-              onMouseLeave={(e) => (e.currentTarget.style.background = "#8C7354")}
+              onMouseEnter={(e) => { if (!isSubmitting) e.currentTarget.style.background = "#6B5740" }}
+              onMouseLeave={(e) => { if (!isSubmitting) e.currentTarget.style.background = "#8C7354" }}
             >
-              <MaterialIcon name="person" style={{ fontSize: "22px" }} />
-              Actualizar Usuario
+              <MaterialIcon name="save" style={{ fontSize: "22px" }} />
+              {isSubmitting ? "Guardando..." : "Actualizar Usuario"}
             </button>
           </div>
 
-          {/* COLUMNA DERECHA - Más angosta */}
+          {/* COLUMNA DERECHA*/}
           <div style={{ flex: "1", display: "flex", flexDirection: "column", gap: "40px" }}>
             
             {/* Card 1: Perfil Usuario */}
@@ -558,7 +690,7 @@ const ActualizarUsuario = () => {
                   }}
                 >
                   <span style={{ color: "white", fontWeight: "bold", fontSize: "36px" }}>
-                    {formData.name.charAt(0)}
+                    {formData.name?.charAt(0) || "U"}
                   </span>
                 </div>
                 <div
@@ -568,10 +700,9 @@ const ActualizarUsuario = () => {
                     right: "0",
                     width: "14px",
                     height: "14px",
-                    background: "#10B981",
+                    background: accountStatus === "Activa" ? "#10B981" : "#EF4444",
                     borderRadius: "50%",
-                    border: "2px solid ",
-                    borderColor: "#FFF5AC",
+                    border: "2px solid #FFF5AC",
                   }}
                 ></div>
               </div>
@@ -649,6 +780,7 @@ const ActualizarUsuario = () => {
                 </div>
               </div>
             </div>
+            
 
             {/* Card: ESTADO CUENTA con indicadores visuales */}
             <div
@@ -680,7 +812,7 @@ const ActualizarUsuario = () => {
                   gap: "20px",
                 }}
               >
-                {/* Opción Activa - Círculo verde con check */}
+                {/* Opción Activa */}
                 <div
                   onClick={() => setAccountStatus("Activa")}
                   style={{
@@ -718,7 +850,7 @@ const ActualizarUsuario = () => {
                   </span>
                 </div>
 
-                {/* Opción Inactiva - Círculo gris con X roja */}
+                {/* Opción Inactiva */}
                 <div
                   onClick={() => setAccountStatus("Inactiva")}
                   style={{
@@ -764,4 +896,5 @@ const ActualizarUsuario = () => {
   );
 };
 
-export default ActualizarUsuario;
+export default EditarUsuario;
+
